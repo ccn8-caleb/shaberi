@@ -126,3 +126,21 @@ test('total skips unmeasured parts; grades', () => {
   assert.equal(total({ words: { score: 0 }, pitch: { score: 1 }, rhythm: { score: 1 } }), 60);
   assert.deepEqual([95, 85, 70, 55, 10].map(grade), ['S', 'A', 'B', 'C', 'D']);
 });
+
+test('words: an empty recogniser result over a clear attempt is unscored, not 0', () => {
+  const p = PHRASES.find((x) => x.id === 'coffee');
+  const mora = phraseMora(p.units);
+  const analysis = analyze(sayPattern(mora), 48000);
+  const missed = scoreAttempt({ analysis, mora, phrase: p, heard: [] });
+  assert.equal(missed.words.score, null);
+  assert.equal(missed.words.missed, true);
+  assert.ok(missed.total >= 90, `pitch + rhythm carry it: ${missed.total}`);
+  // Heard something wrong: still scored (low).
+  const wrong = scoreAttempt({ analysis, mora, phrase: p, heard: ['おはようございます'] });
+  assert.ok(wrong.words.score < 0.5 && !wrong.words.missed);
+  // A fragment with nothing recognised isn't excused.
+  const part = analyze(sayPattern(mora.slice(0, 3)), 48000);
+  assert.equal(scoreAttempt({ analysis: part, mora, phrase: p, heard: [] }).words.score, 0);
+  // Recognition unavailable: unscored as before, without the "missed" note.
+  assert.equal(scoreAttempt({ analysis, mora, phrase: p, heard: null }).words.missed, undefined);
+});

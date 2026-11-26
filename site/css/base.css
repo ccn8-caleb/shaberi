@@ -265,8 +265,7 @@ body {
 
 /* ================= SECTION TABS ================= */
 .tabs {
-  position: sticky;
-  top: var(--header-total);
+  position: relative;
   z-index: 90;
   display: flex;
   gap: 6px;

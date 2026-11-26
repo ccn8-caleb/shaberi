@@ -106,7 +106,7 @@ export function runSanpo({ mic }) {
     scene.classList.add('listening');
     const limit = timeLimit(modelDuration);
     startFuse(limit);
-    listener = listen();
+    listener = listen(mic.track);
     take = record(mic, { maxSeconds: limit, silenceMs: Math.max(350, Math.min(700, 600 / speedAt(round))) });
     const { pcm } = await take.done;
     take = null;

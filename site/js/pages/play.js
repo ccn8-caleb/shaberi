@@ -167,7 +167,7 @@ function startRecording() {
   setStatus(t('どうぞ！話し終わったら自動で止まります', 'Go! It stops by itself when you finish'));
 
   const points = [];
-  const listener = listen();
+  const listener = listen(mic.track);
   const take = record(mic, {
     maxSeconds: Math.max(5, refDuration() * 3),
     onBlock: ({ level, speaking, sinceSpeech, st }) => {
@@ -238,7 +238,8 @@ function tipsFor(result) {
   if (fb.includes('fast')) tips.push(t('少し速すぎます。お手本のスピードで。', 'A bit fast. Match the model’s speed.'));
   if (fb.includes('slow')) tips.push(t('もう少しテンポよく。', 'Try a bit quicker, more smoothly.'));
   if (fb.includes('pause')) tips.push(t('途中で止まらずに、一息で言ってみよう。', 'Try to say it in one breath, without stopping.'));
-  if (result.words.score !== null && result.words.score < 0.7) tips.push(t('言葉がはっきり聞き取れませんでした。', "Some words didn't come through clearly."));
+  if (result.words.missed) tips.push(t('音声認識が今回の声を受け取れなかったので、言葉は採点していません。', "Speech recognition didn't receive this attempt, so words weren't scored."));
+  else if (result.words.score !== null && result.words.score < 0.7) tips.push(t('言葉がはっきり聞き取れませんでした。', "Some words didn't come through clearly."));
   return tips;
 }
 

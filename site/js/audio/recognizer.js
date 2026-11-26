@@ -11,9 +11,26 @@ export const recognitionAvailable = () => Boolean(SR);
 // Errors that mean "couldn't measure", not "you said nothing".
 const UNAVAILABLE = new Set(['network', 'not-allowed', 'service-not-allowed', 'language-not-supported', 'audio-capture']);
 
+// Hand the recogniser our own microphone track where the browser supports it
+// (SpeechRecognition.start(audioTrack)). Otherwise it opens the mic itself, which on
+// Android can fail while we're also recording. Browsers without support ignore the
+// argument, so passing it is always safe.
+function begin(rec, track) {
+  if (track && track.readyState === 'live') {
+    try {
+      rec.start(track);
+      return;
+    } catch (_) {
+      // Supported but refused (e.g. a track it can't use): let it open the mic itself.
+    }
+  }
+  rec.start();
+}
+
 // Start listening. stop() resolves with the alternatives heard (best first, possibly
 // empty), or null when recognition wasn't available.
-export function listen() {
+//   track: the MediaStreamTrack we're already recording from (optional)
+export function listen(track = null) {
   if (!SR) return { stop: async () => null };
   const rec = new SR();
   rec.lang = 'ja-JP';
@@ -34,7 +51,7 @@ export function listen() {
   };
   rec.onend = () => ended();
   try {
-    rec.start();
+    begin(rec, track);
   } catch (_) {
     unavailable = true;
     ended();
@@ -60,12 +77,12 @@ export function listen() {
 // and final guess, so an answer can be accepted the moment it's heard. Restarts
 // itself when the browser ends the session (Chrome does after a silence).
 // Returns { stop(), working }, or null when recognition isn't available.
-export function stream(onText) {
+export function stream(onText, track = null) {
   if (!SR) return null;
   let active = true;
   let rec = null;
   let failures = 0;
-  const begin = () => {
+  const run = () => {
     rec = new SR();
     rec.lang = 'ja-JP';
     rec.continuous = true;
@@ -82,15 +99,15 @@ export function stream(onText) {
       if (UNAVAILABLE.has(e.error)) failures += 3;
     };
     rec.onend = () => {
-      if (active && failures < 6) setTimeout(begin, 50);
+      if (active && failures < 6) setTimeout(run, 50);
     };
     try {
-      rec.start();
+      begin(rec, track);
     } catch (_) {
       failures++;
     }
   };
-  begin();
+  run();
   return {
     // False once the browser keeps refusing (offline, blocked, unsupported).
     get working() {

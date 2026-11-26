@@ -4,6 +4,19 @@ Versions follow [semver](https://semver.org/). The version lives in
 `site/js/core/version.js`; every release needs an entry here (CI checks it). Each
 deploy also carries a build id (commit hash), shown next to the version in the app.
 
+## [0.1.2] — 2026-11-26 — Words on Android
+
+### Fixed
+- **Words scored 0 on Android Chrome** even when you said the phrase well. Android's
+  speech recognition often can't use the microphone while Shaberi is recording it,
+  so it heard nothing. Shaberi now hands the recogniser its own microphone track
+  where the browser supports that. When the recogniser still comes back empty after
+  a clear, full-length attempt, Words is left unscored (with a note saying so)
+  instead of counting as 0. Wrong words still score low.
+- The section tabs no longer float over the phrase card when you scroll.
+- Long phrases break between words (コーヒーを／ひとつください) instead of in the
+  middle of one (くださ／い).
+
 ## [0.1.1] — 2026-11-26 — Arcade
 
 ### Added

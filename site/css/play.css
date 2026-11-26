@@ -162,7 +162,10 @@
   font-size: clamp(1.6rem, 7.5vw, 2.2rem);
   font-weight: 800;
   line-height: 1.3;
-  word-break: keep-all;
+  /* Break between phrases (コーヒーを／ひとつ／ください), never inside a word, and
+     keep the lines even. Browsers without auto-phrase fall back to normal breaking. */
+  word-break: auto-phrase;
+  text-wrap: balance;
   overflow-wrap: anywhere;
 }
 .phrase-en {

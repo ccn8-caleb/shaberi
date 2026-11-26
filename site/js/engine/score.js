@@ -163,15 +163,23 @@ export function grade(score) {
   return 'D';
 }
 
+// The recogniser came back empty although we clearly heard a whole attempt. On
+// Android Chrome this usually means it couldn't get the microphone while we were
+// recording, not that you said nothing, so the words are left unscored.
+export const recognizerMissed = (heard, rhythm) =>
+  Array.isArray(heard) && !heard.some((h) => normalize(h)) && rhythm.ratio !== null && rhythm.ratio >= 0.45;
+
 // Score one attempt end to end.
 export function scoreAttempt({ analysis, mora, phrase, heard, refDuration }) {
   if (!analysis.span) {
     return { total: 0, grade: 'D', silent: true, words: { score: null }, pitch: { score: null }, rhythm: { score: null } };
   }
+  const rhythm = rhythmScore(analysis, mora.length, refDuration);
+  const missed = recognizerMissed(heard, rhythm);
   const parts = {
-    words: wordsScore(heard, phrase),
+    words: missed ? { score: null, heard: null, missed: true } : wordsScore(heard, phrase),
     pitch: pitchScore(analysis, mora),
-    rhythm: rhythmScore(analysis, mora.length, refDuration),
+    rhythm,
   };
   const t = total(parts);
   return { ...parts, total: t, grade: grade(t), silent: false };

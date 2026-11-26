@@ -38,7 +38,7 @@ export function runFlash({ mic }) {
     if (aborted) return;
     heard.textContent = `「${text}」`;
     if (active?.answers && matches(text, active.answers)) active.settle('win');
-  });
+  }, mic.track);
   const seed = (Math.random() * 2 ** 32) >>> 0;
   const full = deck(seed);
   const accentOnly = deck(seed + 1, ['accent']);

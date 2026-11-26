@@ -12,6 +12,11 @@ export class Mic {
     this.onBlock = null; // (block, level, time) while recording; time = context seconds of block[0]
   }
 
+  // The live microphone track (shared with speech recognition where supported).
+  get track() {
+    return this.stream?.getAudioTracks()[0] || null;
+  }
+
   get sampleRate() {
     return this.ctx ? this.ctx.sampleRate : 48000;
   }
