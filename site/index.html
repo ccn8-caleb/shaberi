@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>しゃべり Shaberi</title>
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="theme-color" content="#fff7ec" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1a1033" media="(prefers-color-scheme: dark)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="しゃべり">
+  <script>document.documentElement.dataset.theme = localStorage.getItem('shaberi_theme') === 'dark' ? 'dark' : 'light';</script>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/play.css">
+  <script type="module" src="js/pages/play.js"></script>
+</head>
+<body>
+
+  <header id="top-bar">
+    <div class="brand">
+      <img class="brand-badge" src="icon.svg" alt="">
+      <span class="brand-title">しゃべり</span>
+    </div>
+    <div class="top-stats">
+      <span class="pill pill-points" id="hud-points" title="Points"><svg class="pill-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> <b>0</b></span>
+      <span class="pill pill-streak" id="hud-streak" title="Streak"><svg class="pill-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> <b>0</b></span>
+      <button type="button" class="icon-btn" id="btn-lang" aria-label="Language">EN</button>
+      <button type="button" class="icon-btn" id="btn-theme" aria-label="Theme">☾</button>
+    </div>
+  </header>
+
+  <nav class="tabs" aria-label="Sections">
+    <a href="index.html" class="tab active" aria-current="page"><span data-ja="れんしゅう" data-en="Practice">れんしゅう</span></a>
+    <a href="arcade.html" class="tab"><span data-ja="ゲーセン" data-en="Arcade">ゲーセン</span></a>
+  </nav>
+
+  <main class="page">
+
+    <!-- Home -->
+    <section class="screen" id="screen-home">
+      <div class="hero">
+        <h1 class="hero-title">
+          <span class="c1">しゃ</span><span class="c2">べ</span><span class="c3">っ</span><span class="c4">て</span><span class="c5">、</span><br>
+          <span class="hero-sub" data-ja="ポイントをためよう！" data-en="Speak up, score points!">ポイントをためよう！</span>
+        </h1>
+        <p class="hero-lede" data-ja="毎日のフレーズを聞いて、まねして言ってみよう。言葉・アクセント・リズムを採点します。" data-en="Hear an everyday phrase, then say it back. You're scored on words, pitch accent and rhythm.">毎日のフレーズを聞いて、まねして言ってみよう。言葉・アクセント・リズムを採点します。</p>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-card s-pink"><b id="stat-points">0</b><span data-ja="ポイント" data-en="Points">ポイント</span></div>
+        <div class="stat-card s-orange"><b id="stat-best">0</b><span data-ja="ベストラン" data-en="Best run">ベストラン</span></div>
+        <div class="stat-card s-teal"><b id="stat-streak">0</b><span data-ja="連続日数" data-en="Day streak">連続日数</span></div>
+      </div>
+
+      <div class="daily" id="daily">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+        <span id="daily-text"></span>
+      </div>
+
+      <button type="button" class="big-btn btn-go" id="btn-start">
+        <span data-ja="スタート" data-en="Start">スタート</span>
+      </button>
+      <p class="fine" id="start-error" role="alert" hidden></p>
+
+      <a class="goal" id="goal" href="arcade.html" hidden>
+        <span class="goal-head"><b id="goal-title"></b><span id="goal-count"></span></span>
+        <span class="goal-track"><span class="goal-fill" id="goal-fill"></span></span>
+      </a>
+
+      <ul class="checks" id="checks"></ul>
+    </section>
+
+    <!-- Play -->
+    <section class="screen" id="screen-play" hidden>
+      <div class="run-bar">
+        <div class="dots" id="run-dots"></div>
+        <div class="combo" id="combo" hidden><span id="combo-n">0</span> <small data-ja="コンボ" data-en="combo">コンボ</small> <em id="combo-x">×1.0</em></div>
+        <div class="run-points">★ <b id="run-points">0</b></div>
+      </div>
+
+      <article class="phrase-card" id="phrase-card">
+        <span class="scene" id="phrase-scene"></span>
+        <p class="phrase-text" id="phrase-text" lang="ja"></p>
+        <p class="phrase-en" id="phrase-en"></p>
+        <svg class="pitch-graph" id="pitch-graph" role="img" aria-label="Pitch accent"></svg>
+        <div class="graph-legend">
+          <span class="lg-model" data-ja="お手本のアクセント" data-en="Model accent">お手本のアクセント</span>
+          <span class="lg-you" data-ja="あなたの声" data-en="Your voice">あなたの声</span>
+        </div>
+      </article>
+
+      <div class="controls" id="controls">
+        <button type="button" class="round-btn btn-listen" id="btn-listen" aria-label="Listen">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg><span class="lbl" data-ja="聞く" data-en="Listen">聞く</span>
+        </button>
+        <button type="button" class="round-btn btn-rec" id="btn-rec" aria-label="Record">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg><span class="lbl" data-ja="話す" data-en="Speak">話す</span>
+          <span class="level" id="rec-level"></span>
+        </button>
+      </div>
+      <p class="status" id="status" role="status"></p>
+
+      <div class="result" id="result" hidden>
+        <div class="result-head">
+          <div class="grade" id="grade">S</div>
+          <div class="result-score"><b id="result-total">0</b><span>/100</span></div>
+        </div>
+        <div class="bars" id="bars"></div>
+        <p class="heard" id="heard" hidden></p>
+        <ul class="tips" id="tips"></ul>
+        <div class="result-actions">
+          <button type="button" class="big-btn btn-soft" id="btn-retry" data-ja="もう一回" data-en="Try again">もう一回</button>
+          <button type="button" class="big-btn btn-go" id="btn-next"><span data-ja="次へ" data-en="Next">次へ</span> <small id="next-points"></small></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Summary -->
+    <section class="screen" id="screen-summary" hidden>
+      <h2 class="summary-title" data-ja="ラン完了！" data-en="Run complete!">ラン完了！</h2>
+      <div class="new-best" id="new-best" hidden data-ja="ベスト更新！" data-en="New best!">ベスト更新！</div>
+      <div class="summary-points">★ <b id="sum-points">0</b></div>
+      <p class="sum-bonus" id="sum-bonus" hidden></p>
+      <div class="sum-grades" id="sum-grades"></div>
+      <p class="sum-combo" id="sum-combo"></p>
+      <div class="result-actions">
+        <button type="button" class="big-btn btn-soft" id="btn-home" data-ja="ホーム" data-en="Home">ホーム</button>
+        <button type="button" class="big-btn btn-go" id="btn-again" data-ja="もう一回！" data-en="Play again!">もう一回！</button>
+      </div>
+    </section>
+
+  </main>
+
+  <canvas id="fx" aria-hidden="true"></canvas>
+  <footer class="foot" id="foot"></footer>
+</body>
+</html>

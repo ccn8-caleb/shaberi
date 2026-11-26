@@ -1,0 +1,8 @@
+services:
+  web:
+    image: nginx:stable-alpine3.24
+    container_name: shaberi-nginx
+    ports:
+    - "8890:80"
+    volumes:
+    - ./site:/usr/share/nginx/html:ro

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>ゲーセン | しゃべり Shaberi</title>
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="theme-color" content="#fff7ec" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1a1033" media="(prefers-color-scheme: dark)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="しゃべり">
+  <script>document.documentElement.dataset.theme = localStorage.getItem('shaberi_theme') === 'dark' ? 'dark' : 'light';</script>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/arcade.css">
+  <script type="module" src="js/pages/arcade.js"></script>
+</head>
+<body>
+
+  <header id="top-bar">
+    <div class="brand">
+      <img class="brand-badge" src="icon.svg" alt="">
+      <span class="brand-title">しゃべり</span>
+    </div>
+    <div class="top-stats">
+      <span class="pill pill-points" id="hud-points" title="Points"><svg class="pill-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> <b>0</b></span>
+      <span class="pill pill-streak" id="hud-streak" title="Streak"><svg class="pill-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> <b>0</b></span>
+      <button type="button" class="icon-btn" id="btn-lang" aria-label="Language">EN</button>
+      <button type="button" class="icon-btn" id="btn-theme" aria-label="Theme">☾</button>
+    </div>
+  </header>
+
+  <nav class="tabs" aria-label="Sections">
+    <a href="index.html" class="tab"><span data-ja="れんしゅう" data-en="Practice">れんしゅう</span></a>
+    <a href="arcade.html" class="tab active" aria-current="page"><span data-ja="ゲーセン" data-en="Arcade">ゲーセン</span></a>
+  </nav>
+
+  <main class="page">
+
+    <!-- Lobby -->
+    <section class="screen" id="screen-lobby">
+      <div class="lobby-head">
+        <h1 class="lobby-title">ゲーセン</h1>
+        <p class="lobby-sub" data-ja="れんしゅうで貯めたポイントでゲームを解放しよう。遊んでもポイントがもらえます！" data-en="Unlock games with the points you earn practising. Playing earns points too!">れんしゅうで貯めたポイントでゲームを解放しよう。遊んでもポイントがもらえます！</p>
+      </div>
+      <div class="cabinets" id="cabinets"></div>
+      <p class="fine center" id="lobby-note"></p>
+    </section>
+
+    <!-- Flash Speak -->
+    <section class="screen game" id="screen-flash" hidden>
+      <div class="game-hud">
+        <button type="button" class="icon-btn back" data-back aria-label="Back"></button>
+        <div class="hearts" id="flash-hearts"></div>
+        <div class="hud-num"><small data-ja="レベル" data-en="Level">レベル</small> <b id="flash-level">1</b></div>
+        <div class="hud-num"><small data-ja="クリア" data-en="Cleared">クリア</small> <b id="flash-cleared">0</b></div>
+      </div>
+      <div class="stage" id="flash-stage"></div>
+      <div class="fuse" id="flash-fuse"><span class="fuse-fill" id="flash-fuse-fill"></span></div>
+      <p class="heard-live" id="flash-heard" lang="ja"></p>
+    </section>
+
+    <!-- Let's Take a Walk! -->
+    <section class="screen game" id="screen-sanpo" hidden>
+      <div class="game-hud">
+        <button type="button" class="icon-btn back" data-back aria-label="Back"></button>
+        <div class="pencils" id="sanpo-pencils" aria-label="Pencils left"></div>
+        <div class="hud-num"><small data-ja="スピード" data-en="Speed">スピード</small> <b id="sanpo-speed">×0.9</b></div>
+        <div class="hud-num"><small data-ja="クリア" data-en="Cleared">クリア</small> <b id="sanpo-cleared">0</b></div>
+      </div>
+
+      <div class="sanpo-stage" id="sanpo-stage">
+        <div class="walk-scene" id="walk-scene">
+          <div class="sun"></div>
+          <div class="cloud c1"></div>
+          <div class="cloud c2"></div>
+          <div class="hills"></div>
+          <div class="trees"></div>
+          <div class="street"></div>
+          <svg class="walker" viewBox="0 0 80 130" aria-hidden="true">
+            <g class="limb leg back"><line x1="40" y1="84" x2="40" y2="120" /></g>
+            <g class="limb arm back"><line x1="40" y1="54" x2="40" y2="80" /></g>
+            <rect class="shirt" x="22" y="45" width="36" height="44" rx="15" />
+            <g class="limb leg front"><line x1="40" y1="84" x2="40" y2="120" /></g>
+            <g class="limb arm front"><line x1="40" y1="54" x2="40" y2="80" /></g>
+            <circle class="skin" cx="40" cy="29" r="18" />
+            <circle class="eye" cx="45" cy="30" r="2.2" />
+            <circle class="eye" cx="35" cy="30" r="2.2" />
+            <path class="smile" d="M35 36 q5 4 10 0" />
+            <ellipse class="hat" cx="40" cy="18" rx="23" ry="5" />
+            <path class="hat" d="M28 18 q0 -14 12 -14 q12 0 12 14 z" />
+            <rect class="ribbon" x="28" y="12" width="24" height="4" rx="2" />
+          </svg>
+        </div>
+
+        <div class="sanpo-card" id="sanpo-card">
+          <p class="sanpo-cue" id="sanpo-cue"></p>
+          <p class="sanpo-text" id="sanpo-text" lang="ja">天気がいいから<wbr>散歩しましょう</p>
+          <p class="sanpo-en" id="sanpo-en"></p>
+        </div>
+
+        <div class="desk-scene" id="desk-scene" hidden>
+          <svg class="desk-svg" viewBox="0 0 360 400" aria-hidden="true">
+            <defs>
+              <linearGradient id="dk-wood" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#e3ad70" />
+                <stop offset="1" stop-color="#b4733b" />
+              </linearGradient>
+            </defs>
+            <rect width="360" height="400" fill="#ece6f6" />
+            <rect x="34" y="22" width="196" height="92" rx="6" fill="#2f5d50" stroke="#8a5a2b" stroke-width="6" />
+            <text x="132" y="78" fill="#f4f1e8" font-size="30" font-weight="700" text-anchor="middle" opacity="0.9">しけん中</text>
+            <circle cx="296" cy="62" r="28" fill="#fff" stroke="#2b1d4a" stroke-width="4" />
+            <path d="M296 62 V44 M296 62 L309 70" stroke="#2b1d4a" stroke-width="4" stroke-linecap="round" />
+            <polygon points="6,158 354,158 386,400 -26,400" fill="url(#dk-wood)" />
+            <g transform="rotate(-4 175 290)">
+              <rect x="92" y="186" width="168" height="200" rx="3" fill="#fff" />
+              <rect x="104" y="198" width="144" height="12" rx="3" fill="#ffd1df" />
+              <g fill="none" stroke="#ff7aa8" stroke-width="2">
+                <circle cx="128" cy="232" r="8" /><circle cx="156" cy="232" r="8" /><circle cx="184" cy="232" r="8" /><circle cx="212" cy="232" r="8" />
+                <circle cx="128" cy="258" r="8" /><circle cx="156" cy="258" r="8" /><circle cx="184" cy="258" r="8" /><circle cx="212" cy="258" r="8" />
+                <circle cx="128" cy="284" r="8" /><circle cx="156" cy="284" r="8" /><circle cx="184" cy="284" r="8" /><circle cx="212" cy="284" r="8" />
+                <circle cx="128" cy="310" r="8" /><circle cx="156" cy="310" r="8" /><circle cx="184" cy="310" r="8" /><circle cx="212" cy="310" r="8" />
+                <circle cx="128" cy="336" r="8" /><circle cx="156" cy="336" r="8" /><circle cx="184" cy="336" r="8" /><circle cx="212" cy="336" r="8" />
+              </g>
+            </g>
+            <g class="dk-hand">
+              <!-- Your right hand from behind: the thumb grows from the left side by the wrist,
+                   three fingers curl under, and the index finger (drawn above the pencil) pinches it -->
+              <path d="M200 412 L212 370 Q250 358 288 370 L298 412 Z" fill="#8338ec" stroke="#2b1d4a" stroke-width="3.5" stroke-linejoin="round" />
+              <path d="M210 376 Q250 362 290 376 L287 360 Q250 348 213 360 Z" fill="#6420c9" stroke="#2b1d4a" stroke-width="3.5" stroke-linejoin="round" />
+              <path d="M204 358 L182 306 C178 294 196 286 202 298 L226 346 Z" fill="#efb187" stroke="#2b1d4a" stroke-width="3.5" stroke-linejoin="round" />
+              <rect x="183" y="294" width="10" height="8" rx="3" transform="rotate(-66 188 298)" fill="#f9dcc8" stroke="#2b1d4a" stroke-width="2" />
+              <rect x="232" y="300" width="22" height="26" rx="11" fill="#f2b68c" stroke="#2b1d4a" stroke-width="3.5" stroke-linejoin="round" />
+              <rect x="253" y="305" width="21" height="24" rx="10.5" fill="#f2b68c" stroke="#2b1d4a" stroke-width="3.5" stroke-linejoin="round" />
+              <rect x="273" y="312" width="17" height="21" rx="8.5" fill="#f2b68c" stroke="#2b1d4a" stroke-width="3.5" stroke-linejoin="round" />
+              <path d="M228 380 C222 366 214 352 213 338 C212 330 214 324 218 320 L232 311 L286 323 C293 330 294 346 290 360 C288 368 285 375 282 380 Z" fill="#f6c39b" stroke="#2b1d4a" stroke-width="3.5" stroke-linejoin="round" />
+              <path d="M262 326 q4 3 8 1 M277 330 q3 3 7 1" fill="none" stroke="#c98b63" stroke-width="2.5" stroke-linecap="round" />
+            </g>
+            <g class="dk-pencil">
+              <g transform="translate(224 309) rotate(-150)">
+                <rect x="-50" y="-7" width="92" height="14" fill="#ffc93c" stroke="#2b1d4a" stroke-width="2" />
+                <rect x="-50" y="-2" width="92" height="4" fill="#f4a521" />
+                <polygon points="42,-7 62,0 42,7" fill="#f3d3a8" stroke="#2b1d4a" stroke-width="2" stroke-linejoin="round" />
+                <polygon points="55,-2.5 62,0 55,2.5" fill="#2b1d4a" />
+                <rect x="-60" y="-7" width="10" height="14" fill="#c4cad4" stroke="#2b1d4a" stroke-width="2" />
+                <rect x="-74" y="-7" width="15" height="14" rx="4" fill="#ff8fb1" stroke="#2b1d4a" stroke-width="2" />
+              </g>
+            </g>
+            <g class="dk-hand-top">
+              <path d="M220 336 L218 324 L188 286 C184 276 196 268 204 274 L236 314 L240 330 Z" fill="#f6c39b" />
+              <path d="M214 330 C216 327 217 325 218 324 L188 286 C183 277 196 268 204 274 L233 311" fill="none" stroke="#2b1d4a" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round" />
+              <rect x="192" y="274" width="10" height="8" rx="3" transform="rotate(-52 197 278)" fill="#fbe3d3" stroke="#2b1d4a" stroke-width="2" />
+              <path d="M206 296 q5 2 9 -1 M244 318 q4 3 8 1" fill="none" stroke="#c98b63" stroke-width="2.5" stroke-linecap="round" />
+            </g>
+            <g class="dk-impact">
+              <polygon points="230,276 240,300 266,296 246,312 258,336 232,322 208,338 218,312 196,298 222,300" fill="#ffc93c" stroke="#ff9f1c" stroke-width="3" />
+            </g>
+            <g class="dk-proctor">
+              <!-- The proctor's right hand, palm down from the right: pinky on top, thumb beside the index finger -->
+              <path d="M276 282 L404 262 L404 336 L278 330 Z" fill="#26314d" stroke="#111827" stroke-width="3.5" stroke-linejoin="round" />
+              <path d="M262 324 C248 332 230 340 216 342 C206 343 205 353 215 354 C232 354 250 348 266 340 Z" fill="#e3a57c" stroke="#2b1d4a" stroke-width="3.5" stroke-linejoin="round" />
+              <path d="M212 345 c0 -3 4 -5 8 -4 c3 1 3 6 0 7 c-4 1 -8 0 -8 -3 z" fill="#f7d3bb" stroke="#2b1d4a" stroke-width="2" />
+              <path d="M266 284 C250 282 222 283 208 286 C199 288 199 296 205 297 C196 298 189 299 189 303 C189 308 194 309 200 309 C192 310 184 311 184 315 C184 320 190 322 197 322 C193 323 189 326 190 329 C191 333 197 334 204 334 C220 336 246 336 266 335 Z" fill="#ecb48b" stroke="#2b1d4a" stroke-width="3.5" stroke-linejoin="round" />
+              <path d="M205 297 C218 297 230 297 240 298 M200 309 C214 310 228 310 240 310 M197 322 C212 323 226 323 239 323" fill="none" stroke="#2b1d4a" stroke-width="2.5" stroke-linecap="round" />
+              <g fill="#f7d3bb" stroke="#2b1d4a" stroke-width="2">
+                <rect x="203" y="288" width="9" height="7" rx="3" />
+                <rect x="192" y="300" width="9" height="7" rx="3" />
+                <rect x="187" y="312" width="10" height="8" rx="3" />
+                <rect x="193" y="325" width="9" height="7" rx="3" />
+              </g>
+              <path d="M246 291 q3 -3 6 0 M246 304 q3 -3 6 0 M245 317 q3 -3 6 0" fill="none" stroke="#c98b63" stroke-width="2.5" stroke-linecap="round" />
+              <rect x="262" y="279" width="20" height="58" rx="5" fill="#fff" stroke="#2b1d4a" stroke-width="3.5" stroke-linejoin="round" />
+              <circle cx="272" cy="308" r="3" fill="#94a3b8" />
+            </g>
+            <g class="dk-bubble">
+              <path d="M60 128 h240 a16 16 0 0 1 16 16 v40 a16 16 0 0 1 -16 16 h-90 l-14 20 l-6 -20 h-130 a16 16 0 0 1 -16 -16 v-40 a16 16 0 0 1 16 -16 z" fill="#fff" stroke="#2b1d4a" stroke-width="4" />
+              <text x="180" y="177" font-size="38" font-weight="900" fill="#d6336c" text-anchor="middle">ダメです！</text>
+            </g>
+          </svg>
+        </div>
+
+        <div class="verdict-ok" id="sanpo-ok" hidden>OK!</div>
+      </div>
+
+      <div class="fuse idle" id="sanpo-fuse"><span class="fuse-fill" id="sanpo-fuse-fill"></span></div>
+      <p class="heard-live" id="sanpo-msg"></p>
+    </section>
+
+    <!-- Aizuchi Groove -->
+    <section class="screen game" id="screen-groove" hidden>
+      <div class="game-hud">
+        <button type="button" class="icon-btn back" data-back aria-label="Back"></button>
+        <div class="beats" id="groove-beats"><i></i><i></i><i></i><i></i></div>
+        <div class="hud-num"><small id="groove-phase"></small></div>
+      </div>
+      <div class="groove-stage" id="groove-stage">
+        <div class="actor friend" id="groove-friend">
+          <div class="bubble" id="groove-friend-bubble"></div>
+          <div class="blob"><i class="eye"></i><i class="eye"></i><i class="mouth"></i></div>
+          <span class="name" data-ja="ともだち" data-en="Friend">ともだち</span>
+        </div>
+        <div class="actor you" id="groove-you">
+          <div class="bubble" id="groove-you-bubble"></div>
+          <div class="blob"><i class="eye"></i><i class="eye"></i><i class="mouth"></i></div>
+          <span class="name" data-ja="あなた" data-en="You">あなた</span>
+        </div>
+        <div class="judge-pop" id="groove-judge"></div>
+        <div class="banner" id="groove-banner" hidden></div>
+      </div>
+      <div class="groove-intro" id="groove-intro">
+        <p data-ja="ともだちの話を聞いて、ピンクのふきだしが光ったら相づち！最初の3小節はれんしゅうです（タイミングを合わせます）。" data-en="Listen to your friend and answer when your bubble lights up. The first 3 bars are practice (they tune the timing to your device).">ともだちの話を聞いて、ピンクのふきだしが光ったら相づち！最初の3小節はれんしゅうです（タイミングを合わせます）。</p>
+        <p class="fine" id="groove-tip"></p>
+        <button type="button" class="big-btn btn-go" id="groove-start" data-ja="スタート" data-en="Start">スタート</button>
+      </div>
+    </section>
+
+    <!-- Game over (both games) -->
+    <section class="screen" id="screen-over" hidden>
+      <h2 class="over-title" id="over-title"></h2>
+      <div class="new-best" id="over-high" hidden data-ja="ハイスコア！" data-en="High score!">ハイスコア！</div>
+      <div class="over-score" id="over-score"></div>
+      <p class="over-detail" id="over-detail"></p>
+      <p class="sum-bonus" id="over-points"></p>
+      <div class="result-actions">
+        <button type="button" class="big-btn btn-soft" id="over-lobby" data-ja="ゲーセンへ" data-en="Arcade">ゲーセンへ</button>
+        <button type="button" class="big-btn btn-go" id="over-again" data-ja="もう一回！" data-en="Play again!">もう一回！</button>
+      </div>
+    </section>
+
+  </main>
+
+  <canvas id="fx" aria-hidden="true"></canvas>
+  <footer class="foot" id="foot"></footer>
+</body>
+</html>

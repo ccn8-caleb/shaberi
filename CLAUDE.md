@@ -1,0 +1,31 @@
+# Shaberi — notes for agents
+
+Static, no-build PWA (vanilla ES modules in `site/`), sister to
+`~/projects/japanese-tools/reibun` and `kanji-nexus`. `site/js/core/` (prefs, pwa, util,
+version), `site/sw.js` and `tools/stamp-deploy.sh` come from those apps: when changing
+shared pieces, check whether the same change belongs there too. Shaberi is the
+*colourful* one: its theme (`site/css/base.css`) is its own and intentionally louder.
+
+- Engine (`site/js/engine/`) and game rules (`site/js/game/run.js`) are pure and tested
+  under Node: `node --test tests/*.test.mjs`. Audio tests use synthetic voices
+  (`tests/synth.mjs`), so new scoring rules can be checked without a microphone.
+- Scoring = words (Web Speech API, optional) + pitch accent (YIN pitch vs. the Tokyo
+  accent pattern) + rhythm (duration vs. the model, pauses). See `engine/score.js`.
+- Arcade (`arcade.html`): cabinets in `game/arcade.js`, rules in `game/flash.js` and
+  `game/groove.js` (pure, tested), screens in `games/*-ui.js`. Groove timing relies on
+  the capture worklet stamping each block with its AudioContext frame: keep music
+  scheduled on `mic.ctx` and judge onsets on that same clock. Game sounds are
+  synthesised (`audio/sfx.js`), so there are no audio files.
+- Shelved: 散歩しましょう！ (`game/sanpo.js`, `games/sanpo-ui.js`, its screen in
+  `arcade.html`) works and is tested but is hidden (`shelved: true` in `game/arcade.js`)
+  until the desk scene's hand art is redone. Unshelve by removing the flag and adding
+  a CHANGELOG entry.
+- Progress lives in localStorage (`game/store.js`). Bump SCHEMA_VERSION only with a
+  migration in `migrate()`, so saves carry over.
+- Phrases: `site/js/data/phrases.js`. Accent numbers are hand-entered; verify against an
+  accent dictionary before adding many. Units carry their particles / です・ます.
+- Run locally: `docker compose up -d` → http://localhost:8890 (the mic needs
+  localhost or HTTPS).
+- Versioning: patch bump per release in `site/js/core/version.js` plus a `## [x.y.z]`
+  entry in CHANGELOG.md (CI enforces). Minor bumps only when the user calls a milestone.
+- Branches: feature → `development` (checks only) → `master` (deploys).
