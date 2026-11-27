@@ -7,6 +7,7 @@
 //   unlocked: arcade cabinet ids;  highs: { cabinetId: best score }
 
 import { STORAGE_KEYS, SCHEMA_VERSION } from '../core/constants.js';
+import { TEMPOS, OPEN_AT_START, UNLOCK_SCORE } from './groove.js';
 
 const empty = () => ({
   v: SCHEMA_VERSION,
@@ -18,6 +19,7 @@ const empty = () => ({
   streak: { days: 0, last: null },
   unlocked: [],
   highs: {},
+  groove: { open: OPEN_AT_START, best: {} }, // tempos opened (count, slowest first), best score per BPM
 });
 
 // v1 (the first PoC) had no spending: its points were all earned.
@@ -79,6 +81,23 @@ export function unlock(id, cost) {
   p.unlocked.push(id);
   save(p);
   return true;
+}
+
+// A Groove tempo's score: keeps the best per tempo, and opens the next tempo when you
+// score UNLOCK_SCORE on your fastest open one. Returns { progress, opened } where opened
+// is the newly opened tempo (or null).
+export function recordGrooveTempo(bpm, score) {
+  const p = load();
+  p.groove = { open: OPEN_AT_START, best: {}, ...p.groove };
+  p.groove.best[bpm] = Math.max(p.groove.best[bpm] || 0, score);
+  const i = TEMPOS.findIndex((x) => x.bpm === bpm);
+  let opened = null;
+  if (i === p.groove.open - 1 && score >= UNLOCK_SCORE && p.groove.open < TEMPOS.length) {
+    opened = TEMPOS[p.groove.open];
+    p.groove.open++;
+  }
+  save(p);
+  return { progress: p, opened };
 }
 
 // Record an arcade game. Returns { progress, newHigh }.

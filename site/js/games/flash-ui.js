@@ -24,7 +24,7 @@ const COMMANDS = {
 };
 const ACCENT_PASS = 0.6;
 
-export function runFlash({ mic }) {
+export function runFlash({ mic, bluetooth = false }) {
   const ctx = mic.ctx;
   const stage = $('flash-stage');
   const fuse = $('flash-fuse');
@@ -43,7 +43,9 @@ export function runFlash({ mic }) {
       recording: t('録音中…', 'Recording…'),
       starting: t('マイク準備中…', 'Starting the mic…'),
       paused: '',
-      off: t('音声認識が使えないので、アクセント問題だけです', 'No speech recognition here: accent rounds only'),
+      off: bluetooth
+        ? t('Bluetoothイヤホン接続中は音声認識を使わないので、アクセント問題だけです', 'With Bluetooth earbuds, speech recognition is off: accent rounds only')
+        : t('音声認識が使えないので、アクセント問題だけです', 'No speech recognition here: accent rounds only'),
       error: t(`音声認識のエラー（${detail}）`, `Speech recognition error (${detail})`),
     };
     ear.dataset.state = state;
@@ -53,7 +55,7 @@ export function runFlash({ mic }) {
   // The recogniser needs the microphone to itself on Android, so ours stays closed
   // except during accent rounds (see audio/recognizer.js).
   mic.release();
-  const recog = stream(
+  const recog = bluetooth ? null : stream(
     (text) => {
       if (aborted) return;
       heard.textContent = `「${text}」`;

@@ -4,8 +4,9 @@ import { t, tr } from '../core/prefs.js';
 import { escapeHtml } from '../core/util.js';
 import { icon } from '../core/icons.js';
 import { visibleCabinets, cabinet } from '../game/arcade.js';
-import { load, unlock, recordGame } from '../game/store.js';
-import { Mic } from '../audio/mic.js';
+import { load, unlock, recordGame, recordGrooveTempo } from '../game/store.js';
+import { TEMPOS, DEFAULT_BPM, UNLOCK_SCORE, OPEN_AT_START } from '../game/groove.js';
+import { Mic, bluetoothInput } from '../audio/mic.js';
 import { recognitionAvailable } from '../audio/recognizer.js';
 import * as sfx from '../audio/sfx.js';
 import { runFlash } from '../games/flash-ui.js';
@@ -113,17 +114,41 @@ async function startGame(id) {
     // The groove waits on its own Start button (a moment to put headphones on).
     show('groove');
     $('groove-intro').hidden = false;
-    // The mic stays open for the whole song, which puts Bluetooth earbuds into call mode
-    // on Android (no sound): say so up front.
-    $('groove-tip').innerHTML = `${icon('headphones', 'ico')} ${escapeHtml(t('スピーカーか有線イヤホンで。Bluetoothイヤホンだと音が出ないことがあります。', 'Use the speaker or wired earphones: Bluetooth earbuds may go silent during the song.'))}`;
+    renderTempos();
+    // Recording uses the phone's own mic when earbuds are connected (audio/mic.js), so
+    // they keep playing; Bluetooth's delay is measured by the practice lines.
+    $('groove-tip').innerHTML = `${icon('headphones', 'ico')} ${escapeHtml(t('有線イヤホンかスピーカーがいちばん正確です。Bluetoothの遅れは最初のれんしゅうで調整します。', 'Wired earphones or the speaker are most precise; Bluetooth delay is tuned by the first practice lines.'))}`;
     return;
   }
   if (!(await openMic())) return;
   show(id);
-  game = { id, run: id === 'sanpo' ? runSanpo({ mic }) : runFlash({ mic }) };
+  game = { id, run: id === 'sanpo' ? runSanpo({ mic }) : runFlash({ mic, bluetooth: await bluetoothInput() }) };
   const result = await game.run.done;
   if (game?.id === id && screen === id) gameOver(id, { grade: null, detail: '', ...result });
 }
+
+// Tempo picker: open tempos are buttons, locked ones say how to open them.
+let grooveBpm = null;
+function renderTempos() {
+  const g = { open: OPEN_AT_START, best: {}, ...load().groove };
+  const open = TEMPOS.slice(0, g.open);
+  if (!open.some((x) => x.bpm === grooveBpm)) grooveBpm = open.some((x) => x.bpm === DEFAULT_BPM) ? DEFAULT_BPM : open[open.length - 1].bpm;
+  $('groove-tempos').innerHTML = TEMPOS.map((x, i) => {
+    const locked = i >= g.open;
+    const best = g.best[x.bpm];
+    const sub = locked
+      ? t(`前のテンポで${UNLOCK_SCORE}点以上で解放`, `Score ${UNLOCK_SCORE}+ on the one before`)
+      : `${x.bpm} BPM · ×${x.points}${best ? t(`・ベスト${best}`, ` · best ${best}`) : ''}`;
+    return `<button type="button" class="tempo${x.bpm === grooveBpm ? ' on' : ''}" data-bpm="${x.bpm}" ${locked ? 'disabled' : ''} aria-pressed="${x.bpm === grooveBpm}">
+      ${locked ? icon('lock', 'ico') : ''}<b>${escapeHtml(t(x.ja, x.en))}</b><small>${escapeHtml(sub)}</small></button>`;
+  }).join('');
+}
+$('groove-tempos').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-bpm]');
+  if (!b || b.disabled) return;
+  grooveBpm = +b.dataset.bpm;
+  renderTempos();
+});
 
 $('groove-start').addEventListener('click', async () => {
   if (!(await openMic())) return;
@@ -132,7 +157,7 @@ $('groove-start').addEventListener('click', async () => {
   btn.textContent = t('準備中…', 'Loading…');
   let buffers;
   try {
-    buffers = await loadGroove(mic.ctx);
+    buffers = await loadGroove(mic.ctx, grooveBpm);
   } catch (err) {
     console.warn('[groove]', err);
     btn.disabled = false;
@@ -143,7 +168,7 @@ $('groove-start').addEventListener('click', async () => {
   btn.disabled = false;
   btn.textContent = t('スタート', 'Start');
   $('groove-intro').hidden = true;
-  game = { id: 'groove', run: runGroove({ mic, buffers }) };
+  game = { id: 'groove', run: runGroove({ mic, buffers, bpm: grooveBpm }) };
   const result = await game.run.done;
   if (game?.id === 'groove' && screen === 'groove') gameOver('groove', result);
 });
@@ -152,6 +177,7 @@ function gameOver(id, result) {
   game = null;
   mic.release();
   const { newHigh } = recordGame(id, result.score, result.points);
+  const opened = id === 'groove' ? recordGrooveTempo(result.bpm, result.score).opened : null;
   renderHud({ animate: true });
   show('over');
   $('over-title').textContent = id === 'groove' ? t('おつかれさま！', 'Nice session!') : t('ゲームオーバー', 'Game over');
@@ -162,6 +188,8 @@ function gameOver(id, result) {
     `<span>${result.score}${id === 'groove' ? '<small style="font-size:1rem">/100</small>' : ''}</span>`;
   $('over-detail').textContent = id === 'flash' ? t(`${result.score} 問クリア`, `${result.score} cleared`) : result.detail;
   $('over-points').textContent = `+${result.points} ★`;
+  $('over-unlock').hidden = !opened;
+  if (opened) $('over-unlock').textContent = t(`新しいテンポ解放！「${opened.ja}」${opened.bpm} BPM`, `New tempo unlocked: ${opened.en}, ${opened.bpm} BPM`);
   $('over-points').hidden = !result.points;
   if (newHigh && result.score) confetti(window.innerWidth / 2, window.innerHeight / 3, 140);
   if (g === 'S' || g === 'A') sfx.fanfare(mic.ctx);

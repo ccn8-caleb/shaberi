@@ -10,7 +10,7 @@ import { newRun, commit, isOver, multiplier, basePoints } from '../game/run.js';
 import { SPEEDS, speedById, step } from '../game/speed.js';
 import { recordRun, currentStreak, hasPracticedToday, dailyBonus } from '../game/store.js';
 import { nextUnlock } from '../game/arcade.js';
-import { Mic } from '../audio/mic.js';
+import { Mic, bluetoothInput } from '../audio/mic.js';
 import { record } from '../audio/take.js';
 import * as model from '../audio/model.js';
 import { wavBlob } from '../audio/wav.js';
@@ -36,6 +36,12 @@ let run = null;
 let current = null; // { phrase, mora, graph, refDuration, best, last }
 let recording = null; // { take, listener }
 let screen = 'home';
+let btConnected = false;
+const refreshBluetooth = async () => {
+  btConnected = await bluetoothInput();
+  renderChecks();
+};
+navigator.mediaDevices?.addEventListener?.('devicechange', refreshBluetooth);
 
 // ---------------------------------------------------------------- screens
 
@@ -82,6 +88,7 @@ function renderChecks() {
         ? ['warn', t('言葉の採点はブラウザ次第（Androidでは働かないことがあります）', 'Word scoring depends on the browser (often not on Android)')]
         : ['warn', t('このブラウザは音声認識なし：言葉の採点には下の「端末内チェック」を', 'No speech recognition here: use the on-device check below for words')]
   );
+  if (btConnected) items.push(['ok', t('Bluetoothイヤホン接続中：録音はスマホ本体のマイクで行います', 'Bluetooth earbuds connected: recording uses the phone’s own mic')]);
   items.push(['ok', t('静かな場所で、普通の声で話してください', 'Find a quiet spot and speak at a normal volume')]);
   $('checks').innerHTML = items.map(([cls, text]) => `<li class="${cls}">${escapeHtml(text)}</li>`).join('');
 }
@@ -192,8 +199,10 @@ async function startRecording() {
   setStatus(t('どうぞ！話し終わったら自動で止まります', 'Go! It stops by itself when you finish'));
 
   const points = [];
-  // With the on-device word check ready, the browser's recogniser isn't needed.
-  const listener = words.status().state === 'ready' ? { stop: async () => null } : listen(mic.track);
+  // The browser's recogniser isn't used when the on-device check is ready, nor with a
+  // Bluetooth mic connected (it would use the earbuds' mic and put them in call mode).
+  const noRecognizer = words.status().state === 'ready' || btConnected;
+  const listener = noRecognizer ? { stop: async () => null } : listen(mic.track);
   const take = record(mic, {
     maxSeconds: Math.max(5, refDuration() * 3),
     onBlock: ({ level, speaking, sinceSpeech, st }) => {
@@ -505,3 +514,4 @@ renderChecks();
 renderVoicePicker();
 renderSpeed();
 renderWords();
+refreshBluetooth();

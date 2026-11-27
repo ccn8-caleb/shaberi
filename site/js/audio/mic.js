@@ -7,6 +7,36 @@
 
 import { rms } from '../engine/pitch.js';
 
+// With Bluetooth earbuds connected, the default microphone is the earbuds' headset
+// mic. Using it switches the earbuds into call mode (Bluetooth SCO): narrow-band audio,
+// and on Android the earbuds can stay silent for ordinary playback afterwards, even
+// across pages. So when a Bluetooth input is present, record with the phone's own mic.
+const BLUETOOTH = /bluetooth|\bbt\b|airpods|buds/i;
+const BUILT_IN = /speakerphone|built-?in|internal|内蔵|本体|phone|マイク/i;
+
+// The deviceId to record from, or null for the browser's default. Labels are only
+// visible once microphone permission has been granted.
+export async function preferredInput() {
+  try {
+    const inputs = (await navigator.mediaDevices.enumerateDevices()).filter((d) => d.kind === 'audioinput' && d.label);
+    if (!inputs.some((d) => BLUETOOTH.test(d.label))) return null;
+    const own = inputs.find((d) => BUILT_IN.test(d.label) && !BLUETOOTH.test(d.label) && !/earpiece/i.test(d.label));
+    return own ? own.deviceId : null;
+  } catch (_) {
+    return null;
+  }
+}
+
+// Is a Bluetooth microphone connected (so the browser's speech recognition, which
+// uses the default mic, would put the earbuds into call mode)?
+export async function bluetoothInput() {
+  try {
+    return (await navigator.mediaDevices.enumerateDevices()).some((d) => d.kind === 'audioinput' && BLUETOOTH.test(d.label));
+  } catch (_) {
+    return false;
+  }
+}
+
 export class Mic {
   constructor() {
     this.ctx = null;
@@ -55,10 +85,15 @@ export class Mic {
       this.node.connect(this.ctx.destination);
     }
     if (!this.isOpen) {
-      this.stream = await navigator.mediaDevices.getUserMedia({
-        // Noise suppression and echo cancellation smear pitch; gain control is harmless.
-        audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: true, channelCount: 1 },
-      });
+      // Noise suppression and echo cancellation smear pitch; gain control is harmless.
+      const audio = { echoCancellation: false, noiseSuppression: false, autoGainControl: true, channelCount: 1 };
+      const deviceId = await preferredInput();
+      try {
+        this.stream = await navigator.mediaDevices.getUserMedia({ audio: deviceId ? { ...audio, deviceId: { exact: deviceId } } : audio });
+      } catch (err) {
+        if (!deviceId) throw err;
+        this.stream = await navigator.mediaDevices.getUserMedia({ audio });
+      }
       this.source = this.ctx.createMediaStreamSource(this.stream);
       this.source.connect(this.node);
     }

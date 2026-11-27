@@ -6,7 +6,7 @@
 import { t } from '../core/prefs.js';
 import { OnsetDetector } from '../engine/onset.js';
 import { grade as letterGrade } from '../engine/score.js';
-import { timeline, Judge, isEcho, JUDGE, SPB } from '../game/groove.js';
+import { timeline, Judge, isEcho, judgeWindows, spb, tempoOf } from '../game/groove.js';
 import { GROOVE_AUDIO } from '../data/groove-audio.js';
 import * as sfx from '../audio/sfx.js';
 
@@ -21,9 +21,10 @@ const LABELS = {
   miss: { ja: 'ミス', en: 'Miss' },
 };
 
-// Decode every clip the song uses into AudioBuffers (before the music starts).
-export async function loadGroove(ctx) {
-  const all = [...Object.values(GROOVE_AUDIO.lines), ...Object.values(GROOVE_AUDIO.answers)];
+// Decode every clip the song uses at this tempo into AudioBuffers (before the music starts).
+export async function loadGroove(ctx, bpm) {
+  const set = GROOVE_AUDIO.tempos[bpm];
+  const all = [...Object.values(set.lines), ...Object.values(set.answers)];
   const buffers = new Map();
   await Promise.all(
     all.map(async (c) => {
@@ -35,10 +36,13 @@ export async function loadGroove(ctx) {
   return buffers;
 }
 
-export function runGroove({ mic, buffers }) {
+export function runGroove({ mic, buffers, bpm }) {
   const ctx = mic.ctx;
-  const { cues, targets, end } = timeline();
-  const judge = new Judge(targets);
+  const SPB = spb(bpm);
+  const JUDGE = judgeWindows(bpm);
+  const voices = GROOVE_AUDIO.tempos[bpm];
+  const { cues, targets, end } = timeline(undefined, bpm);
+  const judge = new Judge(targets, JUDGE);
   const start = ctx.currentTime + LEAD_S;
   const lastPractice = Math.max(...targets.filter((x) => x.practice).map((x) => x.t));
   let calibrated = false;
@@ -69,8 +73,8 @@ export function runGroove({ mic, buffers }) {
     } else if (cue.kind === 'kick') {
       sfx.kick(ctx, at);
       sounds.push({ start: at, end: at + 0.14 });
-    } else if (cue.kind === 'line') play(GROOVE_AUDIO.lines[cue.text], at);
-    else if (cue.kind === 'demo') play(GROOVE_AUDIO.answers[cue.text], at);
+    } else if (cue.kind === 'line') play(voices.lines[cue.text], at);
+    else if (cue.kind === 'demo') play(voices.answers[cue.text], at);
     // Your beat stays silent: anything heard there is you.
   }
 
@@ -80,6 +84,8 @@ export function runGroove({ mic, buffers }) {
   const youName = you.querySelector('.name');
   const friendBubble = $('groove-friend-bubble');
   const youBubble = $('groove-you-bubble');
+  // One dot per beat of the bar (4, or 5 at the fast tempos).
+  $('groove-beats').innerHTML = '<i></i>'.repeat(tempoOf(bpm).bar);
   const dots = [...$('groove-beats').children];
   const pop = $('groove-judge');
   const banner = $('groove-banner');
@@ -142,7 +148,7 @@ export function runGroove({ mic, buffers }) {
       if (c.kind === 'line') {
         friendBubble.textContent = c.text;
         friendBubble.className = 'bubble show';
-        talk(friend, GROOVE_AUDIO.lines[c.text].end * 1000);
+        talk(friend, voices.lines[c.text].end * 1000);
         bounce(friend);
         // Demo bar: the model will answer. Your bar: get ready to answer.
         youBubble.textContent = c.turn === 'demo' ? '…' : targets.find((x) => x.t > c.t)?.text || '';
@@ -162,7 +168,7 @@ export function runGroove({ mic, buffers }) {
       if (c.kind === 'demo') {
         youBubble.textContent = c.text;
         youBubble.className = 'bubble show demo';
-        talk(you, GROOVE_AUDIO.answers[c.text].end * 1000);
+        talk(you, voices.answers[c.text].end * 1000);
         bounce(you);
       }
       if (c.kind === 'you') {
@@ -213,8 +219,9 @@ export function runGroove({ mic, buffers }) {
         `ぴったり ${s.counts.perfect} ・ いいね ${s.counts.good} ・ おしい ${s.counts.ok} ・ ミス ${s.counts.miss}`,
         `Perfect ${s.counts.perfect} · Nice ${s.counts.good} · Close ${s.counts.ok} · Miss ${s.counts.miss}`
       ),
-      points: Math.round(s.score * 3),
+      points: Math.round(s.score * 3 * tempoOf(bpm).points),
       latency: judge.latency,
+      bpm,
     });
   }
 

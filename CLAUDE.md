@@ -46,6 +46,10 @@ shared pieces, check whether the same change belongs there too. Shaberi is the
   forcing), not by free transcription; free transcription mis-kanji'd too often.
   Mapping: closeness ≥ −0.9 → full, ≤ −2.1 → 0 (tests/words.test.mjs has the measured
   values).
+- Bluetooth: never record from the earbuds' mic (audio/mic.js preferredInput picks the
+  phone's own, e.g. "Speakerphone", when a Bluetooth input exists) and don't start the
+  browser's SpeechRecognition while one is connected. Using the BT mic put a user's
+  earbuds into call mode that stayed stuck across pages.
 - Microphone: practice opens it per recording and releases it after (`mic.release()`);
   holding it switches Android Bluetooth earbuds into call mode and the model voice
   stops reaching them. Keep it that way.

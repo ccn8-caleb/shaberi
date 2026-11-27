@@ -7,22 +7,38 @@
 // answer, with a 3-2-1 countdown on screen). Practice lines at the start measure your
 // device's audio delay and aren't scored.
 
-export const BPM = 84;
-export const SPB = 60 / BPM; // seconds per beat
-export const BEATS_PER_BAR = 4;
 export const COUNT_IN = 4; // beats before the first bar
-export const ANSWER_BEAT = 3; // 0-based: beat 4 of the bar
 
-// Generous windows (seconds either way).
-export const JUDGE = { perfect: 0.1, good: 0.2, ok: 0.35 };
+// Tempos. Faster ones: the beat is quicker, the timing windows (a share of the beat)
+// get tighter, and points are multiplied. The fast ones have 5-beat bars (you answer on
+// the 5th) so the friend's lines still fit at a natural speaking speed. The first two
+// are open from the start; scoring UNLOCK_SCORE on your fastest open tempo opens the next.
+export const TEMPOS = [
+  { bpm: 84, bar: 4, ja: 'ゆっくり', en: 'Easy', points: 1 },
+  { bpm: 100, bar: 4, ja: 'ふつう', en: 'Normal', points: 1.25 },
+  { bpm: 116, bar: 5, ja: 'はやめ', en: 'Quick', points: 1.5 },
+  { bpm: 132, bar: 5, ja: 'ネイティブ', en: 'Native', points: 2 },
+];
+export const OPEN_AT_START = 2;
+export const DEFAULT_BPM = 100;
+export const UNLOCK_SCORE = 80;
+export const tempoOf = (bpm) => TEMPOS.find((x) => x.bpm === bpm) || TEMPOS.find((x) => x.bpm === DEFAULT_BPM);
+export const answerBeat = (bpm) => tempoOf(bpm).bar - 1; // 0-based: the last beat of the bar
+
+export const spb = (bpm) => 60 / bpm; // seconds per beat
+// Timing windows (seconds either way), as shares of a beat: at 84 BPM that's ±0.10
+// perfect, ±0.20 good, ±0.35 at most.
+export const judgeWindows = (bpm) => ({ perfect: 0.14 * spb(bpm), good: 0.28 * spb(bpm), ok: 0.49 * spb(bpm) });
 export const POINTS = { perfect: 3, good: 2, ok: 1, miss: 0 };
 
-// A line must finish this long before the answer beat, so its sound has died away
-// before you're expected to speak (see LINE_MAX).
+// A line must finish this long before the answer window opens, so its sound has died
+// away before you're expected to speak (see lineMax).
 export const GATE_S = 0.2;
 export const MAX_LATENCY = 0.2;
-// Longest a spoken line may be (it starts on beat 1).
-export const LINE_MAX = ANSWER_BEAT * SPB - JUDGE.ok - GATE_S - MAX_LATENCY; // ≈1.39 s at 84 BPM
+// Longest a spoken line may be at a tempo (it starts on beat 1).
+export const lineMax = (bpm) => answerBeat(bpm) * spb(bpm) - judgeWindows(bpm).ok - GATE_S - MAX_LATENCY;
+// Longest a model answer may be: it must end before the next bar's line starts.
+export const answerMax = (bpm) => spb(bpm) * 0.85;
 
 // Original story. line: what the friend says; you: your answer.
 export const SONG = [
@@ -42,7 +58,10 @@ export const SONG = [
 //                  'countdown' (your bar's 3-2-1, text = '3' / '2' / '1') | 'you' (your beat) | 'kick'
 //   targets: [{ t, bar, practice, text }]  (your beats)
 //   end:     seconds
-export function timeline(song = SONG) {
+export function timeline(song = SONG, bpm = DEFAULT_BPM) {
+  const SPB = spb(bpm);
+  const BEATS_PER_BAR = tempoOf(bpm).bar;
+  const ANSWER_BEAT = answerBeat(bpm);
   const cues = [];
   const targets = [];
   for (let b = 0; b < COUNT_IN; b++) cues.push({ t: b * SPB, bar: -1, beat: b, kind: 'count', text: String(COUNT_IN - b) });
@@ -73,19 +92,20 @@ export function timeline(song = SONG) {
 // into the mic: ignore them. sounds: [{ start, end }] in the same clock as t.
 export const isEcho = (t, sounds, latency = 0) => sounds.some((s) => t >= s.start && t <= s.end + GATE_S + latency);
 
-export function grade(error) {
+export function grade(error, windows = judgeWindows(DEFAULT_BPM)) {
   const e = Math.abs(error);
-  if (e <= JUDGE.perfect) return 'perfect';
-  if (e <= JUDGE.good) return 'good';
-  if (e <= JUDGE.ok) return 'ok';
+  if (e <= windows.perfect) return 'perfect';
+  if (e <= windows.good) return 'good';
+  if (e <= windows.ok) return 'ok';
   return null;
 }
 
 // Stateful judge: give it onsets as they arrive; it matches each to the nearest open
 // target (first onset per target wins) and reports the judgement.
 export class Judge {
-  constructor(targets) {
+  constructor(targets, windows = judgeWindows(DEFAULT_BPM)) {
     this.targets = targets.map((t) => ({ ...t, result: null, error: null }));
+    this.windows = windows;
     this.latency = 0;
   }
 
@@ -96,10 +116,10 @@ export class Judge {
     for (const target of this.targets) {
       if (target.result) continue;
       const err = t - target.t;
-      if (Math.abs(err) <= JUDGE.ok && (!best || Math.abs(err) < Math.abs(best.err))) best = { target, err };
+      if (Math.abs(err) <= this.windows.ok && (!best || Math.abs(err) < Math.abs(best.err))) best = { target, err };
     }
     if (!best) return null;
-    best.target.result = grade(best.err);
+    best.target.result = grade(best.err, this.windows);
     best.target.error = best.err;
     best.target.raw = raw;
     return best.target;
@@ -109,7 +129,7 @@ export class Judge {
   expire(now) {
     const missed = [];
     for (const target of this.targets) {
-      if (!target.result && now - this.latency > target.t + JUDGE.ok) {
+      if (!target.result && now - this.latency > target.t + this.windows.ok) {
         target.result = 'miss';
         missed.push(target);
       }

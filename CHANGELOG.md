@@ -4,6 +4,26 @@ Versions follow [semver](https://semver.org/). The version lives in
 `site/js/core/version.js`; every release needs an entry here (CI checks it). Each
 deploy also carries a build id (commit hash), shown next to the version in the app.
 
+## [0.1.9] — 2026-11-27 — Earbuds stay earbuds; Groove tempos
+
+### Fixed
+- **Bluetooth earbuds went silent after a practice run**, even for other pages, until
+  Bluetooth was restarted. With earbuds connected, the default microphone is the
+  earbuds' own, and using it puts them into call mode, which could get stuck. Shaberi
+  now records with the phone's own microphone whenever a Bluetooth microphone is
+  present (better quality for pitch, too), and doesn't use the browser's speech
+  recognition in practice or 瞬間しゃべり then (it would use the earbuds' mic). Use the
+  on-device word check for words. The sound check explains how to recover if earbuds
+  are already stuck (turn Bluetooth off and on).
+
+### Added
+- **相づちグルーヴ tempos:** ゆっくり 84 · ふつう 100 · はやめ 116 · ネイティブ 132 BPM,
+  with points ×1 to ×2. The first two are open; 80+ on your fastest open tempo opens
+  the next. Faster tempos have tighter timing windows (a share of the beat) and the
+  friend speaks a little faster; the two fastest use 5-beat bars (4·3·2·1·いま！) so
+  the lines still fit at a natural speaking speed. Each tempo has its own recordings
+  and best score. ふつう is the new default.
+
 ## [0.1.8] — 2026-11-27 — Words on any device
 
 ### Added

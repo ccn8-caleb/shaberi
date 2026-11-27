@@ -4,9 +4,10 @@
 //   docker run -d --rm --name voicevox -p 127.0.0.1:50021:50021 voicevox/voicevox_engine:cpu-latest
 //   node tools/voice/build-groove.mjs
 //
-// Writes site/audio/groove/*.mp3 and site/js/data/groove-audio.js. Each clip records
-// its onset (when the voice becomes audible) so the game can place it on the beat,
-// and its length. Lines are sped up if needed to fit LINE_MAX.
+// Writes site/audio/groove/*.mp3 and site/js/data/groove-audio.js: a set of clips per
+// tempo (game/groove.js TEMPOS). Each records its onset (when the voice becomes audible)
+// so the game can place it on the beat, and its end. Clips are sped up when needed to
+// fit lineMax / answerMax at their tempo.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -14,7 +15,7 @@ import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { SAMPLE_RATE, speak, encodeWav, onsetOf, engineVersion } from './voicevox.mjs';
-import { SONG, LINE_MAX } from '../../site/js/game/groove.js';
+import { SONG, TEMPOS, lineMax, answerMax } from '../../site/js/game/groove.js';
 import { analyze } from '../../site/js/engine/pitch.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -54,11 +55,16 @@ async function make(voice, text, { maxLength = Infinity } = {}) {
 
 // Start fresh: clip names include a hash, so old ones would linger.
 for (const f of fs.readdirSync(DIR)) if (f.endsWith('.mp3')) fs.unlinkSync(path.join(DIR, f));
-const lines = {};
-const answers = {};
-for (const s of SONG) {
-  lines[s.line] ||= await make(FRIEND, s.line, { maxLength: LINE_MAX });
-  answers[s.you] ||= await make(MODEL, s.you);
+// One set per tempo: at faster tempos the friend (and the model) speak faster to fit.
+const tempos = {};
+for (const { bpm } of TEMPOS) {
+  const lines = {};
+  const answers = {};
+  for (const s of SONG) {
+    lines[s.line] ||= await make(FRIEND, s.line, { maxLength: lineMax(bpm) });
+    answers[s.you] ||= await make(MODEL, s.you, { maxLength: answerMax(bpm) });
+  }
+  tempos[bpm] = { lines, answers };
 }
 
 fs.writeFileSync(
@@ -68,7 +74,7 @@ fs.writeFileSync(
 // that much early to land on the beat); end = seconds until the voice has finished.
 // Made with VOICEVOX (VOICEVOX:春日部つむぎ, VOICEVOX:剣崎雌雄); not MIT-licensed.
 
-export const GROOVE_AUDIO = ${JSON.stringify({ engine, lines, answers }, null, 2)};
+export const GROOVE_AUDIO = ${JSON.stringify({ engine, tempos }, null, 2)};
 `
 );
-console.log(`\n${Object.keys(lines).length} lines, ${Object.keys(answers).length} answers`);
+console.log(`\n${TEMPOS.length} tempos × ${SONG.length} lines`);

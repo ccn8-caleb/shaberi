@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import { OnsetDetector } from '../site/js/engine/onset.js';
-import { timeline, Judge, isEcho, grade, SPB, SONG, JUDGE, MAX_LATENCY } from '../site/js/game/groove.js';
+import { timeline, Judge, isEcho, grade, spb, SONG, TEMPOS, DEFAULT_BPM, judgeWindows, MAX_LATENCY } from '../site/js/game/groove.js';
 import { GROOVE_AUDIO } from '../site/js/data/groove-audio.js';
 import { deck, matches, timeLimit, payout, level, MIN_SECONDS } from '../site/js/game/flash.js';
 import { REPLIES, COUNTS, ACCENT_PAIRS } from '../site/js/data/micro.js';
@@ -39,51 +39,60 @@ test('onsets: silence gives none', () => {
 
 // ------------------------------------------------------------------ groove
 
-test('groove timeline: count-in, then each line twice (demo, then your turn)', () => {
-  const { cues, targets, end } = timeline();
-  assert.equal(cues.filter((c) => c.kind === 'count').length, 4);
-  assert.equal(targets.length, SONG.length); // one answer of yours per line
-  assert.equal(cues.filter((c) => c.kind === 'demo').length, SONG.length);
-  // Your answer is on beat 4 of the bar after the demo.
-  assert.ok(Math.abs(targets[0].t - (4 + 4 + 3) * SPB) < 1e-9);
-  assert.ok(end > targets[targets.length - 1].t);
-  // A 3-2-1 countdown before each of your answers.
-  for (const tg of targets) {
-    const cd = cues.filter((c) => c.kind === 'countdown' && c.bar === tg.bar).map((c) => c.text);
-    assert.deepEqual(cd, ['3', '2', '1']);
+test('groove timeline: count-in, then each line twice (demo, then your turn), at every tempo', () => {
+  for (const { bpm, bar } of TEMPOS) {
+    const { cues, targets, end } = timeline(SONG, bpm);
+    assert.equal(cues.filter((c) => c.kind === 'count').length, 4);
+    assert.equal(targets.length, SONG.length);
+    assert.equal(cues.filter((c) => c.kind === 'demo').length, SONG.length);
+    // Your first answer: the last beat of the bar after the demo bar.
+    assert.ok(Math.abs(targets[0].t - (4 + bar + bar - 1) * spb(bpm)) < 1e-9, `${bpm}`);
+    assert.ok(end > targets[targets.length - 1].t);
+    // A countdown to each of your answers (3-2-1 in 4-beat bars, 4-3-2-1 in 5-beat bars).
+    for (const tg of targets) {
+      const cd = cues.filter((c) => c.kind === 'countdown' && c.bar === tg.bar).map((c) => c.text);
+      assert.deepEqual(cd, Array.from({ length: bar - 1 }, (_, i) => String(bar - 1 - i)));
+    }
   }
 });
 
-test('groove voices fit: every line has died away before your answer window opens', () => {
-  const { cues, targets } = timeline();
-  for (const tg of targets) {
-    const line = cues.find((c) => c.kind === 'line' && c.bar === tg.bar);
-    const clip = GROOVE_AUDIO.lines[line.text];
-    assert.ok(clip, `no recording for "${line.text}": run node tools/voice/build-groove.mjs`);
-    const sound = { start: line.t, end: line.t - clip.onset + clip.end };
-    // Even with the worst device delay, an answer at the start of the window isn't taken for an echo.
-    assert.ok(!isEcho(tg.t - JUDGE.ok + MAX_LATENCY, [sound], MAX_LATENCY), `"${line.text}" runs too long (${clip.end}s)`);
-    assert.ok(clip.speed <= 1.1, `"${line.text}" had to be sped up ×${clip.speed}`);
+test('groove voices fit at every tempo, spoken at a natural speed', () => {
+  for (const { bpm } of TEMPOS) {
+    const set = GROOVE_AUDIO.tempos[bpm];
+    assert.ok(set, `no recordings for ${bpm} BPM: run node tools/voice/build-groove.mjs`);
+    const { cues, targets } = timeline(SONG, bpm);
+    const ok = judgeWindows(bpm).ok;
+    for (const tg of targets) {
+      const line = cues.find((c) => c.kind === 'line' && c.bar === tg.bar);
+      const clip = set.lines[line.text];
+      const sound = { start: line.t, end: line.t - clip.onset + clip.end };
+      // Even with the worst device delay, an answer at the start of the window isn't taken for an echo.
+      assert.ok(!isEcho(tg.t - ok + MAX_LATENCY, [sound], MAX_LATENCY), `${bpm}: "${line.text}" runs too long (${clip.end}s)`);
+      assert.ok(clip.speed <= 1.45, `${bpm}: "${line.text}" had to be sped up ×${clip.speed}`);
+    }
+    for (const s of SONG) assert.ok(set.answers[s.you], `${bpm}: no recording for "${s.you}"`);
   }
-  for (const s of SONG) assert.ok(GROOVE_AUDIO.answers[s.you], `no recording for "${s.you}"`);
 });
 
-test('groove judge: grades by timing, first onset wins, misses expire', () => {
-  const { targets } = timeline();
-  const j = new Judge(targets);
+test('groove judge: grades by timing (windows scale with the beat), first onset wins, misses expire', () => {
+  const bpm = 84;
+  const w = judgeWindows(bpm);
+  assert.ok(Math.abs(w.perfect - 0.1) < 0.002 && Math.abs(w.ok - 0.35) < 0.002);
+  assert.ok(judgeWindows(132).ok < w.ok, 'faster tempos are stricter');
+  const { targets } = timeline(SONG, bpm);
+  const j = new Judge(targets, w);
   const [a, b, c] = targets;
   assert.equal(j.onset(a.t + 0.05).result, 'perfect');
   assert.equal(j.onset(a.t + 0.08), null); // a is taken and b is far away
   assert.equal(j.onset(b.t - 0.15).result, 'good');
-  assert.equal(j.expire(c.t + JUDGE.ok + 0.01)[0], j.targets[2]);
+  assert.equal(j.expire(c.t + w.ok + 0.01)[0], j.targets[2]);
   assert.equal(j.targets[2].result, 'miss');
-  // Generous windows for learners: a third of a second either way still counts.
-  assert.deepEqual([0.08, -0.18, 0.3, 0.4].map(grade), ['perfect', 'good', 'ok', null]);
+  assert.deepEqual([0.08, -0.18, 0.3, 0.4].map((e) => grade(e, w)), ['perfect', 'good', 'ok', null]);
 });
 
 test('groove calibration: practice delay is learned and corrects later beats', () => {
-  const { targets } = timeline();
-  const j = new Judge(targets);
+  const { targets } = timeline(SONG, DEFAULT_BPM);
+  const j = new Judge(targets, judgeWindows(DEFAULT_BPM));
   const practice = targets.filter((t) => t.practice);
   practice.forEach((t) => j.onset(t.t + 0.15)); // a mic/speaker delay of 150 ms
   assert.ok(Math.abs(j.calibrate() - 0.15) < 1e-9);
@@ -94,7 +103,7 @@ test('groove calibration: practice delay is learned and corrects later beats', (
   assert.equal(s.score, 100);
 });
 
-test('groove summary: practice bars do not count', () => {
+test('groove summary: practice lines do not count', () => {
   const j = new Judge(timeline().targets);
   j.expire(1e9);
   const s = j.summary();
@@ -164,7 +173,7 @@ test('arcade: next unlock is the cheapest real cabinet still locked', () => {
 test('store: migration, daily bonus once a day, unlock spends, games pay', async () => {
   const mem = new Map();
   globalThis.localStorage = { getItem: (k) => mem.get(k) ?? null, setItem: (k, v) => mem.set(k, String(v)) };
-  const { load, recordRun, unlock, recordGame, dailyBonus } = await import('../site/js/game/store.js');
+  const { load, recordRun, unlock, recordGame, dailyBonus, recordGrooveTempo } = await import('../site/js/game/store.js');
   mem.set('shaberi_progress', JSON.stringify({ v: 1, points: 300, bestRun: 300, runs: 1, bests: {}, streak: { days: 1, last: '2026-11-25' } }));
   let p = load();
   assert.equal(p.v, 2);
@@ -190,5 +199,13 @@ test('store: migration, daily bonus once a day, unlock spends, games pay', async
   assert.equal(recordGame('flash', 3, 10).newHigh, false);
   assert.equal(load().highs.flash, 12);
   assert.equal(load().earned, p.earned + 110);
+
+  // Groove tempos: two open; 80+ on the fastest open one opens the next.
+  assert.equal(load().groove.open, 2);
+  assert.equal(recordGrooveTempo(84, 95).opened, null); // not your fastest open tempo
+  assert.equal(recordGrooveTempo(100, 70).opened, null); // under 80
+  assert.equal(recordGrooveTempo(100, 85).opened.bpm, 116);
+  assert.equal(load().groove.open, 3);
+  assert.equal(load().groove.best[100], 85);
   delete globalThis.localStorage;
 });

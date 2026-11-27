@@ -912,3 +912,31 @@
   vertical-align: -3px;
   margin-right: 4px;
 }
+
+/* Groove tempo picker */
+.tempos {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+.tempo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 10px 8px;
+  border-radius: 16px;
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-sm);
+  border: 2px solid transparent;
+  line-height: 1.25;
+}
+.tempo b { font-size: 1rem; }
+.tempo small { font-size: 0.72rem; color: var(--text-muted); }
+.tempo.on {
+  border-color: var(--purple);
+  background: color-mix(in srgb, var(--purple) 12%, var(--bg-surface));
+}
+.tempo:disabled { opacity: 0.55; cursor: default; }
+.tempo .ico { width: 16px; height: 16px; }
