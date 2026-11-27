@@ -40,6 +40,12 @@ shared pieces, check whether the same change belongs there too. Shaberi is the
   words on Android while it records for pitch.
 - Groove voices: `node tools/voice/build-groove.mjs` (lines must die away before the
   answer window, see LINE_MAX; tests/games.test.mjs checks the recordings fit).
+- Words in practice: when the on-device check (`asr/words.js` + `asr/worker.js`,
+  Whisper tiny via transformers.js 4.3.2 from jsDelivr) is ready, it scores the
+  recording by how close the expected text is to the model's preferences (teacher
+  forcing), not by free transcription; free transcription mis-kanji'd too often.
+  Mapping: closeness ≥ −0.9 → full, ≤ −2.1 → 0 (tests/words.test.mjs has the measured
+  values).
 - Microphone: practice opens it per recording and releases it after (`mic.release()`);
   holding it switches Android Bluetooth earbuds into call mode and the model voice
   stops reaching them. Keep it that way.

@@ -349,14 +349,16 @@ export const recognizerMissed = (heard, rhythm) =>
   Array.isArray(heard) && !heard.some((h) => normalize(h)) && rhythm.ratio !== null && rhythm.ratio >= 0.45;
 
 // Score one attempt end to end.
-export function scoreAttempt({ analysis, mora, phrase, heard, refDuration, fit = NORMAL_FIT, reference = null }) {
+// words: an already-made word score ({ score 0..1, ... }, e.g. from the on-device
+// check) to use instead of the recogniser's `heard`.
+export function scoreAttempt({ analysis, mora, phrase, heard, refDuration, fit = NORMAL_FIT, reference = null, words = null }) {
   if (!analysis.span) {
     return { total: 0, grade: 'D', silent: true, words: { score: null }, pitch: { score: null }, rhythm: { score: null } };
   }
   const rhythm = rhythmScore(analysis, mora.length, refDuration, fit);
-  const missed = recognizerMissed(heard, rhythm);
+  const missed = !words && recognizerMissed(heard, rhythm);
   const parts = {
-    words: missed ? { score: null, heard: null, missed: true } : wordsScore(heard, phrase),
+    words: words ? { heard: null, ...words } : missed ? { score: null, heard: null, missed: true } : wordsScore(heard, phrase),
     pitch: pitchScore(analysis, mora, reference),
     rhythm,
   };

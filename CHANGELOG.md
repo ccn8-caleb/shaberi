@@ -4,6 +4,19 @@ Versions follow [semver](https://semver.org/). The version lives in
 `site/js/core/version.js`; every release needs an entry here (CI checks it). Each
 deploy also carries a build id (commit hash), shown next to the version in the app.
 
+## [0.1.8] — 2026-11-27 — Words on any device
+
+### Added
+- **Word scoring on the device itself** (home screen card, optional one-time download
+  of about 50 MB). A small speech model (Whisper tiny) checks your recording right on
+  the phone, so words are scored in any browser, Android and Brave included, and
+  your voice never leaves the device. Because Shaberi knows the phrase you're
+  practising, it asks "how close is this to the expected phrase?" rather than
+  transcribing freely, which is far more reliable: in tests, right phrases scored
+  79–100 and wrong phrases 0. When it's on, the browser's own speech recognition
+  isn't used in practice (which is what clashed with the pitch recording on
+  Android).
+
 ## [0.1.7] — 2026-11-27 — Friendlier arcade
 
 ### Changed

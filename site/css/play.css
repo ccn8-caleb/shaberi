@@ -608,3 +608,45 @@
   color: var(--text-muted);
   overflow-wrap: anywhere;
 }
+
+/* ================= ON-DEVICE WORDS ================= */
+.words-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-sm);
+}
+.words-card p {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+.words-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+}
+.words-row small {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+#btn-words { color: var(--purple); padding: 0 16px; }
+[data-theme='dark'] #btn-words { color: #c4a2ff; }
+.words-card[data-state='ready'] { border: 2px solid var(--teal); }
+.words-track {
+  display: block;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--bg-elevated);
+  overflow: hidden;
+}
+.words-fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--purple), var(--teal));
+  transition: width 0.3s ease;
+}

@@ -14,6 +14,7 @@ import { Mic } from '../audio/mic.js';
 import { record } from '../audio/take.js';
 import * as model from '../audio/model.js';
 import { wavBlob } from '../audio/wav.js';
+import * as words from '../asr/words.js';
 import { listen, recognitionAvailable } from '../audio/recognizer.js';
 import { drawGraph } from './graph.js';
 import { confetti, floatPoints } from './fx.js';
@@ -75,9 +76,11 @@ function renderChecks() {
   const secure = window.isSecureContext && navigator.mediaDevices?.getUserMedia;
   items.push(secure ? ['ok', t('マイクが使えます', 'Microphone available')] : ['bad', t('マイクが使えません（HTTPSが必要）', 'No microphone access (needs HTTPS)')]);
   items.push(
-    recognitionAvailable()
-      ? ['ok', t('音声認識あり（言葉も採点）', 'Speech recognition on (words are scored)')]
-      : ['warn', t('このブラウザは音声認識なし：アクセントとリズムだけ採点', 'No speech recognition here: only pitch and rhythm are scored')]
+    words.status().state === 'ready'
+      ? ['ok', t('言葉は端末内で採点します', 'Words are checked on this device')]
+      : recognitionAvailable()
+        ? ['warn', t('言葉の採点はブラウザ次第（Androidでは働かないことがあります）', 'Word scoring depends on the browser (often not on Android)')]
+        : ['warn', t('このブラウザは音声認識なし：言葉の採点には下の「端末内チェック」を', 'No speech recognition here: use the on-device check below for words')]
   );
   items.push(['ok', t('静かな場所で、普通の声で話してください', 'Find a quiet spot and speak at a normal volume')]);
   $('checks').innerHTML = items.map(([cls, text]) => `<li class="${cls}">${escapeHtml(text)}</li>`).join('');
@@ -189,7 +192,8 @@ async function startRecording() {
   setStatus(t('どうぞ！話し終わったら自動で止まります', 'Go! It stops by itself when you finish'));
 
   const points = [];
-  const listener = listen(mic.track);
+  // With the on-device word check ready, the browser's recogniser isn't needed.
+  const listener = words.status().state === 'ready' ? { stop: async () => null } : listen(mic.track);
   const take = record(mic, {
     maxSeconds: Math.max(5, refDuration() * 3),
     onBlock: ({ level, speaking, sinceSpeech, st }) => {
@@ -217,10 +221,15 @@ async function finishRecording(pcm, listener) {
 
   const heard = await listener.stop();
   const analysis = analyze(pcm, mic.sampleRate);
+  let checked = null;
+  if (analysis.span && words.status().state === 'ready') {
+    setStatus(t('言葉をチェック中…', 'Checking your words…'));
+    checked = await words.check(pcm, mic.sampleRate, current.phrase, analysis.span).catch((err) => (console.warn('[words]', err), null));
+  }
   const speed = speedById(model.getSpeed());
   const c = model.clip(current.phrase.id);
   const reference = c?.contour ? { contour: c.contour, morae: c.morae } : null;
-  const scored = scoreAttempt({ analysis, mora: current.mora, phrase: current.phrase, heard, refDuration: current.refDuration, fit: speed.fit, reference });
+  const scored = scoreAttempt({ analysis, mora: current.mora, phrase: current.phrase, heard, refDuration: current.refDuration, fit: speed.fit, reference, words: checked && { ...checked, method: 'device' } });
   const result = { ...scored, speed: speed.id, speedPoints: speed.points };
   btn.disabled = false;
 
@@ -335,6 +344,7 @@ function renderDetails(result, analysis) {
     result.rhythm.ratio ? t(`比 ×${f(result.rhythm.ratio)}`, `ratio ×${f(result.rhythm.ratio)}`) : null,
     t(`間 ${analysis.pauses.length}`, `pauses ${analysis.pauses.length}`),
     analysis.medianF0 ? t(`声の高さ ${Math.round(analysis.medianF0)}Hz`, `pitch ${Math.round(analysis.medianF0)} Hz`) : null,
+    result.words?.method === 'device' ? t(`言葉：端末内チェック（${result.words.closeness.toFixed(2)}）`, `words: on-device (${result.words.closeness.toFixed(2)})`) : null,
     mic.track?.label ? t(`マイク：${mic.track.label}`, `mic: ${mic.track.label}`) : null,
   ];
   $('details').textContent = parts.filter(Boolean).join(' · ');
@@ -410,6 +420,7 @@ initShell({
     renderHome();
     renderVoicePicker();
     renderSpeed();
+    renderWords();
     if (screen === 'play' && current) renderPhrase();
   },
 });
@@ -457,7 +468,40 @@ $('voice-picker').addEventListener('click', (e) => {
   renderVoicePicker();
 });
 
+// ---------------------------------------------------------------- on-device words
+
+function renderWords() {
+  const { state, progress } = words.status();
+  const btn = $('btn-words');
+  const fill = $('words-fill');
+  $('words-card').dataset.state = state;
+  fill.style.width = `${Math.round((state === 'ready' ? 1 : progress) * 100)}%`;
+  $('words-track').hidden = state === 'off';
+  btn.disabled = state === 'loading';
+  btn.textContent = {
+    off: t('ダウンロード（約50MB）', 'Download (about 50 MB)'),
+    loading: t(`読み込み中… ${Math.round(progress * 100)}%`, `Loading… ${Math.round(progress * 100)}%`),
+    ready: t('オフにする', 'Turn off'),
+    error: t('もう一度', 'Try again'),
+  }[state];
+  $('words-status').textContent = {
+    off: '',
+    loading: t('一度だけのダウンロードです。', 'A one-time download.'),
+    ready: t('使えます。言葉はこの端末の中で採点されます。', 'Ready. Words are checked on this device.'),
+    error: t('読み込めませんでした。通信を確認して、もう一度。', "Couldn't load it. Check your connection and try again."),
+  }[state];
+  renderChecks();
+}
+$('btn-words').addEventListener('click', () => {
+  const { state } = words.status();
+  if (state === 'ready') words.disable();
+  else words.enable().catch((err) => console.warn('[words]', err));
+});
+words.onChange(renderWords);
+if (words.wanted()) words.enable().catch((err) => console.warn('[words]', err));
+
 renderHome();
 renderChecks();
 renderVoicePicker();
 renderSpeed();
+renderWords();

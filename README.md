@@ -45,6 +45,12 @@ node --test tests/*.test.mjs    # engine tests (Node 22)
 
 ## Licences
 
+The optional on-device word check downloads [Whisper](https://github.com/openai/whisper)
+tiny (MIT; ONNX conversion by onnx-community on Hugging Face) and runs it with
+[transformers.js](https://github.com/huggingface/transformers.js) (Apache 2.0), both
+fetched from Hugging Face and jsDelivr the first time. Recordings are processed on
+the device and never uploaded.
+
 The model voices are recordings made with VOICEVOX (VOICEVOX:剣崎雌雄, VOICEVOX:春日部つむぎ).
 They live in `site/audio/`, are **not** covered by the MIT licence, and may not be
 redistributed; see `site/audio/README.md`. Regenerate them with
