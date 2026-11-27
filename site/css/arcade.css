@@ -825,3 +825,90 @@
   48% { transform: translate(-4px, 2px); }
   50%, 100% { transform: none; }
 }
+
+/* "Is it hearing me?" indicator (Flash Speak) */
+.ear {
+  --lvl: 0;
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-sm);
+  color: var(--text-muted);
+}
+.ear:has(span:empty) { visibility: hidden; }
+.ear-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--border-color);
+}
+.ear[data-state='listening'] .ear-dot,
+.ear[data-state='starting'] .ear-dot { background: var(--blue); animation: bump 1.2s ease infinite; }
+.ear[data-state='recording'] .ear-dot { background: var(--purple); transform: scale(calc(1 + var(--lvl))); }
+.ear[data-state='hearing'] { color: var(--teal-deep); }
+.ear[data-state='hearing'] .ear-dot { background: var(--teal); transform: scale(calc(1.2 + var(--lvl))); }
+.ear[data-state='error'] { color: var(--pink-deep); }
+.ear[data-state='error'] .ear-dot { background: var(--pink); }
+.ear[data-state='off'] .ear-dot { background: var(--orange); }
+.mg-hint {
+  font-size: 1rem;
+  color: var(--text-muted);
+  animation: rise-in 0.3s ease;
+}
+.mg-hint b {
+  color: var(--purple);
+  font-size: 1.3rem;
+}
+[data-theme='dark'] .mg-hint b { color: #c4a2ff; }
+
+/* Groove: countdown and turn cues */
+.cue-count {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 22%;
+  text-align: center;
+  font-size: 3.4rem;
+  font-weight: 900;
+  color: var(--purple);
+  pointer-events: none;
+  opacity: 0;
+}
+[data-theme='dark'] .cue-count { color: #c4a2ff; }
+.cue-count.go {
+  animation: cue-pop 0.55s ease forwards;
+}
+.cue-count.now {
+  color: var(--pink);
+  font-size: 4rem;
+}
+@keyframes cue-pop {
+  0% { transform: scale(0.5); opacity: 0; }
+  25% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.15; }
+}
+.you.demo .blob { --blob: var(--blue); }
+.you .bubble.show.demo {
+  border: 2px solid var(--blue);
+}
+.you .blob { box-shadow: inset 0 -8px 0 rgba(0, 0, 0, 0.12), 0 0 0 calc(var(--lvl, 0) * 10px) color-mix(in srgb, var(--teal) 35%, transparent); }
+.how {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-left: 1.4em;
+  font-weight: 600;
+}
+#groove-tip .ico {
+  width: 18px;
+  height: 18px;
+  vertical-align: -3px;
+  margin-right: 4px;
+}

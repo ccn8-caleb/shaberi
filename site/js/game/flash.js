@@ -8,11 +8,14 @@ import { rng } from './run.js';
 
 export const LIVES = 4;
 export const SPEEDUP_EVERY = 5;
-export const START_SECONDS = 5;
-export const MIN_SECONDS = 3;
+// Generous for learners: 7 s to start, never under 4 s.
+export const START_SECONDS = 7;
+export const MIN_SECONDS = 4;
+// A hint (the answer) appears once this share of the time has gone.
+export const HINT_AT = 0.55;
 
 // Seconds allowed for the next microgame after `cleared` clears.
-export const timeLimit = (cleared) => Math.max(MIN_SECONDS, START_SECONDS * 0.88 ** Math.floor(cleared / SPEEDUP_EVERY));
+export const timeLimit = (cleared) => Math.max(MIN_SECONDS, START_SECONDS * 0.9 ** Math.floor(cleared / SPEEDUP_EVERY));
 export const level = (cleared) => 1 + Math.floor(cleared / SPEEDUP_EVERY);
 
 // Does what the recogniser heard contain one of the answers?

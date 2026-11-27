@@ -2,7 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import { OnsetDetector } from '../site/js/engine/onset.js';
-import { timeline, Judge, isEcho, grade, SPB, SONG, JUDGE } from '../site/js/game/groove.js';
+import { timeline, Judge, isEcho, grade, SPB, SONG, JUDGE, MAX_LATENCY } from '../site/js/game/groove.js';
+import { GROOVE_AUDIO } from '../site/js/data/groove-audio.js';
 import { deck, matches, timeLimit, payout, level, MIN_SECONDS } from '../site/js/game/flash.js';
 import { REPLIES, COUNTS, ACCENT_PAIRS } from '../site/js/data/micro.js';
 import { phraseMora } from '../site/js/engine/mora.js';
@@ -38,29 +39,46 @@ test('onsets: silence gives none', () => {
 
 // ------------------------------------------------------------------ groove
 
-test('groove timeline: count-in, then each bar on the beat grid', () => {
+test('groove timeline: count-in, then each line twice (demo, then your turn)', () => {
   const { cues, targets, end } = timeline();
   assert.equal(cues.filter((c) => c.kind === 'count').length, 4);
-  assert.equal(targets.length, SONG.reduce((n, b) => n + [...b.beats].filter((c) => c === 'y').length, 0));
-  assert.ok(Math.abs(targets[0].t - 7 * SPB) < 1e-9); // count-in 4 + beat 4 of bar 1
+  assert.equal(targets.length, SONG.length); // one answer of yours per line
+  assert.equal(cues.filter((c) => c.kind === 'demo').length, SONG.length);
+  // Your answer is on beat 4 of the bar after the demo.
+  assert.ok(Math.abs(targets[0].t - (4 + 4 + 3) * SPB) < 1e-9);
   assert.ok(end > targets[targets.length - 1].t);
-  // every friend beat has a text chunk
-  for (const c of cues.filter((c) => c.kind === 'friend')) assert.ok(c.text, JSON.stringify(c));
-  // your beats are never right after a friend sound (echo gate would eat them)
-  const sounds = cues.filter((c) => c.kind === 'friend').map((c) => c.t);
-  for (const t of targets) assert.ok(!isEcho(t.t, sounds, 0.2), `target at ${t.t} gated`);
+  // A 3-2-1 countdown before each of your answers.
+  for (const tg of targets) {
+    const cd = cues.filter((c) => c.kind === 'countdown' && c.bar === tg.bar).map((c) => c.text);
+    assert.deepEqual(cd, ['3', '2', '1']);
+  }
+});
+
+test('groove voices fit: every line has died away before your answer window opens', () => {
+  const { cues, targets } = timeline();
+  for (const tg of targets) {
+    const line = cues.find((c) => c.kind === 'line' && c.bar === tg.bar);
+    const clip = GROOVE_AUDIO.lines[line.text];
+    assert.ok(clip, `no recording for "${line.text}": run node tools/voice/build-groove.mjs`);
+    const sound = { start: line.t, end: line.t - clip.onset + clip.end };
+    // Even with the worst device delay, an answer at the start of the window isn't taken for an echo.
+    assert.ok(!isEcho(tg.t - JUDGE.ok + MAX_LATENCY, [sound], MAX_LATENCY), `"${line.text}" runs too long (${clip.end}s)`);
+    assert.ok(clip.speed <= 1.1, `"${line.text}" had to be sped up ×${clip.speed}`);
+  }
+  for (const s of SONG) assert.ok(GROOVE_AUDIO.answers[s.you], `no recording for "${s.you}"`);
 });
 
 test('groove judge: grades by timing, first onset wins, misses expire', () => {
   const { targets } = timeline();
   const j = new Judge(targets);
   const [a, b, c] = targets;
-  assert.equal(j.onset(a.t + 0.03).result, 'perfect');
-  assert.equal(j.onset(a.t + 0.05), null); // a is taken and b is far away
-  assert.equal(j.onset(b.t - 0.1).result, 'good');
+  assert.equal(j.onset(a.t + 0.05).result, 'perfect');
+  assert.equal(j.onset(a.t + 0.08), null); // a is taken and b is far away
+  assert.equal(j.onset(b.t - 0.15).result, 'good');
   assert.equal(j.expire(c.t + JUDGE.ok + 0.01)[0], j.targets[2]);
   assert.equal(j.targets[2].result, 'miss');
-  assert.deepEqual([0.05, -0.12, 0.2, 0.3].map(grade), ['perfect', 'good', 'ok', null]);
+  // Generous windows for learners: a third of a second either way still counts.
+  assert.deepEqual([0.08, -0.18, 0.3, 0.4].map(grade), ['perfect', 'good', 'ok', null]);
 });
 
 test('groove calibration: practice delay is learned and corrects later beats', () => {
@@ -124,7 +142,7 @@ test('flash deck: deterministic, never repeats back to back, respects kinds', ()
 });
 
 test('flash speed and payout', () => {
-  assert.equal(timeLimit(0), 5);
+  assert.equal(timeLimit(0), 7);
   assert.ok(timeLimit(5) < timeLimit(4));
   assert.equal(timeLimit(500), MIN_SECONDS);
   assert.equal(level(0), 1);

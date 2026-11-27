@@ -4,6 +4,27 @@ Versions follow [semver](https://semver.org/). The version lives in
 `site/js/core/version.js`; every release needs an entry here (CI checks it). Each
 deploy also carries a build id (commit hash), shown next to the version in the app.
 
+## [0.1.7] — 2026-11-27 — Friendlier arcade
+
+### Changed
+- **相づちグルーヴ, rebuilt for learners:**
+  - Real voices: 春日部つむぎ tells the story, 剣崎雌雄 demonstrates each aizuchi.
+  - Every line comes twice: first the model answers (お手本), then it's your turn,
+    with a 「3・2・1・いま！」 countdown on screen.
+  - Slower (84 BPM) with much wider timing windows: ±0.1 s for ぴったり, ±0.2 s
+    for いいね, up to ±0.35 s.
+  - Shorter story lines spoken at natural speed, a step-by-step how-to on the
+    start screen, and a note that Bluetooth earbuds may go silent (the mic stays
+    on for the whole song).
+- **瞬間しゃべり, easier to start:** 7 seconds per round at first (never under 4),
+  and a hint with the answer appears partway through each round.
+
+### Fixed
+- **瞬間しゃべり didn't hear you on Android.** Speech recognition there needs the
+  microphone to itself, and the game was holding it. The mic now opens only for
+  accent rounds. A new indicator shows 「聞いています…」, then 「声が聞こえています！」
+  as soon as a voice is detected, or an error if recognition can't start.
+
 ## [0.1.6] — 2026-11-27 — Earbuds and friendlier pitch
 
 ### Fixed

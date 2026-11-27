@@ -8,7 +8,7 @@ import { icon } from '../core/icons.js';
 import { phraseMora } from '../engine/mora.js';
 import { analyze } from '../engine/pitch.js';
 import { pitchScore } from '../engine/score.js';
-import { deck, matches, timeLimit, level, payout, LIVES, SPEEDUP_EVERY } from '../game/flash.js';
+import { deck, matches, timeLimit, level, payout, LIVES, SPEEDUP_EVERY, HINT_AT } from '../game/flash.js';
 import { stream } from '../audio/recognizer.js';
 import { record } from '../audio/take.js';
 import * as sfx from '../audio/sfx.js';
@@ -34,11 +34,34 @@ export function runFlash({ mic }) {
   let active = null; // the microgame waiting for an answer: { answers, settle }
   let fuseRaf = 0;
 
-  const recog = stream((text) => {
-    if (aborted) return;
-    heard.textContent = `「${text}」`;
-    if (active?.answers && matches(text, active.answers)) active.settle('win');
-  }, mic.track);
+  // "Is it hearing me?": what the recogniser (or, in accent rounds, the mic) is doing.
+  const ear = $('flash-ear');
+  const setEar = (state, detail = '') => {
+    const words = {
+      listening: t('聞いています…', 'Listening…'),
+      hearing: t('声が聞こえています！', 'Hearing you!'),
+      recording: t('録音中…', 'Recording…'),
+      starting: t('マイク準備中…', 'Starting the mic…'),
+      paused: '',
+      off: t('音声認識が使えないので、アクセント問題だけです', 'No speech recognition here: accent rounds only'),
+      error: t(`音声認識のエラー（${detail}）`, `Speech recognition error (${detail})`),
+    };
+    ear.dataset.state = state;
+    ear.querySelector('span:last-child').textContent = words[state] ?? '';
+  };
+
+  // The recogniser needs the microphone to itself on Android, so ours stays closed
+  // except during accent rounds (see audio/recognizer.js).
+  mic.release();
+  const recog = stream(
+    (text) => {
+      if (aborted) return;
+      heard.textContent = `「${text}」`;
+      if (active?.answers && matches(text, active.answers)) active.settle('win');
+    },
+    { onState: (s, d) => !aborted && setEar(s, d) }
+  );
+  setEar(recog ? 'listening' : 'off');
   const seed = (Math.random() * 2 ** 32) >>> 0;
   const full = deck(seed);
   const accentOnly = deck(seed + 1, ['accent']);
@@ -102,30 +125,63 @@ export function runFlash({ mic }) {
         if (done) return;
         done = true;
         clearTimeout(timer);
+        clearTimeout(hintTimer);
         active = null;
         resolve(v);
       };
       let timer = null;
+      // A hint for learners once part of the time has gone.
+      const hintTimer = setTimeout(() => {
+        if (!done && !aborted) stage.insertAdjacentHTML('beforeend', `<p class="mg-hint">${escapeHtml(t('ヒント', 'Hint'))}：<b lang="ja">${escapeHtml(answerHint(g))}</b></p>`);
+      }, seconds * HINT_AT * 1000);
       if (g.kind === 'accent') {
-        const mora = phraseMora([[g.kana, g.accent]]);
-        const graph = drawGraph($('flash-graph'), mora);
-        const points = [];
-        const take = record(mic, {
-          maxSeconds: seconds,
-          silenceMs: 450,
-          onBlock: ({ speaking, sinceSpeech, st }) => {
-            if (sinceSpeech === null) return;
-            if (speaking) points.push({ x: sinceSpeech / (mora.length / 6), st });
-            graph.setVoice(points);
-          },
-        });
-        // Aborting stops the take, which settles the microgame.
-        active = { settle: () => take.stop() };
-        take.done.then(({ pcm, heardSpeech }) => {
+        const started = performance.now();
+        active = { settle: () => settle('lose') };
+        (async () => {
+          // Our own recording: the recogniser steps aside, the mic opens.
+          recog?.pause();
+          setEar('starting');
+          try {
+            await mic.open();
+            await mic.waitForAudio(800);
+          } catch (err) {
+            console.warn('[mic]', err);
+            mic.release();
+            recog?.resume();
+            return settle('void');
+          }
+          if (done) {
+            mic.release();
+            recog?.resume();
+            return;
+          }
+          setEar('recording');
+          const mora = phraseMora([[g.kana, g.accent]]);
+          const graph = drawGraph($('flash-graph'), mora);
+          const points = [];
+          const left = Math.max(1.5, seconds - (performance.now() - started) / 1000);
+          const take = record(mic, {
+            maxSeconds: left,
+            silenceMs: 450,
+            onBlock: ({ level, speaking, sinceSpeech, st }) => {
+              ear.style.setProperty('--lvl', Math.min(1, level * 8).toFixed(2));
+              if (speaking) ear.dataset.state = 'hearing';
+              if (sinceSpeech === null) return;
+              if (speaking) points.push({ x: sinceSpeech / (mora.length / 6), st });
+              graph.setVoice(points);
+            },
+          });
+          // Aborting stops the take, which settles the microgame.
+          active = { settle: () => take.stop() };
+          const { pcm, heardSpeech } = await take.done;
+          mic.release();
+          ear.style.removeProperty('--lvl');
+          recog?.resume();
+          if (!recog) setEar('off');
           if (!heardSpeech) return settle('lose');
           const p = pitchScore(analyze(pcm, mic.sampleRate), mora);
           settle(p.score !== null && p.score >= ACCENT_PASS ? 'win' : 'lose');
-        });
+        })();
       } else {
         active = { answers: g.answers, settle };
         timer = setTimeout(() => settle(recog?.working ? 'lose' : 'void'), seconds * 1000);
@@ -188,6 +244,7 @@ export function runFlash({ mic }) {
       recog?.stop();
       active?.settle?.('lose');
       if (mic.recording) mic.stop();
+      mic.release();
     },
   };
 }

@@ -76,20 +76,36 @@ export function listen(track = null) {
 // Continuous listening for microgames: onText(text, isFinal) fires for every interim
 // and final guess, so an answer can be accepted the moment it's heard. Restarts
 // itself when the browser ends the session (Chrome does after a silence).
-// Returns { stop(), working }, or null when recognition isn't available.
-export function stream(onText, track = null) {
+//
+// onState(state, detail) reports what the recogniser is doing, for on-screen feedback:
+//   'listening' (mic open, waiting) · 'hearing' (sound or speech detected) ·
+//   'paused' · 'error' (detail = the browser's error code)
+//
+// On Android the recogniser is a separate system service that needs the microphone to
+// itself: don't hold the mic (Mic.release()) while it should be listening, and pause()
+// it while you record with the mic yourself.
+//
+// Returns { stop(), pause(), resume(), working }, or null when recognition isn't available.
+export function stream(onText, { onState = () => {} } = {}) {
   if (!SR) return null;
   let active = true;
+  let paused = false;
   let rec = null;
   let failures = 0;
   const run = () => {
+    if (!active || paused) return;
     rec = new SR();
     rec.lang = 'ja-JP';
     rec.continuous = true;
     rec.interimResults = true;
     rec.maxAlternatives = 3;
+    rec.onaudiostart = () => onState('listening');
+    rec.onsoundstart = () => onState('hearing');
+    rec.onspeechstart = () => onState('hearing');
+    rec.onsoundend = () => onState('listening');
     rec.onresult = (e) => {
       failures = 0;
+      onState('hearing');
       for (let i = e.resultIndex; i < e.results.length; i++) {
         const r = e.results[i];
         for (const alt of r) onText(alt.transcript, r.isFinal);
@@ -97,27 +113,41 @@ export function stream(onText, track = null) {
     };
     rec.onerror = (e) => {
       if (UNAVAILABLE.has(e.error)) failures += 3;
+      if (e.error !== 'no-speech' && e.error !== 'aborted') onState('error', e.error);
     };
     rec.onend = () => {
-      if (active && failures < 6) setTimeout(run, 50);
+      if (active && !paused && failures < 6) setTimeout(run, 50);
     };
     try {
-      begin(rec, track);
+      rec.start();
     } catch (_) {
       failures++;
     }
   };
   run();
+  const halt = () => {
+    try {
+      rec?.abort();
+    } catch (_) {}
+  };
   return {
     // False once the browser keeps refusing (offline, blocked, unsupported).
     get working() {
       return active && failures < 6;
     },
+    pause() {
+      paused = true;
+      halt();
+      onState('paused');
+    },
+    resume() {
+      if (!paused) return;
+      paused = false;
+      run();
+    },
     stop() {
       active = false;
-      try {
-        rec?.abort();
-      } catch (_) {}
+      halt();
     },
   };
 }

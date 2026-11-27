@@ -9,7 +9,7 @@ import { Mic } from '../audio/mic.js';
 import { recognitionAvailable } from '../audio/recognizer.js';
 import * as sfx from '../audio/sfx.js';
 import { runFlash } from '../games/flash-ui.js';
-import { runGroove } from '../games/groove-ui.js';
+import { runGroove, loadGroove } from '../games/groove-ui.js';
 import { runSanpo } from '../games/sanpo-ui.js';
 import { confetti } from './fx.js';
 import { initShell, renderHud } from './shell.js';
@@ -113,7 +113,9 @@ async function startGame(id) {
     // The groove waits on its own Start button (a moment to put headphones on).
     show('groove');
     $('groove-intro').hidden = false;
-    $('groove-tip').innerHTML = `${icon('headphones', 'ico')} ${escapeHtml(t('ヘッドホン推奨', 'Headphones recommended'))}`;
+    // The mic stays open for the whole song, which puts Bluetooth earbuds into call mode
+    // on Android (no sound): say so up front.
+    $('groove-tip').innerHTML = `${icon('headphones', 'ico')} ${escapeHtml(t('スピーカーか有線イヤホンで。Bluetoothイヤホンだと音が出ないことがあります。', 'Use the speaker or wired earphones: Bluetooth earbuds may go silent during the song.'))}`;
     return;
   }
   if (!(await openMic())) return;
@@ -125,8 +127,23 @@ async function startGame(id) {
 
 $('groove-start').addEventListener('click', async () => {
   if (!(await openMic())) return;
+  const btn = $('groove-start');
+  btn.disabled = true;
+  btn.textContent = t('準備中…', 'Loading…');
+  let buffers;
+  try {
+    buffers = await loadGroove(mic.ctx);
+  } catch (err) {
+    console.warn('[groove]', err);
+    btn.disabled = false;
+    btn.textContent = t('スタート', 'Start');
+    $('groove-tip').textContent = t('音声を読み込めませんでした。通信を確認してください。', "Couldn't load the voices. Check your connection.");
+    return;
+  }
+  btn.disabled = false;
+  btn.textContent = t('スタート', 'Start');
   $('groove-intro').hidden = true;
-  game = { id: 'groove', run: runGroove({ mic }) };
+  game = { id: 'groove', run: runGroove({ mic, buffers }) };
   const result = await game.run.done;
   if (game?.id === 'groove' && screen === 'groove') gameOver('groove', result);
 });

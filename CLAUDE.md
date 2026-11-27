@@ -34,7 +34,13 @@ shared pieces, check whether the same change belongs there too. Shaberi is the
   phrase edit; `tests/audio.test.mjs` fails until you do. Pitch is shaped from our
   accent data (`shapePitch`) because VOICEVOX's own prediction peaks a mora late,
   especially for つむぎ. The audio is not MIT (see `site/audio/README.md`).
-- - Microphone: practice opens it per recording and releases it after (`mic.release()`);
+- - Speech recognition on Android is a separate system service that needs the mic to
+  itself: while we hold the mic, it hears nothing. Flash Speak releases the mic for
+  reply/count rounds (recognizer.stream has pause/resume). Practice can't recognise
+  words on Android while it records for pitch.
+- Groove voices: `node tools/voice/build-groove.mjs` (lines must die away before the
+  answer window, see LINE_MAX; tests/games.test.mjs checks the recordings fit).
+- Microphone: practice opens it per recording and releases it after (`mic.release()`);
   holding it switches Android Bluetooth earbuds into call mode and the model voice
   stops reaching them. Keep it that way.
 - Pitch scoring with a model reference (`pitchAgainstModel` in engine/score.js) uses

@@ -60,6 +60,7 @@
       </div>
       <div class="stage" id="flash-stage"></div>
       <div class="fuse" id="flash-fuse"><span class="fuse-fill" id="flash-fuse-fill"></span></div>
+      <div class="ear" id="flash-ear" data-state="listening" aria-live="polite"><i class="ear-dot"></i><span></span></div>
       <p class="heard-live" id="flash-heard" lang="ja"></p>
     </section>
 
@@ -208,11 +209,17 @@
           <div class="blob"><i class="eye"></i><i class="eye"></i><i class="mouth"></i></div>
           <span class="name" data-ja="あなた" data-en="You">あなた</span>
         </div>
+        <div class="cue-count" id="groove-cue" aria-live="polite"></div>
         <div class="judge-pop" id="groove-judge"></div>
         <div class="banner" id="groove-banner" hidden></div>
       </div>
       <div class="groove-intro" id="groove-intro">
-        <p data-ja="ともだちの話を聞いて、ピンクのふきだしが光ったら相づち！最初の3小節はれんしゅうです（タイミングを合わせます）。" data-en="Listen to your friend and answer when your bubble lights up. The first 3 bars are practice (they tune the timing to your device).">ともだちの話を聞いて、ピンクのふきだしが光ったら相づち！最初の3小節はれんしゅうです（タイミングを合わせます）。</p>
+        <ol class="how" data-how>
+          <li data-ja="ともだちが話します。" data-en="Your friend says a line.">ともだちが話します。</li>
+          <li data-ja="1回目は、お手本の声が相づちを打ちます。よく聞いて。" data-en="The first time, the model voice answers. Listen.">1回目は、お手本の声が相づちを打ちます。よく聞いて。</li>
+          <li data-ja="2回目はあなたの番。「3・2・1」のあと、「いま！」で同じ相づちを言おう。" data-en="The second time it's your turn: after 3 · 2 · 1, say the same answer on “Now!”.">2回目はあなたの番。「3・2・1」のあと、「いま！」で同じ相づちを言おう。</li>
+          <li data-ja="最初の「はい！」2回はれんしゅう（タイミング調整）です。" data-en="The first two “はい！” are practice: they tune the timing to your device.">最初の「はい！」2回はれんしゅう（タイミング調整）です。</li>
+        </ol>
         <p class="fine" id="groove-tip"></p>
         <button type="button" class="big-btn btn-go" id="groove-start" data-ja="スタート" data-en="Start">スタート</button>
       </div>
