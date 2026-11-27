@@ -14,16 +14,16 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { VOICES, SAMPLE_RATE, speak, engineVersion, encodeWav, nominalSeconds } from './voicevox.mjs';
+import { VOICES, SAMPLE_RATE, speakTimed, engineVersion, encodeWav, nominalSeconds } from './voicevox.mjs';
 import { PHRASES } from '../../site/js/data/phrases.js';
-import { analyze } from '../../site/js/engine/pitch.js';
+import { analyze, semitones } from '../../site/js/engine/pitch.js';
 import { phraseMora } from '../../site/js/engine/mora.js';
 import { SPEEDS } from '../../site/js/game/speed.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const AUDIO_DIR = path.join(ROOT, 'site/audio');
 const MANIFEST = path.join(ROOT, 'site/js/data/audio.js');
-const SETTINGS = { pre: 0.08, post: 0.18, loudness: -18, bitrate: '48k', pitch: 'accent-shaped v1', tune: 'engine-timed v2', measure: 'final mp3 v1' };
+const SETTINGS = { pre: 0.08, post: 0.18, loudness: -18, bitrate: '48k', pitch: 'accent-shaped v1', tune: 'engine-timed v2', measure: 'final mp3 v1', reference: 'contour 20ms v1' };
 const all = process.argv.includes('--all');
 
 const previous = fs.existsSync(MANIFEST) ? (await import(MANIFEST + '?t=' + Date.now())).AUDIO : { clips: {} };
@@ -32,7 +32,7 @@ const clips = {};
 let made = 0;
 let kept = 0;
 
-const render = (voice, p, speed) => speak(voice, p.text, { units: p.units, speed, pre: SETTINGS.pre, post: SETTINGS.post });
+const render = (voice, p, speed) => speakTimed(voice, p.text, { units: p.units, speed, pre: SETTINGS.pre, post: SETTINGS.post });
 const rateOf = (pcm, moraCount) => {
   const { span } = analyze(pcm, SAMPLE_RATE);
   if (!span) throw new Error('no speech found in the render');
@@ -62,7 +62,8 @@ for (const [voice, v] of Object.entries(VOICES)) {
       // Speed for exactly the target mora rate, from the engine's own timing.
       nominal ??= await nominalSeconds(voice, p.text, p.units);
       const speed = nominal / (moraCount / sp.rate);
-      const pcm = await render(voice, p, speed);
+      const { pcm, moraStarts, end } = await render(voice, p, speed);
+      if (moraStarts.length !== moraCount) throw new Error(`${voice}/${p.id}: ${moraStarts.length} morae from the engine, ${moraCount} in our data`);
       let got = rateOf(pcm, moraCount);
       const tmp = path.join(AUDIO_DIR, `.${voice}-${sp.id}-${p.id}.wav`);
       fs.writeFileSync(tmp, encodeWav(pcm));
@@ -75,12 +76,19 @@ for (const [voice, v] of Object.entries(VOICES)) {
       const played = new Float32Array(final.length / 2);
       for (let i = 0; i < played.length; i++) played[i] = final.readInt16LE(i * 2) / 32768;
       got = rateOf(played, moraCount);
+      // The model's pitch curve within its speech (semitones from its own median, every
+      // 20 ms, null when unvoiced): what your attempt is compared against.
+      const a = analyze(played, SAMPLE_RATE);
+      const ref = a.frames.filter((f, i) => i % 2 === 0 && f.t >= got.span.start && f.t <= got.span.end);
+      const contour = ref.map((f) => (f.f0 ? +semitones(f.f0, a.medianF0).toFixed(1) : null));
       clips[voice][sp.id][p.id] = {
         src: rel,
         start: +got.span.start.toFixed(3), // seconds of lead-in before the voice
         speech: +(got.span.end - got.span.start).toFixed(3), // how long the phrase takes: the rhythm target
         speed: +speed.toFixed(3), // VOICEVOX speedScale for the target rate
         rate: +(moraCount / (nominal / speed)).toFixed(2), // the engine's own pace (mora/s)
+        morae: moraStarts.map((t) => +(t - got.span.start).toFixed(3)), // when each mora starts, from the speech start
+        contour,
         hash,
         made: madeFrom,
       };

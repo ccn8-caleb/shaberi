@@ -191,3 +191,73 @@ test('span: a real pause in the middle of a phrase is kept, and flagged', () => 
   assert.ok(Math.abs(a.span.end - a.span.start - expected) < 0.08, `span ${(a.span.end - a.span.start).toFixed(2)} vs ${expected.toFixed(2)}`);
   assert.equal(a.pauses.length, 1);
 });
+
+// A model reference built the way tools/voice/build-phrases.mjs builds one.
+function referenceFor(mora, { rate = 7, base = 140, step = 3 } = {}) {
+  const pcm = sayPattern(mora, { rate, base, step });
+  const a = analyze(pcm, 48000);
+  const contour = a.frames
+    .filter((f, i) => i % 2 === 0 && f.t >= a.span.start && f.t <= a.span.end)
+    .map((f) => (f.f0 ? +(12 * Math.log2(f.f0 / a.medianF0)).toFixed(1) : null));
+  const morae = mora.map((_, k) => +(0.3 + k / rate - a.span.start).toFixed(3));
+  return { contour, morae };
+}
+// A learner: uneven syllable lengths, small pitch moves.
+function learner(mora, { durs, base = 150, step = 1, flip = false }) {
+  const segs = [{ silence: 0.4 }];
+  mora.forEach((m, k) => segs.push({ f0: (flip ? !m.high : m.high) ? base * 2 ** (step / 12) : base, dur: durs[k % durs.length] }));
+  return analyze(synth([...segs, { silence: 0.4 }]), 48000);
+}
+
+test('pitch vs the model: uneven timing and small moves still score well', () => {
+  const p = PHRASES.find((x) => x.id === 'arigatou');
+  const mora = phraseMora(p.units);
+  const reference = referenceFor(mora);
+  const durs = [0.22, 0.09, 0.16, 0.11, 0.2, 0.08, 0.13, 0.17, 0.1, 0.14];
+  const good = pitchScore(learner(mora, { durs }), mora, reference);
+  assert.equal(good.method, 'model');
+  assert.ok(good.score >= 0.8, `uneven, 1 st moves: ${good.score?.toFixed(2)} (moves ${good.moves?.toFixed(2)}, shape ${good.shape?.toFixed(2)})`);
+  // The old equal-syllable method misjudges the same attempt.
+  const old = pitchScore(learner(mora, { durs }), mora);
+  assert.ok(good.score > old.score + 0.15, `model ${good.score.toFixed(2)} vs equal-syllable ${old.score.toFixed(2)}`);
+  const flipped = pitchScore(learner(mora, { durs, flip: true }), mora, reference);
+  assert.ok(flipped.score <= 0.25, `upside down: ${flipped.score.toFixed(2)}`);
+  const flat = pitchScore(learner(mora, { durs, step: 0 }), mora, reference);
+  assert.ok(flat.score <= 0.35 && flat.flat, `monotone: ${flat.score.toFixed(2)}`);
+});
+
+test('pitch vs the model: a much higher voice with bigger moves scores well', () => {
+  for (const id of ['arigatou', 'sumimasen', 'eki', 'yoroshiku']) {
+    const p = PHRASES.find((x) => x.id === id);
+    const mora = phraseMora(p.units);
+    const r = pitchScore(learner(mora, { durs: [0.13, 0.16, 0.12], base: 240, step: 4 }), mora, referenceFor(mora));
+    assert.ok(r.score >= 0.8, `${id}: ${r.score?.toFixed(2)}`);
+    assert.ok(r.aligned.length > 10 && r.aligned.every((pt) => pt.x >= 0 && pt.x <= 1));
+  }
+});
+
+test('rhythm alone cannot earn a top grade', () => {
+  const p = PHRASES.find((x) => x.id === 'sumimasen');
+  const mora = phraseMora(p.units);
+  const a = analyze(sayPattern(mora), 48000);
+  a.medianF0 = null; // pitch not measurable (e.g. a poor microphone)
+  const r = scoreAttempt({ analysis: a, mora, phrase: p, heard: null });
+  assert.equal(r.limited, true);
+  assert.ok(r.total <= 60 && r.grade !== 'S', `${r.total} ${r.grade}`);
+});
+
+test("pitch vs the model: alignment can't bend a correct reading into the opposite accent", () => {
+  // Wide time-warping would "find" rises and falls anywhere. A correct reading scored
+  // against a mirrored model (every rise a fall) must score low.
+  for (const id of ['arigatou', 'sumimasen', 'yoroshiku', 'coffee']) {
+    const p = PHRASES.find((x) => x.id === id);
+    const mora = phraseMora(p.units);
+    const ref = referenceFor(mora);
+    const mirrored = { contour: ref.contour.map((v) => (v === null ? null : -v)), morae: ref.morae };
+    const flip = mora.map((m) => ({ ...m, high: !m.high }));
+    const a = learner(mora, { durs: [0.15, 0.12, 0.18, 0.11], step: 2 });
+    assert.ok(pitchScore(a, mora, ref).score >= 0.8, `${id} right`);
+    const r = pitchScore(a, flip, mirrored).score;
+    assert.ok(r <= 0.3, `${id} mirrored: ${r.toFixed(2)}`);
+  }
+});

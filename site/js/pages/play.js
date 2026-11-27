@@ -98,6 +98,9 @@ async function startRun() {
     $('btn-start').disabled = false;
     return;
   }
+  // Permission granted: let go of the mic until there's something to record, so the
+  // model voice plays on the normal route (Bluetooth earbuds go silent otherwise).
+  mic.release();
   $('btn-start').disabled = false;
   run = newRun(PHRASES);
   model.preload(mic.ctx, run.phrases[0].id);
@@ -160,8 +163,9 @@ async function playModel() {
 
 const refDuration = () => current.refDuration || current.mora.length / DEFAULT_MORA_RATE;
 
-function startRecording() {
+async function startRecording() {
   if (recording || !current) return;
+  recording = { pending: true };
   selfAudio?.pause();
   model.stop();
   $('btn-listen').classList.remove('playing');
@@ -169,6 +173,19 @@ function startRecording() {
   $('result').hidden = true;
   const btn = $('btn-rec');
   btn.classList.add('recording');
+  // The mic opens only now (and closes after), so earbuds keep playing the model.
+  setStatus(t('準備中…', 'Getting ready…'));
+  try {
+    await mic.open();
+    await mic.waitForAudio();
+  } catch (err) {
+    console.warn('[mic]', err);
+    recording = null;
+    btn.classList.remove('recording');
+    setStatus(t('マイクを使えませんでした。許可を確認してください。', "Couldn't use the microphone. Check its permission."));
+    return;
+  }
+  if (!current || recording?.pending !== true) return;
   setStatus(t('どうぞ！話し終わったら自動で止まります', 'Go! It stops by itself when you finish'));
 
   const points = [];
@@ -187,10 +204,11 @@ function startRecording() {
   take.done.then(({ pcm }) => finishRecording(pcm, listener));
 }
 
-const stopRecording = () => recording?.take.stop();
+const stopRecording = () => recording?.take?.stop();
 
 async function finishRecording(pcm, listener) {
   recording = null;
+  mic.release();
   const btn = $('btn-rec');
   btn.classList.remove('recording');
   btn.style.removeProperty('--lvl');
@@ -200,7 +218,9 @@ async function finishRecording(pcm, listener) {
   const heard = await listener.stop();
   const analysis = analyze(pcm, mic.sampleRate);
   const speed = speedById(model.getSpeed());
-  const scored = scoreAttempt({ analysis, mora: current.mora, phrase: current.phrase, heard, refDuration: current.refDuration, fit: speed.fit });
+  const c = model.clip(current.phrase.id);
+  const reference = c?.contour ? { contour: c.contour, morae: c.morae } : null;
+  const scored = scoreAttempt({ analysis, mora: current.mora, phrase: current.phrase, heard, refDuration: current.refDuration, fit: speed.fit, reference });
   const result = { ...scored, speed: speed.id, speedPoints: speed.points };
   btn.disabled = false;
 
@@ -213,7 +233,9 @@ async function finishRecording(pcm, listener) {
 
 // ---------------------------------------------------------------- results
 
-function voicePoints(analysis) {
+function voicePoints(analysis, result) {
+  // Scored against the model: draw your pitch lined up under the model's syllables.
+  if (result?.pitch?.aligned?.length) return result.pitch.aligned;
   const { span, frames, medianF0 } = analysis;
   if (!span || !medianF0) return [];
   const dur = span.end - span.start;
@@ -250,13 +272,14 @@ function tipsFor(result) {
     if (model.getSpeed() !== SPEEDS[0].id) tips.push(t('このスピードが難しければ「速すぎる」でお手本をゆっくりに。', 'If this speed is too much, tap “Too fast” to slow the model down.'));
   }
   if (fb.includes('pause')) tips.push(t('途中で止まらずに、一息で言ってみよう。', 'Try to say it in one breath, without stopping.'));
+  if (result.limited) tips.push(t('声の高さがはっきり聞き取れなかったので、点数は60までです。マイクに近づくか、スピーカーで試してみて。', "Your pitch didn't come through clearly, so this score is capped at 60. Try closer to the mic, or without Bluetooth earbuds."));
   if (result.words.missed) tips.push(t('音声認識が今回の声を受け取れなかったので、言葉は採点していません。', "Speech recognition didn't receive this attempt, so words weren't scored."));
   else if (result.words.score !== null && result.words.score < 0.7) tips.push(t('言葉がはっきり聞き取れませんでした。', "Some words didn't come through clearly."));
   return tips;
 }
 
 function showResult(result, analysis) {
-  current.graph.setVoice(voicePoints(analysis));
+  current.graph.setVoice(voicePoints(analysis, result));
   current.graph.markMisses(result.pitch.transitions || []);
 
   const g = $('grade');

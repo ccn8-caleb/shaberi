@@ -136,6 +136,26 @@ export async function speak(voice, text, { units = null, speed = 1, pre = null, 
   return audio(`/synthesis?speaker=${VOICES[voice].talk}`, q);
 }
 
+// Like speak(), plus when each mora starts in the rendered file (seconds). VOICEVOX
+// scales everything, the silence before and after included, by speedScale.
+export async function speakTimed(voice, text, { units = null, speed = 1, pre = 0.1, post = 0.1 } = {}) {
+  const q = units ? await accentQuery(voice, units) : await query(voice, text);
+  q.speedScale = speed;
+  q.prePhonemeLength = pre;
+  q.postPhonemeLength = post;
+  const moraStarts = [];
+  let t = pre;
+  for (const ap of q.accent_phrases) {
+    for (const m of ap.moras) {
+      moraStarts.push(t / speed);
+      t += (m.consonant_length || 0) + m.vowel_length;
+    }
+    if (ap.pause_mora) t += ap.pause_mora.vowel_length;
+  }
+  const pcm = await audio(`/synthesis?speaker=${VOICES[voice].talk}`, q);
+  return { pcm, moraStarts, end: t / speed };
+}
+
 export async function engineVersion() {
   return (await fetch(API + '/version')).json();
 }

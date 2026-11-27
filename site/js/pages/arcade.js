@@ -133,6 +133,7 @@ $('groove-start').addEventListener('click', async () => {
 
 function gameOver(id, result) {
   game = null;
+  mic.release();
   const { newHigh } = recordGame(id, result.score, result.points);
   renderHud({ animate: true });
   show('over');
@@ -152,6 +153,7 @@ function gameOver(id, result) {
 function leaveGame() {
   game?.run.abort();
   game = null;
+  mic.release();
   renderLobby();
   show('lobby');
 }

@@ -4,6 +4,28 @@ Versions follow [semver](https://semver.org/). The version lives in
 `site/js/core/version.js`; every release needs an entry here (CI checks it). Each
 deploy also carries a build id (commit hash), shown next to the version in the app.
 
+## [0.1.6] — 2026-11-27 — Earbuds and friendlier pitch
+
+### Fixed
+- **No model voice through Bluetooth earbuds.** While a page holds the microphone,
+  Android switches earbuds into call mode and ordinary playback stops reaching them.
+  The microphone is now opened only while you're recording (「準備中…」 shows while it
+  starts) and released straight after, so the model always plays with it closed. The
+  arcade also lets go of it when a game ends.
+- **Pitch scoring was too strict.** It now compares the shape of your pitch with the
+  model recording's: your attempt is lined up with the model by time-warping (so your
+  syllables needn't be evenly timed) and scored on rising and falling where the accent
+  does (60%) and on how closely your pitch follows the model's shape (40%). A rise or
+  fall now counts fully at 1 semitone instead of 1.5, and partly even when slight.
+  The warping is kept narrow, so it can't bend a wrong accent into a right one.
+- **Rhythm alone could give an S** when pitch couldn't be heard (e.g. a Bluetooth
+  call microphone) and words weren't available. Such scores are now capped at 60,
+  with a note saying why.
+
+### Changed
+- Your pitch curve on the graph is drawn lined up under the model's syllables.
+- Each recording now carries its pitch curve and syllable timings for scoring.
+
 ## [0.1.5] — 2026-11-27 — Fairer timing
 
 ### Fixed

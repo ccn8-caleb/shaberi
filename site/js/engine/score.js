@@ -17,9 +17,13 @@ export const DEFAULT_MORA_RATE = 7;
 
 // --- Pitch -------------------------------------------------------------------------
 
-// A rise or fall counts fully at this many semitones, and not at all at 0 or the
-// wrong way. Real accent falls are 2–5 semitones; initial rises are smaller.
-const FULL_STEP_ST = 1.5;
+// A rise or fall counts fully at FULL_STEP_ST semitones, partly from a little below
+// zero (a nearly level step still earns something), and not at all the wrong way.
+// Real accent falls are 2–5 semitones; initial rises are smaller, and learners are
+// often subtler, so this is deliberately forgiving.
+const FULL_STEP_ST = 1;
+const STEP_SLACK_ST = 0.25;
+const stepScore = (signed) => clamp01((signed + STEP_SLACK_ST) / (FULL_STEP_ST + STEP_SLACK_ST));
 
 // Time window of mora [from, to) when the speech span is divided evenly into mora.
 // Japanese mora are roughly equal in length, which is what makes this workable.
@@ -28,9 +32,13 @@ function moraWindow(span, moraCount, from, to) {
   return [span.start + from * u, span.start + to * u];
 }
 
-export function pitchScore(analysis, mora) {
+export function pitchScore(analysis, mora, reference = null) {
   const { span, frames, medianF0 } = analysis;
   if (!span || !medianF0 || mora.length < 2) return { score: null, transitions: [], contour: [], flat: false };
+  if (reference?.contour?.length && reference.morae?.length === mora.length) {
+    const r = pitchAgainstModel(analysis, mora, reference);
+    if (r) return r;
+  }
   const M = mora.length;
   const voiced = frames.filter((f) => f.f0 && f.t >= span.start && f.t <= span.end);
   const st = (f) => semitones(f.f0, medianF0);
@@ -55,7 +63,7 @@ export function pitchScore(analysis, mora) {
     }
     const diff = next.level - prev.level;
     const signed = dir === 'rise' ? diff : -diff;
-    transitions.push({ at: next.start, dir, diff, score: clamp01(signed / FULL_STEP_ST) });
+    transitions.push({ at: next.start, dir, diff, score: stepScore(signed) });
   }
   const measured = transitions.filter((tr) => tr.score !== null);
 
@@ -70,6 +78,171 @@ export function pitchScore(analysis, mora) {
 
   const score = measured.length ? measured.reduce((s, tr) => s + tr.score, 0) / measured.length : null;
   return { score, transitions, contour, flat };
+}
+
+// --- Pitch against the model's recording ------------------------------------------------
+//
+// reference: { contour: semitones from the model's median every 20 ms from the start
+// of its speech (null = unvoiced), morae: when each mora starts (seconds, same clock) }.
+// Your pitch curve is lined up with the model's by dynamic time warping, so you don't
+// need its exact timing. Then: do you rise and fall at the accent's moves (60%), and
+// how closely does the shape of your pitch follow the model's (40%)?
+
+const REF_STEP = 0.02;
+let WARP_BAND = 0.08; // narrow: wider bands bend any curve into the model's shape (tested on mirrored references)
+export const setWarpBand = (b) => (WARP_BAND = b); // for tuning experiments
+
+const mean = (xs) => xs.reduce((s, x) => s + x, 0) / xs.length;
+const std = (xs) => {
+  const m = mean(xs);
+  return Math.sqrt(mean(xs.map((x) => (x - m) ** 2)));
+};
+
+// Your speech as semitones from your median every 20 ms (null when unvoiced), lightly smoothed.
+function userCurve(analysis) {
+  const { frames, span, medianF0 } = analysis;
+  const pts = [];
+  for (let t = span.start; t <= span.end + 1e-9; t += REF_STEP) {
+    let best = null;
+    for (const f of frames) if (Math.abs(f.t - t) <= 0.006) best = f;
+    pts.push(best?.f0 ? semitones(best.f0, medianF0) : null);
+  }
+  return pts.map((v, i) => {
+    if (v === null) return null;
+    const near = pts.slice(Math.max(0, i - 1), i + 2).filter((x) => x !== null);
+    return median(near);
+  });
+}
+
+// Dynamic time warping between two curves (null = unvoiced), within a band.
+// Returns the path as [i, j] pairs, or null.
+export function warp(a, b, { band = 0.35 } = {}) {
+  const n = a.length;
+  const m = b.length;
+  if (n < 3 || m < 3) return null;
+  if (band === 0) {
+    // No warping: your speech stretched evenly onto the model's.
+    return a.map((_, i) => [i, Math.round((i * (m - 1)) / (n - 1))]);
+  }
+  const voicedA = a.filter((x) => x !== null);
+  const voicedB = b.filter((x) => x !== null);
+  if (voicedA.length < 3 || voicedB.length < 3) return null;
+  // Compare shapes, not pitch ranges: scale each by its own spread (at least 0.8 st,
+  // so a nearly flat voice isn't blown up into a shape it doesn't have).
+  const sa = Math.max(std(voicedA), 0.8);
+  const sb = Math.max(std(voicedB), 0.8);
+  const cost = (x, y) => (x === null && y === null ? 0 : x === null || y === null ? 0.8 : Math.min(Math.abs(x / sa - y / sb), 3));
+  const D = Array.from({ length: n }, () => new Float64Array(m).fill(Infinity));
+  const inBand = (i, j) => Math.abs(i / (n - 1) - j / (m - 1)) <= band;
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < m; j++) {
+      if (!inBand(i, j)) continue;
+      const c = cost(a[i], b[j]);
+      if (i === 0 && j === 0) D[i][j] = c;
+      else {
+        const diag = i > 0 && j > 0 ? D[i - 1][j - 1] : Infinity;
+        const up = i > 0 ? D[i - 1][j] + 0.15 : Infinity;
+        const left = j > 0 ? D[i][j - 1] + 0.15 : Infinity;
+        D[i][j] = c + Math.min(diag, up, left);
+      }
+    }
+  }
+  if (!Number.isFinite(D[n - 1][m - 1])) return null;
+  const path = [[n - 1, m - 1]];
+  let i = n - 1;
+  let j = m - 1;
+  while (i > 0 || j > 0) {
+    const diag = i > 0 && j > 0 ? D[i - 1][j - 1] : Infinity;
+    const up = i > 0 ? D[i - 1][j] : Infinity;
+    const left = j > 0 ? D[i][j - 1] : Infinity;
+    if (diag <= up && diag <= left) {
+      i--;
+      j--;
+    } else if (up <= left) i--;
+    else j--;
+    path.push([i, j]);
+  }
+  return path.reverse();
+}
+
+function pitchAgainstModel(analysis, mora, reference) {
+  const you = userCurve(analysis);
+  const model = reference.contour;
+  const path = warp(you, model, { band: reference.band ?? WARP_BAND });
+  if (!path) return null;
+  const M = mora.length;
+  const moraOf = (j) => {
+    const t = j * REF_STEP;
+    let k = 0;
+    while (k + 1 < M && reference.morae[k + 1] <= t) k++;
+    return k;
+  };
+  // Where each model frame sits along the phrase (0..1), for drawing your curve
+  // under the right syllables.
+  const xOf = (j) => {
+    const k = moraOf(j);
+    const t = j * REF_STEP;
+    const start = reference.morae[k];
+    const end = k + 1 < M ? reference.morae[k + 1] : model.length * REF_STEP;
+    return (k + Math.min(1, Math.max(0, (t - start) / Math.max(end - start, REF_STEP)))) / M;
+  };
+
+  // Your pitch on each level run of the accent pattern (middle 70% of its model frames).
+  const runs = levelRuns(mora).map((run) => {
+    const js = [];
+    for (let j = 0; j < model.length; j++) {
+      const k = moraOf(j);
+      if (k >= run.start && k < run.end) js.push(j);
+    }
+    const trim = Math.floor(js.length * 0.15);
+    const keep = new Set(js.slice(trim, js.length - trim || undefined));
+    const vals = path.filter(([i, j]) => keep.has(j) && you[i] !== null).map(([i]) => you[i]);
+    return { ...run, level: vals.length >= 2 ? median(vals) : null };
+  });
+  const transitions = [];
+  for (let r = 1; r < runs.length; r++) {
+    const prev = runs[r - 1];
+    const next = runs[r];
+    if (prev.high === next.high) continue;
+    const dir = next.high ? 'rise' : 'fall';
+    if (prev.level === null || next.level === null) {
+      transitions.push({ at: next.start, dir, diff: null, score: null });
+      continue;
+    }
+    const diff = next.level - prev.level;
+    transitions.push({ at: next.start, dir, diff, score: stepScore(dir === 'rise' ? diff : -diff) });
+  }
+  const measured = transitions.filter((tr) => tr.score !== null);
+  const moves = measured.length ? mean(measured.map((tr) => tr.score)) : null;
+
+  // Shape: how well your pitch follows the model's along the alignment.
+  const pairs = path.filter(([i, j]) => you[i] !== null && model[j] !== null);
+  let shape = null;
+  if (pairs.length >= 8) {
+    const xs = pairs.map(([i]) => you[i]);
+    const ys = pairs.map(([, j]) => model[j]);
+    const mx = mean(xs);
+    const my = mean(ys);
+    const cov = mean(xs.map((x, k) => (x - mx) * (ys[k] - my)));
+    const r = cov / ((std(xs) || 1e-9) * (std(ys) || 1e-9));
+    shape = clamp01((r - 0.1) / 0.7);
+  }
+  const score = moves !== null && shape !== null ? 0.6 * moves + 0.4 * shape : moves ?? shape;
+
+  const contour = mora.map((_, k) => {
+    const vals = path.filter(([i, j]) => moraOf(j) === k && you[i] !== null).map(([i]) => you[i]);
+    return vals.length ? median(vals) : null;
+  });
+  const seen = new Set();
+  const aligned = [];
+  for (const [i, j] of path) {
+    if (seen.has(i)) continue;
+    seen.add(i);
+    aligned.push({ x: xOf(j), st: you[i] });
+  }
+  const voiced = you.filter((v) => v !== null);
+  const flat = voiced.length > 5 && percentile(voiced, 0.9) - percentile(voiced, 0.1) < 1.2;
+  return { score, transitions, contour, flat, aligned, moves, shape, method: 'model' };
 }
 
 // --- Rhythm ------------------------------------------------------------------------
@@ -146,6 +319,7 @@ export function wordsScore(heard, phrase) {
 // --- Total -------------------------------------------------------------------------
 
 export const WEIGHTS = { words: 0.4, pitch: 0.35, rhythm: 0.25 };
+export const LIMITED_MAX = 60;
 
 // 0..100, weighting only the parts that could be measured.
 export function total(parts) {
@@ -175,7 +349,7 @@ export const recognizerMissed = (heard, rhythm) =>
   Array.isArray(heard) && !heard.some((h) => normalize(h)) && rhythm.ratio !== null && rhythm.ratio >= 0.45;
 
 // Score one attempt end to end.
-export function scoreAttempt({ analysis, mora, phrase, heard, refDuration, fit = NORMAL_FIT }) {
+export function scoreAttempt({ analysis, mora, phrase, heard, refDuration, fit = NORMAL_FIT, reference = null }) {
   if (!analysis.span) {
     return { total: 0, grade: 'D', silent: true, words: { score: null }, pitch: { score: null }, rhythm: { score: null } };
   }
@@ -183,9 +357,12 @@ export function scoreAttempt({ analysis, mora, phrase, heard, refDuration, fit =
   const missed = recognizerMissed(heard, rhythm);
   const parts = {
     words: missed ? { score: null, heard: null, missed: true } : wordsScore(heard, phrase),
-    pitch: pitchScore(analysis, mora),
+    pitch: pitchScore(analysis, mora, reference),
     rhythm,
   };
-  const t = total(parts);
-  return { ...parts, total: t, grade: grade(t), silent: false };
+  // Rhythm alone can't earn a top grade: with neither pitch nor words measurable
+  // (a poor microphone, no speech recognition) the score is capped.
+  const limited = parts.pitch.score === null && parts.words.score === null;
+  const t = limited ? Math.min(total(parts), LIMITED_MAX) : total(parts);
+  return { ...parts, total: t, grade: grade(t), silent: false, limited };
 }

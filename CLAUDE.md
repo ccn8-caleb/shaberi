@@ -34,6 +34,12 @@ shared pieces, check whether the same change belongs there too. Shaberi is the
   phrase edit; `tests/audio.test.mjs` fails until you do. Pitch is shaped from our
   accent data (`shapePitch`) because VOICEVOX's own prediction peaks a mora late,
   especially for つむぎ. The audio is not MIT (see `site/audio/README.md`).
+- - Microphone: practice opens it per recording and releases it after (`mic.release()`);
+  holding it switches Android Bluetooth earbuds into call mode and the model voice
+  stops reaching them. Keep it that way.
+- Pitch scoring with a model reference (`pitchAgainstModel` in engine/score.js) uses
+  DTW with a narrow band (0.08). Wider bands overfit: a correct reading scored ~1.0
+  against a mirrored accent at 0.35 (see tests/engine.test.mjs "mirrored").
 - - Progress lives in localStorage (`game/store.js`). Bump SCHEMA_VERSION only with a
   migration in `migrate()`, so saves carry over.
 - Phrases: `site/js/data/phrases.js`. Accent numbers are hand-entered; verify against an
