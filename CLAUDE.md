@@ -20,7 +20,15 @@ shared pieces, check whether the same change belongs there too. Shaberi is the
   `arcade.html`) works and is tested but is hidden (`shelved: true` in `game/arcade.js`)
   until the desk scene's hand art is redone. Unshelve by removing the flag and adding
   a CHANGELOG entry.
-- Progress lives in localStorage (`game/store.js`). Bump SCHEMA_VERSION only with a
+- Voices: VOICEVOX 剣崎雌雄 (male) and 春日部つむぎ (female), generated at build time with
+  `tools/voice/voicevox.mjs` (engine in Docker, see the file header); audio is never
+  synthesised in the browser. Singing styles were picked by listening tests, so don't
+  change them without asking: 剣崎 sings 'octave-lift' (the singing model can't go
+  below ~E3), 'goofy' is his deliberately octave-wobbly style for comic moments only,
+  and つむぎ sings 'as-sung' (no pitch cleanup: it sounds less natural). Set accents
+  from our phrase data (`speak(..., { units })`), never VOICEVOX's guesses. Credit
+  every voice used as 「VOICEVOX:名前」 in the app.
+- - Progress lives in localStorage (`game/store.js`). Bump SCHEMA_VERSION only with a
   migration in `migrate()`, so saves carry over.
 - Phrases: `site/js/data/phrases.js`. Accent numbers are hand-entered; verify against an
   accent dictionary before adding many. Units carry their particles / です・ます.
