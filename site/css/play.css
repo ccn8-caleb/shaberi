@@ -569,3 +569,11 @@
   font-weight: 700;
   color: var(--text-muted);
 }
+
+.sound-link {
+  align-self: center;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--purple);
+}
+[data-theme='dark'] .sound-link { color: #c4a2ff; }

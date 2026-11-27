@@ -85,6 +85,7 @@ function renderChecks() {
 // ---------------------------------------------------------------- run
 
 async function startRun() {
+  model.unlock(); // must run inside the tap, before anything is awaited (iOS)
   $('start-error').hidden = true;
   $('btn-start').disabled = true;
   try {

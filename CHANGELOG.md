@@ -17,6 +17,17 @@ deploy also carries a build id (commit hash), shown next to the version in the a
   score falls off faster outside it. If you're too slow for the level, the result
   suggests slowing the model down.
 
+- **サウンドチェック (sound check):** linked from the home screen as 「音が聞こえない？」.
+  It plays test sounds through each way the app makes sound, with and without the
+  microphone on, plus a left/right test, and builds a copyable report with your
+  answers and the device's audio details.
+
+### Fixed
+- **No model voice through Bluetooth earbuds on some Android phones** (reported with
+  one earbud in). The voice now plays like music apps do (an ordinary media player)
+  instead of through the microphone's audio session, which falls back to the old
+  route, then to the phone's own speech.
+
 ### Changed
 - Every phrase is recorded at each speed (160 recordings, 1.9 MB), timed from the
   voice engine's own syllable lengths so each level is exactly its pace. The new

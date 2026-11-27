@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>サウンドチェック | しゃべり Shaberi</title>
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#fff7ec">
+  <script>document.documentElement.dataset.theme = localStorage.getItem('shaberi_theme') === 'dark' ? 'dark' : 'light';</script>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/soundcheck.css">
+  <script type="module" src="js/pages/soundcheck.js"></script>
+</head>
+<body>
+
+  <header id="top-bar">
+    <a class="brand" href="index.html">
+      <img class="brand-badge" src="icon.svg" alt="">
+      <span class="brand-title">しゃべり</span>
+    </a>
+    <div class="top-stats">
+      <span class="pill pill-points" id="hud-points" hidden><b>0</b></span>
+      <span class="pill pill-streak" id="hud-streak" hidden><b>0</b></span>
+      <button type="button" class="icon-btn" id="btn-lang" aria-label="Language">EN</button>
+      <button type="button" class="icon-btn" id="btn-theme" aria-label="Theme">☾</button>
+    </div>
+  </header>
+
+  <main class="page sc">
+    <h1 data-ja="サウンドチェック" data-en="Sound check">サウンドチェック</h1>
+    <p class="lede" data-ja="お手本の声やゲームの音が聞こえないときに。上から順に試して、聞こえたかどうかを押してください。最後に結果をコピーして送ってください。" data-en="For when you can't hear the model voice or game sounds. Try each test in order and mark whether you heard it, then copy the results and send them.">お手本の声やゲームの音が聞こえないときに。上から順に試して、聞こえたかどうかを押してください。最後に結果をコピーして送ってください。</p>
+
+    <ol class="tests" id="tests"></ol>
+
+    <section class="card">
+      <h2 data-ja="結果" data-en="Results">結果</h2>
+      <pre class="report" id="report"></pre>
+      <button type="button" class="big-btn btn-go" id="btn-copy" data-ja="結果をコピー" data-en="Copy results">結果をコピー</button>
+      <p class="fine" id="copy-status" role="status"></p>
+    </section>
+
+    <a class="back-link" href="index.html" data-ja="← れんしゅうに戻る" data-en="← Back to practice">← れんしゅうに戻る</a>
+  </main>
+
+  <footer class="foot" id="foot"></footer>
+</body>
+</html>
