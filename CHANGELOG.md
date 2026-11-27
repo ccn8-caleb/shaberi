@@ -4,6 +4,25 @@ Versions follow [semver](https://semver.org/). The version lives in
 `site/js/core/version.js`; every release needs an entry here (CI checks it). Each
 deploy also carries a build id (commit hash), shown next to the version in the app.
 
+## [0.1.5] — 2026-11-27 — Fairer timing
+
+### Fixed
+- **Short phrases scored 0 for rhythm and pitch** when a stray sound (a tap, a breath,
+  an earbud crackle) landed before or after the speech: the app measured from the first
+  loud sound to the last, so one blip stretched "your speech" to several times its
+  length. It now finds the main burst of speech and leaves small isolated sounds out;
+  a real pause mid-phrase is still counted and flagged.
+
+### Added
+- **▶ 自分の声 / ▶ お手本** on the result card: play back exactly what the microphone
+  recorded, and the model again, to compare.
+- **くわしく (Details)** on the result card: recording and speech length, the model's
+  length, the ratio, pauses, your pitch and which microphone was used.
+
+### Changed
+- The model recordings' rhythm targets are now measured on the final files the app
+  plays, with the same speech detection as your voice.
+
 ## [0.1.4] — 2026-11-27 — Speed levels
 
 ### Added

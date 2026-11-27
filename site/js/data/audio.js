@@ -27,7 +27,7 @@ export const AUDIO = {
           "speech": 1.43,
           "speed": 0.767,
           "rate": 6,
-          "hash": "90eba64eb58d",
+          "hash": "2fb600bf1af2",
           "made": "53b985c9f306"
         },
         "arigatou": {
@@ -36,7 +36,7 @@ export const AUDIO = {
           "speech": 1.59,
           "speed": 0.73,
           "rate": 6,
-          "hash": "764d813e2693",
+          "hash": "43f64f788b17",
           "made": "fd57a86f442a"
         },
         "sumimasen": {
@@ -45,7 +45,7 @@ export const AUDIO = {
           "speech": 0.71,
           "speed": 0.799,
           "rate": 6,
-          "hash": "1da0b87ba7b0",
+          "hash": "9fc6fb3ee7f9",
           "made": "ddb55ed0d4a9"
         },
         "itadakimasu": {
@@ -54,7 +54,7 @@ export const AUDIO = {
           "speech": 0.93,
           "speed": 0.746,
           "rate": 6,
-          "hash": "5fd8b8e5e55c",
+          "hash": "6b4f7b2e7376",
           "made": "013c8cab9d7f"
         },
         "gochisousama": {
@@ -63,7 +63,7 @@ export const AUDIO = {
           "speech": 1.42,
           "speed": 0.738,
           "rate": 6,
-          "hash": "161feba3c321",
+          "hash": "699274b33c81",
           "made": "eed7847a3065"
         },
         "ittekimasu": {
@@ -72,7 +72,7 @@ export const AUDIO = {
           "speech": 0.95,
           "speed": 0.733,
           "rate": 6,
-          "hash": "c179ddc0ba98",
+          "hash": "a825abe4c6b8",
           "made": "b3899616296d"
         },
         "hajimemashite": {
@@ -81,16 +81,16 @@ export const AUDIO = {
           "speech": 0.89,
           "speed": 0.813,
           "rate": 6,
-          "hash": "c84b303235bf",
+          "hash": "d850a39a0363",
           "made": "75a6672ed06e"
         },
         "yoroshiku": {
           "src": "audio/kenzaki/slow/yoroshiku.mp3",
           "start": 0.147,
-          "speech": 1.73,
+          "speech": 1.74,
           "speed": 0.75,
           "rate": 6,
-          "hash": "b0c69f40889f",
+          "hash": "c2f3ff4595fa",
           "made": "fbb8ace365ba"
         },
         "otsukaresama": {
@@ -99,7 +99,7 @@ export const AUDIO = {
           "speech": 1.26,
           "speed": 0.773,
           "rate": 6,
-          "hash": "0cb1a4a86bdb",
+          "hash": "7c92fc0ac30d",
           "made": "423a2571c34e"
         },
         "osakini": {
@@ -108,7 +108,7 @@ export const AUDIO = {
           "speech": 1.74,
           "speed": 0.734,
           "rate": 6,
-          "hash": "b0445b88df38",
+          "hash": "fb33bfcf6931",
           "made": "15082e002df2"
         },
         "daijoubu": {
@@ -117,7 +117,7 @@ export const AUDIO = {
           "speech": 1.07,
           "speed": 0.78,
           "rate": 6,
-          "hash": "aae1c4197d9b",
+          "hash": "50aab1503808",
           "made": "451c3261b211"
         },
         "eki": {
@@ -126,7 +126,7 @@ export const AUDIO = {
           "speech": 1.25,
           "speed": 0.751,
           "rate": 6,
-          "hash": "db8b51e41c4a",
+          "hash": "2219f19b688a",
           "made": "684e652c1ae6"
         },
         "ikura": {
@@ -135,7 +135,7 @@ export const AUDIO = {
           "speech": 0.93,
           "speed": 0.777,
           "rate": 6,
-          "hash": "be759fcce012",
+          "hash": "b797fa4f69b7",
           "made": "d3135197f5ad"
         },
         "kore": {
@@ -144,7 +144,7 @@ export const AUDIO = {
           "speech": 1.01,
           "speed": 0.71,
           "rate": 6,
-          "hash": "82fe4d780453",
+          "hash": "5682916b85a5",
           "made": "6ed31bd2749e"
         },
         "omizu": {
@@ -153,7 +153,7 @@ export const AUDIO = {
           "speech": 1.24,
           "speed": 0.728,
           "rate": 6,
-          "hash": "27df8a04e24e",
+          "hash": "9308a2f9b9cf",
           "made": "cd6a7ffa9d59"
         },
         "coffee": {
@@ -162,7 +162,7 @@ export const AUDIO = {
           "speech": 1.86,
           "speed": 0.731,
           "rate": 6,
-          "hash": "842f6921caf5",
+          "hash": "84e00c5a8800",
           "made": "bf89de4856a3"
         },
         "chotto": {
@@ -171,7 +171,7 @@ export const AUDIO = {
           "speech": 1.55,
           "speed": 0.689,
           "rate": 6,
-          "hash": "c26874a2ff78",
+          "hash": "0fcf8a4e9091",
           "made": "51e55fae627c"
         },
         "tenki": {
@@ -180,7 +180,7 @@ export const AUDIO = {
           "speech": 1.65,
           "speed": 0.735,
           "rate": 6,
-          "hash": "31f72d93ba56",
+          "hash": "6b155b8469d9",
           "made": "4eda85aa3289"
         },
         "mataashita": {
@@ -189,7 +189,7 @@ export const AUDIO = {
           "speech": 0.74,
           "speed": 0.794,
           "rate": 6,
-          "hash": "b6d5eec30506",
+          "hash": "3333503fea38",
           "made": "7dac30f4cccb"
         },
         "wakarimashita": {
@@ -198,7 +198,7 @@ export const AUDIO = {
           "speech": 0.92,
           "speed": 0.767,
           "rate": 6,
-          "hash": "6d4772562023",
+          "hash": "3fb70aff237c",
           "made": "e532851d2660"
         }
       },
@@ -209,7 +209,7 @@ export const AUDIO = {
           "speech": 1.23,
           "speed": 0.895,
           "rate": 7,
-          "hash": "cbe9c1599e59",
+          "hash": "024bf345213a",
           "made": "53b985c9f306"
         },
         "arigatou": {
@@ -218,7 +218,7 @@ export const AUDIO = {
           "speech": 1.33,
           "speed": 0.852,
           "rate": 7,
-          "hash": "ccde75e52519",
+          "hash": "a6618b87fa3a",
           "made": "fd57a86f442a"
         },
         "sumimasen": {
@@ -227,7 +227,7 @@ export const AUDIO = {
           "speech": 0.61,
           "speed": 0.932,
           "rate": 7,
-          "hash": "3888b3f3ba67",
+          "hash": "607664409e55",
           "made": "ddb55ed0d4a9"
         },
         "itadakimasu": {
@@ -236,7 +236,7 @@ export const AUDIO = {
           "speech": 0.81,
           "speed": 0.87,
           "rate": 7,
-          "hash": "124d5f88ca81",
+          "hash": "4a45a56f534f",
           "made": "013c8cab9d7f"
         },
         "gochisousama": {
@@ -245,7 +245,7 @@ export const AUDIO = {
           "speech": 1.24,
           "speed": 0.862,
           "rate": 7,
-          "hash": "d16a793180b7",
+          "hash": "99d343837ca1",
           "made": "eed7847a3065"
         },
         "ittekimasu": {
@@ -254,7 +254,7 @@ export const AUDIO = {
           "speech": 0.83,
           "speed": 0.855,
           "rate": 7,
-          "hash": "55d3cf232a80",
+          "hash": "ce00e5e6baf6",
           "made": "b3899616296d"
         },
         "hajimemashite": {
@@ -263,7 +263,7 @@ export const AUDIO = {
           "speech": 0.76,
           "speed": 0.949,
           "rate": 7,
-          "hash": "f06b1148eb9b",
+          "hash": "e86a6fa11e87",
           "made": "75a6672ed06e"
         },
         "yoroshiku": {
@@ -272,7 +272,7 @@ export const AUDIO = {
           "speech": 1.46,
           "speed": 0.875,
           "rate": 7,
-          "hash": "5d23f557af83",
+          "hash": "f0bf392550c8",
           "made": "fbb8ace365ba"
         },
         "otsukaresama": {
@@ -281,7 +281,7 @@ export const AUDIO = {
           "speech": 1.08,
           "speed": 0.902,
           "rate": 7,
-          "hash": "7d263fe6c523",
+          "hash": "666e18c404d5",
           "made": "423a2571c34e"
         },
         "osakini": {
@@ -290,7 +290,7 @@ export const AUDIO = {
           "speech": 1.52,
           "speed": 0.856,
           "rate": 7,
-          "hash": "7058faade49b",
+          "hash": "28bf68305b09",
           "made": "15082e002df2"
         },
         "daijoubu": {
@@ -299,7 +299,7 @@ export const AUDIO = {
           "speech": 0.9,
           "speed": 0.911,
           "rate": 7,
-          "hash": "e807c2396522",
+          "hash": "8d7d2f491360",
           "made": "451c3261b211"
         },
         "eki": {
@@ -308,7 +308,7 @@ export const AUDIO = {
           "speech": 1.08,
           "speed": 0.877,
           "rate": 7,
-          "hash": "8aeea2f10d17",
+          "hash": "4b5b5880207e",
           "made": "684e652c1ae6"
         },
         "ikura": {
@@ -317,7 +317,7 @@ export const AUDIO = {
           "speech": 0.8,
           "speed": 0.907,
           "rate": 7,
-          "hash": "1453d140fce2",
+          "hash": "986af5465d1a",
           "made": "d3135197f5ad"
         },
         "kore": {
@@ -326,7 +326,7 @@ export const AUDIO = {
           "speech": 0.85,
           "speed": 0.829,
           "rate": 7,
-          "hash": "9292047e9a74",
+          "hash": "16133a2977b0",
           "made": "6ed31bd2749e"
         },
         "omizu": {
@@ -335,7 +335,7 @@ export const AUDIO = {
           "speech": 1.07,
           "speed": 0.849,
           "rate": 7,
-          "hash": "f934f27c636c",
+          "hash": "4b4f4386a6ec",
           "made": "cd6a7ffa9d59"
         },
         "coffee": {
@@ -344,7 +344,7 @@ export const AUDIO = {
           "speech": 1.59,
           "speed": 0.853,
           "rate": 7,
-          "hash": "07e789fd4f39",
+          "hash": "71516e11bf6f",
           "made": "bf89de4856a3"
         },
         "chotto": {
@@ -353,7 +353,7 @@ export const AUDIO = {
           "speech": 1.31,
           "speed": 0.804,
           "rate": 7,
-          "hash": "e10b85e6eb62",
+          "hash": "ba88996f1964",
           "made": "51e55fae627c"
         },
         "tenki": {
@@ -362,7 +362,7 @@ export const AUDIO = {
           "speech": 1.44,
           "speed": 0.858,
           "rate": 7,
-          "hash": "72a27b38bbc3",
+          "hash": "da4610490fed",
           "made": "4eda85aa3289"
         },
         "mataashita": {
@@ -371,16 +371,16 @@ export const AUDIO = {
           "speech": 0.65,
           "speed": 0.926,
           "rate": 7,
-          "hash": "65daa9b29ee3",
+          "hash": "fc7944d69728",
           "made": "7dac30f4cccb"
         },
         "wakarimashita": {
           "src": "audio/kenzaki/normal/wakarimashita.mp3",
           "start": 0.117,
-          "speech": 0.76,
+          "speech": 0.77,
           "speed": 0.895,
           "rate": 7,
-          "hash": "ab613482f901",
+          "hash": "95964bf55552",
           "made": "e532851d2660"
         }
       },
@@ -391,7 +391,7 @@ export const AUDIO = {
           "speech": 1.08,
           "speed": 1.023,
           "rate": 8,
-          "hash": "cb99b48b5d47",
+          "hash": "51c027978764",
           "made": "53b985c9f306"
         },
         "arigatou": {
@@ -400,7 +400,7 @@ export const AUDIO = {
           "speech": 1.03,
           "speed": 0.974,
           "rate": 8,
-          "hash": "d5ef41de3acb",
+          "hash": "6243bbd163ac",
           "made": "fd57a86f442a"
         },
         "sumimasen": {
@@ -409,7 +409,7 @@ export const AUDIO = {
           "speech": 0.52,
           "speed": 1.065,
           "rate": 8,
-          "hash": "1cdd471a788f",
+          "hash": "e4d56b26cbc0",
           "made": "ddb55ed0d4a9"
         },
         "itadakimasu": {
@@ -418,7 +418,7 @@ export const AUDIO = {
           "speech": 0.7,
           "speed": 0.995,
           "rate": 8,
-          "hash": "da85b797e3c8",
+          "hash": "3d2d367834eb",
           "made": "013c8cab9d7f"
         },
         "gochisousama": {
@@ -427,7 +427,7 @@ export const AUDIO = {
           "speech": 1.08,
           "speed": 0.985,
           "rate": 8,
-          "hash": "cf8506296fb1",
+          "hash": "23838846b42a",
           "made": "eed7847a3065"
         },
         "ittekimasu": {
@@ -436,7 +436,7 @@ export const AUDIO = {
           "speech": 0.71,
           "speed": 0.977,
           "rate": 8,
-          "hash": "a7e538d9ffee",
+          "hash": "7075504af4a2",
           "made": "b3899616296d"
         },
         "hajimemashite": {
@@ -445,7 +445,7 @@ export const AUDIO = {
           "speech": 0.67,
           "speed": 1.085,
           "rate": 8,
-          "hash": "4398c5cdba13",
+          "hash": "5875c6e3dd9b",
           "made": "75a6672ed06e"
         },
         "yoroshiku": {
@@ -454,7 +454,7 @@ export const AUDIO = {
           "speech": 1.29,
           "speed": 1.001,
           "rate": 8,
-          "hash": "4f6a8cec5188",
+          "hash": "61afa453a1bd",
           "made": "fbb8ace365ba"
         },
         "otsukaresama": {
@@ -463,7 +463,7 @@ export const AUDIO = {
           "speech": 0.92,
           "speed": 1.031,
           "rate": 8,
-          "hash": "f7604af661f2",
+          "hash": "be7a267923d5",
           "made": "423a2571c34e"
         },
         "osakini": {
@@ -472,7 +472,7 @@ export const AUDIO = {
           "speech": 1.3,
           "speed": 0.979,
           "rate": 8,
-          "hash": "95d4783ecb1f",
+          "hash": "885f28b69c87",
           "made": "15082e002df2"
         },
         "daijoubu": {
@@ -481,7 +481,7 @@ export const AUDIO = {
           "speech": 0.8,
           "speed": 1.041,
           "rate": 8,
-          "hash": "15c36de5c414",
+          "hash": "bc9f7d7c8b73",
           "made": "451c3261b211"
         },
         "eki": {
@@ -490,7 +490,7 @@ export const AUDIO = {
           "speech": 0.94,
           "speed": 1.002,
           "rate": 8,
-          "hash": "9588df976838",
+          "hash": "c62cd3991caa",
           "made": "684e652c1ae6"
         },
         "ikura": {
@@ -499,7 +499,7 @@ export const AUDIO = {
           "speech": 0.69,
           "speed": 1.037,
           "rate": 8,
-          "hash": "be1138973843",
+          "hash": "3232ea43f1db",
           "made": "d3135197f5ad"
         },
         "kore": {
@@ -508,7 +508,7 @@ export const AUDIO = {
           "speech": 0.76,
           "speed": 0.947,
           "rate": 8,
-          "hash": "e810749a5ca4",
+          "hash": "8f715952d6ec",
           "made": "6ed31bd2749e"
         },
         "omizu": {
@@ -517,16 +517,16 @@ export const AUDIO = {
           "speech": 0.93,
           "speed": 0.971,
           "rate": 8,
-          "hash": "8050a07cc149",
+          "hash": "5bccb2207e01",
           "made": "cd6a7ffa9d59"
         },
         "coffee": {
           "src": "audio/kenzaki/quick/coffee.mp3",
           "start": 0.147,
-          "speech": 1.34,
+          "speech": 1.35,
           "speed": 0.975,
           "rate": 8,
-          "hash": "95239fea8587",
+          "hash": "11906ba3ab69",
           "made": "bf89de4856a3"
         },
         "chotto": {
@@ -535,7 +535,7 @@ export const AUDIO = {
           "speech": 1.15,
           "speed": 0.919,
           "rate": 8,
-          "hash": "f3c7dbf91129",
+          "hash": "2f9648f3b5d4",
           "made": "51e55fae627c"
         },
         "tenki": {
@@ -544,7 +544,7 @@ export const AUDIO = {
           "speech": 1.27,
           "speed": 0.98,
           "rate": 8,
-          "hash": "dc7316950ac4",
+          "hash": "5cf4832be85c",
           "made": "4eda85aa3289"
         },
         "mataashita": {
@@ -553,16 +553,16 @@ export const AUDIO = {
           "speech": 0.57,
           "speed": 1.058,
           "rate": 8,
-          "hash": "8a812e0abb0c",
+          "hash": "5df3e9842f2e",
           "made": "7dac30f4cccb"
         },
         "wakarimashita": {
           "src": "audio/kenzaki/quick/wakarimashita.mp3",
-          "start": 0.097,
-          "speech": 0.69,
+          "start": 0.107,
+          "speech": 0.68,
           "speed": 1.022,
           "rate": 8,
-          "hash": "9828cac58279",
+          "hash": "7beb9ea66aa5",
           "made": "e532851d2660"
         }
       },
@@ -570,10 +570,10 @@ export const AUDIO = {
         "ohayou": {
           "src": "audio/kenzaki/native/ohayou.mp3",
           "start": 0.087,
-          "speech": 0.86,
+          "speech": 0.87,
           "speed": 1.151,
           "rate": 9,
-          "hash": "958fcde8bf69",
+          "hash": "a6d54443aa2d",
           "made": "53b985c9f306"
         },
         "arigatou": {
@@ -582,16 +582,16 @@ export const AUDIO = {
           "speech": 0.93,
           "speed": 1.096,
           "rate": 9,
-          "hash": "0a4e72c801c6",
+          "hash": "a4baa428e4ea",
           "made": "fd57a86f442a"
         },
         "sumimasen": {
           "src": "audio/kenzaki/native/sumimasen.mp3",
-          "start": 0.137,
-          "speech": 0.47,
+          "start": 0.127,
+          "speech": 0.48,
           "speed": 1.198,
           "rate": 9,
-          "hash": "11e8ba41dfbe",
+          "hash": "59b537742d61",
           "made": "ddb55ed0d4a9"
         },
         "itadakimasu": {
@@ -600,7 +600,7 @@ export const AUDIO = {
           "speech": 0.61,
           "speed": 1.119,
           "rate": 9,
-          "hash": "e59bff55b181",
+          "hash": "69a29a93c949",
           "made": "013c8cab9d7f"
         },
         "gochisousama": {
@@ -609,7 +609,7 @@ export const AUDIO = {
           "speech": 0.96,
           "speed": 1.108,
           "rate": 9,
-          "hash": "553909456d35",
+          "hash": "276551d71a20",
           "made": "eed7847a3065"
         },
         "ittekimasu": {
@@ -618,7 +618,7 @@ export const AUDIO = {
           "speech": 0.66,
           "speed": 1.099,
           "rate": 9,
-          "hash": "4a70ce826658",
+          "hash": "1e9736fe1ae4",
           "made": "b3899616296d"
         },
         "hajimemashite": {
@@ -627,34 +627,34 @@ export const AUDIO = {
           "speech": 0.57,
           "speed": 1.22,
           "rate": 9,
-          "hash": "57baafd76350",
+          "hash": "3f5f0fe496c6",
           "made": "75a6672ed06e"
         },
         "yoroshiku": {
           "src": "audio/kenzaki/native/yoroshiku.mp3",
           "start": 0.097,
-          "speech": 1.08,
+          "speech": 1.09,
           "speed": 1.126,
           "rate": 9,
-          "hash": "222672b6d594",
+          "hash": "056d5ae622a1",
           "made": "fbb8ace365ba"
         },
         "otsukaresama": {
           "src": "audio/kenzaki/native/otsukaresama.mp3",
           "start": 0.067,
-          "speech": 0.72,
+          "speech": 0.85,
           "speed": 1.16,
           "rate": 9,
-          "hash": "dc9b3c2e0dcc",
+          "hash": "6bc7068409e9",
           "made": "423a2571c34e"
         },
         "osakini": {
           "src": "audio/kenzaki/native/osakini.mp3",
           "start": 0.087,
-          "speech": 1.06,
+          "speech": 1.08,
           "speed": 1.101,
           "rate": 9,
-          "hash": "5f7628583b10",
+          "hash": "fa6627c17a74",
           "made": "15082e002df2"
         },
         "daijoubu": {
@@ -663,7 +663,7 @@ export const AUDIO = {
           "speech": 0.7,
           "speed": 1.171,
           "rate": 9,
-          "hash": "066899ef1141",
+          "hash": "df78347db048",
           "made": "451c3261b211"
         },
         "eki": {
@@ -672,7 +672,7 @@ export const AUDIO = {
           "speech": 0.83,
           "speed": 1.127,
           "rate": 9,
-          "hash": "2319fc108b7a",
+          "hash": "b1b18824d71c",
           "made": "684e652c1ae6"
         },
         "ikura": {
@@ -681,7 +681,7 @@ export const AUDIO = {
           "speech": 0.65,
           "speed": 1.166,
           "rate": 9,
-          "hash": "19ebbac2d094",
+          "hash": "7cc2e0601d17",
           "made": "d3135197f5ad"
         },
         "kore": {
@@ -690,7 +690,7 @@ export const AUDIO = {
           "speech": 0.68,
           "speed": 1.066,
           "rate": 9,
-          "hash": "1d8a89117dd7",
+          "hash": "70c4c6511503",
           "made": "6ed31bd2749e"
         },
         "omizu": {
@@ -699,7 +699,7 @@ export const AUDIO = {
           "speech": 0.84,
           "speed": 1.092,
           "rate": 9,
-          "hash": "a517b6194983",
+          "hash": "77672f32dbff",
           "made": "cd6a7ffa9d59"
         },
         "coffee": {
@@ -708,7 +708,7 @@ export const AUDIO = {
           "speech": 1.21,
           "speed": 1.097,
           "rate": 9,
-          "hash": "c456906bab82",
+          "hash": "b0f995723622",
           "made": "bf89de4856a3"
         },
         "chotto": {
@@ -717,7 +717,7 @@ export const AUDIO = {
           "speech": 1.04,
           "speed": 1.033,
           "rate": 9,
-          "hash": "cd271e05bc73",
+          "hash": "73f31c506dcb",
           "made": "51e55fae627c"
         },
         "tenki": {
@@ -726,7 +726,7 @@ export const AUDIO = {
           "speech": 1.14,
           "speed": 1.103,
           "rate": 9,
-          "hash": "38af4cfd0928",
+          "hash": "f44026fc1820",
           "made": "4eda85aa3289"
         },
         "mataashita": {
@@ -735,7 +735,7 @@ export const AUDIO = {
           "speech": 0.51,
           "speed": 1.19,
           "rate": 9,
-          "hash": "f9bb1ece2983",
+          "hash": "6146e01b45d4",
           "made": "7dac30f4cccb"
         },
         "wakarimashita": {
@@ -744,7 +744,7 @@ export const AUDIO = {
           "speech": 0.61,
           "speed": 1.15,
           "rate": 9,
-          "hash": "ef50f53c3c45",
+          "hash": "cda12c87e219",
           "made": "e532851d2660"
         }
       }
@@ -757,16 +757,16 @@ export const AUDIO = {
           "speech": 1.39,
           "speed": 0.761,
           "rate": 6,
-          "hash": "8bb6b20d0106",
+          "hash": "db2fdb7347bc",
           "made": "53b985c9f306"
         },
         "arigatou": {
           "src": "audio/tsumugi/slow/arigatou.mp3",
           "start": 0.087,
-          "speech": 1.57,
+          "speech": 1.56,
           "speed": 0.752,
           "rate": 6,
-          "hash": "0e74ae000437",
+          "hash": "d0319fc48a3e",
           "made": "fd57a86f442a"
         },
         "sumimasen": {
@@ -775,7 +775,7 @@ export const AUDIO = {
           "speech": 0.62,
           "speed": 0.859,
           "rate": 6,
-          "hash": "c33853568d0f",
+          "hash": "412525e5da7c",
           "made": "ddb55ed0d4a9"
         },
         "itadakimasu": {
@@ -784,7 +784,7 @@ export const AUDIO = {
           "speech": 0.9,
           "speed": 0.821,
           "rate": 6,
-          "hash": "29cfbf0d4f5f",
+          "hash": "57e7bdd44c24",
           "made": "013c8cab9d7f"
         },
         "gochisousama": {
@@ -793,7 +793,7 @@ export const AUDIO = {
           "speech": 1.36,
           "speed": 0.754,
           "rate": 6,
-          "hash": "ae159108ae69",
+          "hash": "7a8994a785f6",
           "made": "eed7847a3065"
         },
         "ittekimasu": {
@@ -802,7 +802,7 @@ export const AUDIO = {
           "speech": 0.92,
           "speed": 0.814,
           "rate": 6,
-          "hash": "96db087259ff",
+          "hash": "06a80e945f84",
           "made": "b3899616296d"
         },
         "hajimemashite": {
@@ -811,7 +811,7 @@ export const AUDIO = {
           "speech": 0.88,
           "speed": 0.802,
           "rate": 6,
-          "hash": "b296c22fccc8",
+          "hash": "97a517d3ff73",
           "made": "75a6672ed06e"
         },
         "yoroshiku": {
@@ -820,7 +820,7 @@ export const AUDIO = {
           "speech": 1.7,
           "speed": 0.723,
           "rate": 6,
-          "hash": "945cbc2f834e",
+          "hash": "03f5ff0dca7c",
           "made": "fbb8ace365ba"
         },
         "otsukaresama": {
@@ -829,7 +829,7 @@ export const AUDIO = {
           "speech": 1.25,
           "speed": 0.774,
           "rate": 6,
-          "hash": "e3410422ad6b",
+          "hash": "bce502ad04eb",
           "made": "423a2571c34e"
         },
         "osakini": {
@@ -838,7 +838,7 @@ export const AUDIO = {
           "speech": 1.75,
           "speed": 0.742,
           "rate": 6,
-          "hash": "e29ca465342d",
+          "hash": "cd919e7340b3",
           "made": "15082e002df2"
         },
         "daijoubu": {
@@ -847,7 +847,7 @@ export const AUDIO = {
           "speech": 1.03,
           "speed": 0.774,
           "rate": 6,
-          "hash": "18b9af23ab1d",
+          "hash": "d08b1196a297",
           "made": "451c3261b211"
         },
         "eki": {
@@ -856,7 +856,7 @@ export const AUDIO = {
           "speech": 1.27,
           "speed": 0.784,
           "rate": 6,
-          "hash": "3ba25e34041a",
+          "hash": "63f0715acaa7",
           "made": "684e652c1ae6"
         },
         "ikura": {
@@ -865,16 +865,16 @@ export const AUDIO = {
           "speech": 0.89,
           "speed": 0.788,
           "rate": 6,
-          "hash": "fab11d39676f",
+          "hash": "4d946bc78238",
           "made": "d3135197f5ad"
         },
         "kore": {
           "src": "audio/tsumugi/slow/kore.mp3",
           "start": 0.177,
-          "speech": 0.98,
+          "speech": 0.99,
           "speed": 0.752,
           "rate": 6,
-          "hash": "1c6fc702dc63",
+          "hash": "88e3eb7a5c59",
           "made": "6ed31bd2749e"
         },
         "omizu": {
@@ -883,16 +883,16 @@ export const AUDIO = {
           "speech": 1.22,
           "speed": 0.757,
           "rate": 6,
-          "hash": "985bcac67f33",
+          "hash": "3a4f8f71772c",
           "made": "cd6a7ffa9d59"
         },
         "coffee": {
           "src": "audio/tsumugi/slow/coffee.mp3",
           "start": 0.207,
-          "speech": 1.78,
+          "speech": 1.77,
           "speed": 0.716,
           "rate": 6,
-          "hash": "864cee194705",
+          "hash": "a5045f5aa0ab",
           "made": "bf89de4856a3"
         },
         "chotto": {
@@ -901,7 +901,7 @@ export const AUDIO = {
           "speech": 1.48,
           "speed": 0.706,
           "rate": 6,
-          "hash": "9e2ee0adf057",
+          "hash": "f7853a9896b7",
           "made": "51e55fae627c"
         },
         "tenki": {
@@ -910,7 +910,7 @@ export const AUDIO = {
           "speech": 1.61,
           "speed": 0.723,
           "rate": 6,
-          "hash": "dbaaca49cbd4",
+          "hash": "54e1c5e72352",
           "made": "4eda85aa3289"
         },
         "mataashita": {
@@ -919,7 +919,7 @@ export const AUDIO = {
           "speech": 0.74,
           "speed": 0.797,
           "rate": 6,
-          "hash": "e84a93ed312b",
+          "hash": "824f41478a35",
           "made": "7dac30f4cccb"
         },
         "wakarimashita": {
@@ -928,7 +928,7 @@ export const AUDIO = {
           "speech": 0.9,
           "speed": 0.745,
           "rate": 6,
-          "hash": "ae54916fc311",
+          "hash": "09beb94680e5",
           "made": "e532851d2660"
         }
       },
@@ -939,7 +939,7 @@ export const AUDIO = {
           "speech": 1.21,
           "speed": 0.888,
           "rate": 7,
-          "hash": "a0ce4c167c96",
+          "hash": "617e49ac91ec",
           "made": "53b985c9f306"
         },
         "arigatou": {
@@ -948,16 +948,16 @@ export const AUDIO = {
           "speech": 1.35,
           "speed": 0.878,
           "rate": 7,
-          "hash": "05420482f0a3",
+          "hash": "47df29761188",
           "made": "fd57a86f442a"
         },
         "sumimasen": {
           "src": "audio/tsumugi/normal/sumimasen.mp3",
-          "start": 0.157,
-          "speech": 0.54,
+          "start": 0.147,
+          "speech": 0.55,
           "speed": 1.002,
           "rate": 7,
-          "hash": "b00eda1538f4",
+          "hash": "95631bc2f3cb",
           "made": "ddb55ed0d4a9"
         },
         "itadakimasu": {
@@ -966,7 +966,7 @@ export const AUDIO = {
           "speech": 0.77,
           "speed": 0.957,
           "rate": 7,
-          "hash": "06fc2028091e",
+          "hash": "613e416443a9",
           "made": "013c8cab9d7f"
         },
         "gochisousama": {
@@ -975,7 +975,7 @@ export const AUDIO = {
           "speech": 1.19,
           "speed": 0.879,
           "rate": 7,
-          "hash": "cdf257193180",
+          "hash": "82aabedb3da0",
           "made": "eed7847a3065"
         },
         "ittekimasu": {
@@ -984,7 +984,7 @@ export const AUDIO = {
           "speech": 0.8,
           "speed": 0.95,
           "rate": 7,
-          "hash": "ecf131e68c50",
+          "hash": "67be8c3e90ec",
           "made": "b3899616296d"
         },
         "hajimemashite": {
@@ -993,16 +993,16 @@ export const AUDIO = {
           "speech": 0.75,
           "speed": 0.936,
           "rate": 7,
-          "hash": "7d592f55b925",
+          "hash": "ccb1dfc463e8",
           "made": "75a6672ed06e"
         },
         "yoroshiku": {
           "src": "audio/tsumugi/normal/yoroshiku.mp3",
-          "start": 0.097,
-          "speech": 1.47,
+          "start": 0.087,
+          "speech": 1.48,
           "speed": 0.844,
           "rate": 7,
-          "hash": "0147f4b20398",
+          "hash": "35a434247a8a",
           "made": "fbb8ace365ba"
         },
         "otsukaresama": {
@@ -1011,7 +1011,7 @@ export const AUDIO = {
           "speech": 1.07,
           "speed": 0.903,
           "rate": 7,
-          "hash": "1a33484acb05",
+          "hash": "ddb4ba50ea9e",
           "made": "423a2571c34e"
         },
         "osakini": {
@@ -1020,7 +1020,7 @@ export const AUDIO = {
           "speech": 1.48,
           "speed": 0.865,
           "rate": 7,
-          "hash": "371e2fab3468",
+          "hash": "1684ad5654b4",
           "made": "15082e002df2"
         },
         "daijoubu": {
@@ -1029,7 +1029,7 @@ export const AUDIO = {
           "speech": 0.88,
           "speed": 0.903,
           "rate": 7,
-          "hash": "4abf38b3fb7a",
+          "hash": "933a0e4162cb",
           "made": "451c3261b211"
         },
         "eki": {
@@ -1038,7 +1038,7 @@ export const AUDIO = {
           "speech": 1.08,
           "speed": 0.915,
           "rate": 7,
-          "hash": "de2ddedfbb11",
+          "hash": "caccf1a8b5a9",
           "made": "684e652c1ae6"
         },
         "ikura": {
@@ -1047,7 +1047,7 @@ export const AUDIO = {
           "speech": 0.81,
           "speed": 0.919,
           "rate": 7,
-          "hash": "88b5d2fe4336",
+          "hash": "dae92d733df9",
           "made": "d3135197f5ad"
         },
         "kore": {
@@ -1056,7 +1056,7 @@ export const AUDIO = {
           "speech": 0.84,
           "speed": 0.877,
           "rate": 7,
-          "hash": "86ecfc024d7d",
+          "hash": "84936fbcaa18",
           "made": "6ed31bd2749e"
         },
         "omizu": {
@@ -1065,7 +1065,7 @@ export const AUDIO = {
           "speech": 1.04,
           "speed": 0.883,
           "rate": 7,
-          "hash": "61320dadbae1",
+          "hash": "4f437f94eb57",
           "made": "cd6a7ffa9d59"
         },
         "coffee": {
@@ -1074,7 +1074,7 @@ export const AUDIO = {
           "speech": 1.53,
           "speed": 0.835,
           "rate": 7,
-          "hash": "5428efa66103",
+          "hash": "ab9d930847ba",
           "made": "bf89de4856a3"
         },
         "chotto": {
@@ -1083,7 +1083,7 @@ export const AUDIO = {
           "speech": 1.28,
           "speed": 0.824,
           "rate": 7,
-          "hash": "13abad709763",
+          "hash": "cfbdee28ca45",
           "made": "51e55fae627c"
         },
         "tenki": {
@@ -1092,7 +1092,7 @@ export const AUDIO = {
           "speech": 1.4,
           "speed": 0.843,
           "rate": 7,
-          "hash": "b946313981ac",
+          "hash": "35b76a0c625d",
           "made": "4eda85aa3289"
         },
         "mataashita": {
@@ -1101,7 +1101,7 @@ export const AUDIO = {
           "speech": 0.66,
           "speed": 0.93,
           "rate": 7,
-          "hash": "1fb8d875f6d7",
+          "hash": "a13d8240a118",
           "made": "7dac30f4cccb"
         },
         "wakarimashita": {
@@ -1110,7 +1110,7 @@ export const AUDIO = {
           "speech": 0.79,
           "speed": 0.87,
           "rate": 7,
-          "hash": "558fecf69d20",
+          "hash": "ff19cd13485d",
           "made": "e532851d2660"
         }
       },
@@ -1121,7 +1121,7 @@ export const AUDIO = {
           "speech": 1.07,
           "speed": 1.015,
           "rate": 8,
-          "hash": "f506b2137c90",
+          "hash": "0d4fbad4adbb",
           "made": "53b985c9f306"
         },
         "arigatou": {
@@ -1130,7 +1130,7 @@ export const AUDIO = {
           "speech": 1.16,
           "speed": 1.003,
           "rate": 8,
-          "hash": "2f0197be519e",
+          "hash": "63b6433757c9",
           "made": "fd57a86f442a"
         },
         "sumimasen": {
@@ -1139,7 +1139,7 @@ export const AUDIO = {
           "speech": 0.5,
           "speed": 1.146,
           "rate": 8,
-          "hash": "68cbcd264d03",
+          "hash": "fc5b068e775d",
           "made": "ddb55ed0d4a9"
         },
         "itadakimasu": {
@@ -1148,7 +1148,7 @@ export const AUDIO = {
           "speech": 0.7,
           "speed": 1.094,
           "rate": 8,
-          "hash": "fca072177976",
+          "hash": "7a029d6a46b1",
           "made": "013c8cab9d7f"
         },
         "gochisousama": {
@@ -1157,7 +1157,7 @@ export const AUDIO = {
           "speech": 1.1,
           "speed": 1.005,
           "rate": 8,
-          "hash": "27ac5a23c285",
+          "hash": "19a03c439066",
           "made": "eed7847a3065"
         },
         "ittekimasu": {
@@ -1166,7 +1166,7 @@ export const AUDIO = {
           "speech": 0.68,
           "speed": 1.085,
           "rate": 8,
-          "hash": "483417ec8f8e",
+          "hash": "35d32cb089a3",
           "made": "b3899616296d"
         },
         "hajimemashite": {
@@ -1175,7 +1175,7 @@ export const AUDIO = {
           "speech": 0.7,
           "speed": 1.07,
           "rate": 8,
-          "hash": "2714317c3bb8",
+          "hash": "286a69383924",
           "made": "75a6672ed06e"
         },
         "yoroshiku": {
@@ -1184,7 +1184,7 @@ export const AUDIO = {
           "speech": 1.28,
           "speed": 0.964,
           "rate": 8,
-          "hash": "a7bc33256338",
+          "hash": "79ac54d52a49",
           "made": "fbb8ace365ba"
         },
         "otsukaresama": {
@@ -1193,7 +1193,7 @@ export const AUDIO = {
           "speech": 0.96,
           "speed": 1.032,
           "rate": 8,
-          "hash": "28ab9deddc41",
+          "hash": "3f0e46ec8058",
           "made": "423a2571c34e"
         },
         "osakini": {
@@ -1202,7 +1202,7 @@ export const AUDIO = {
           "speech": 1.3,
           "speed": 0.989,
           "rate": 8,
-          "hash": "0d1a9d791129",
+          "hash": "569bda2545a6",
           "made": "15082e002df2"
         },
         "daijoubu": {
@@ -1211,7 +1211,7 @@ export const AUDIO = {
           "speech": 0.78,
           "speed": 1.032,
           "rate": 8,
-          "hash": "6bea764e8035",
+          "hash": "7fd87a5adf00",
           "made": "451c3261b211"
         },
         "eki": {
@@ -1220,7 +1220,7 @@ export const AUDIO = {
           "speech": 1,
           "speed": 1.046,
           "rate": 8,
-          "hash": "0dd5bcaa2304",
+          "hash": "ed4c79bdd0d7",
           "made": "684e652c1ae6"
         },
         "ikura": {
@@ -1229,7 +1229,7 @@ export const AUDIO = {
           "speech": 0.73,
           "speed": 1.051,
           "rate": 8,
-          "hash": "c4003472292c",
+          "hash": "9ffad85891c7",
           "made": "d3135197f5ad"
         },
         "kore": {
@@ -1238,7 +1238,7 @@ export const AUDIO = {
           "speech": 0.72,
           "speed": 1.003,
           "rate": 8,
-          "hash": "1761a1dee0c2",
+          "hash": "a43f4f82aa5b",
           "made": "6ed31bd2749e"
         },
         "omizu": {
@@ -1247,7 +1247,7 @@ export const AUDIO = {
           "speech": 0.93,
           "speed": 1.009,
           "rate": 8,
-          "hash": "ef13593ea50e",
+          "hash": "d0b0bc32e459",
           "made": "cd6a7ffa9d59"
         },
         "coffee": {
@@ -1256,7 +1256,7 @@ export const AUDIO = {
           "speech": 1.33,
           "speed": 0.954,
           "rate": 8,
-          "hash": "9e0efd4c7f73",
+          "hash": "9b01bff12fe6",
           "made": "bf89de4856a3"
         },
         "chotto": {
@@ -1265,7 +1265,7 @@ export const AUDIO = {
           "speech": 1.12,
           "speed": 0.942,
           "rate": 8,
-          "hash": "4b30ab6627c6",
+          "hash": "58b01338507d",
           "made": "51e55fae627c"
         },
         "tenki": {
@@ -1274,7 +1274,7 @@ export const AUDIO = {
           "speech": 1.22,
           "speed": 0.964,
           "rate": 8,
-          "hash": "d148e24f5373",
+          "hash": "d95681b507f3",
           "made": "4eda85aa3289"
         },
         "mataashita": {
@@ -1283,7 +1283,7 @@ export const AUDIO = {
           "speech": 0.63,
           "speed": 1.063,
           "rate": 8,
-          "hash": "a32e45d41140",
+          "hash": "aa4a28569010",
           "made": "7dac30f4cccb"
         },
         "wakarimashita": {
@@ -1292,7 +1292,7 @@ export const AUDIO = {
           "speech": 0.73,
           "speed": 0.994,
           "rate": 8,
-          "hash": "86b463ccf57a",
+          "hash": "36d75788665a",
           "made": "e532851d2660"
         }
       },
@@ -1303,7 +1303,7 @@ export const AUDIO = {
           "speech": 0.92,
           "speed": 1.141,
           "rate": 9,
-          "hash": "98353e00b6ca",
+          "hash": "0f5dffd2820e",
           "made": "53b985c9f306"
         },
         "arigatou": {
@@ -1312,16 +1312,16 @@ export const AUDIO = {
           "speech": 1.05,
           "speed": 1.128,
           "rate": 9,
-          "hash": "868329ca2265",
+          "hash": "c7cedbec5584",
           "made": "fd57a86f442a"
         },
         "sumimasen": {
           "src": "audio/tsumugi/native/sumimasen.mp3",
-          "start": 0.117,
-          "speech": 0.47,
+          "start": 0.107,
+          "speech": 0.48,
           "speed": 1.289,
           "rate": 9,
-          "hash": "43ea5069a75c",
+          "hash": "257ecbbb5b00",
           "made": "ddb55ed0d4a9"
         },
         "itadakimasu": {
@@ -1330,16 +1330,16 @@ export const AUDIO = {
           "speech": 0.62,
           "speed": 1.231,
           "rate": 9,
-          "hash": "87aeee1e1d74",
+          "hash": "24a59fa3bf17",
           "made": "013c8cab9d7f"
         },
         "gochisousama": {
           "src": "audio/tsumugi/native/gochisousama.mp3",
-          "start": 0.097,
-          "speech": 1.01,
+          "start": 0.087,
+          "speech": 1.02,
           "speed": 1.13,
           "rate": 9,
-          "hash": "acd3706b6e7d",
+          "hash": "251864c851ae",
           "made": "eed7847a3065"
         },
         "ittekimasu": {
@@ -1348,7 +1348,7 @@ export const AUDIO = {
           "speech": 0.66,
           "speed": 1.221,
           "rate": 9,
-          "hash": "345bfbe62a70",
+          "hash": "7d24333ca2e4",
           "made": "b3899616296d"
         },
         "hajimemashite": {
@@ -1357,7 +1357,7 @@ export const AUDIO = {
           "speech": 0.63,
           "speed": 1.203,
           "rate": 9,
-          "hash": "833ce03fa605",
+          "hash": "038f1b65b252",
           "made": "75a6672ed06e"
         },
         "yoroshiku": {
@@ -1366,7 +1366,7 @@ export const AUDIO = {
           "speech": 1.19,
           "speed": 1.085,
           "rate": 9,
-          "hash": "ec050006c2f1",
+          "hash": "74a0f472cbe7",
           "made": "fbb8ace365ba"
         },
         "otsukaresama": {
@@ -1375,7 +1375,7 @@ export const AUDIO = {
           "speech": 0.85,
           "speed": 1.161,
           "rate": 9,
-          "hash": "8be171a67363",
+          "hash": "b5d33db0dba8",
           "made": "423a2571c34e"
         },
         "osakini": {
@@ -1384,7 +1384,7 @@ export const AUDIO = {
           "speech": 1.17,
           "speed": 1.113,
           "rate": 9,
-          "hash": "13273da25059",
+          "hash": "c1f599b26ceb",
           "made": "15082e002df2"
         },
         "daijoubu": {
@@ -1393,16 +1393,16 @@ export const AUDIO = {
           "speech": 0.72,
           "speed": 1.161,
           "rate": 9,
-          "hash": "a27e0cbe3c6c",
+          "hash": "85f81c5df7d4",
           "made": "451c3261b211"
         },
         "eki": {
           "src": "audio/tsumugi/native/eki.mp3",
           "start": 0.037,
-          "speech": 0.88,
+          "speech": 0.89,
           "speed": 1.176,
           "rate": 9,
-          "hash": "3065ec285dbf",
+          "hash": "14737fb3539e",
           "made": "684e652c1ae6"
         },
         "ikura": {
@@ -1411,7 +1411,7 @@ export const AUDIO = {
           "speech": 0.69,
           "speed": 1.182,
           "rate": 9,
-          "hash": "69958672b6fc",
+          "hash": "beae72232345",
           "made": "d3135197f5ad"
         },
         "kore": {
@@ -1420,16 +1420,16 @@ export const AUDIO = {
           "speech": 0.69,
           "speed": 1.128,
           "rate": 9,
-          "hash": "83e02ca10997",
+          "hash": "9513a33f02c6",
           "made": "6ed31bd2749e"
         },
         "omizu": {
           "src": "audio/tsumugi/native/omizu.mp3",
           "start": 0.057,
-          "speech": 0.83,
+          "speech": 0.84,
           "speed": 1.136,
           "rate": 9,
-          "hash": "86ff871ba04a",
+          "hash": "a1541fc9be1f",
           "made": "cd6a7ffa9d59"
         },
         "coffee": {
@@ -1438,16 +1438,16 @@ export const AUDIO = {
           "speech": 1.19,
           "speed": 1.074,
           "rate": 9,
-          "hash": "8257f7bb1f9d",
+          "hash": "81eade3dec84",
           "made": "bf89de4856a3"
         },
         "chotto": {
           "src": "audio/tsumugi/native/chotto.mp3",
-          "start": 0.097,
-          "speech": 1.01,
+          "start": 0.107,
+          "speech": 1,
           "speed": 1.06,
           "rate": 9,
-          "hash": "3d917e212a9a",
+          "hash": "8ffd937d37d7",
           "made": "51e55fae627c"
         },
         "tenki": {
@@ -1456,7 +1456,7 @@ export const AUDIO = {
           "speech": 1.09,
           "speed": 1.084,
           "rate": 9,
-          "hash": "0e97696a6250",
+          "hash": "47a2ea410501",
           "made": "4eda85aa3289"
         },
         "mataashita": {
@@ -1465,7 +1465,7 @@ export const AUDIO = {
           "speech": 0.57,
           "speed": 1.195,
           "rate": 9,
-          "hash": "a51928d3404a",
+          "hash": "010c8579978f",
           "made": "7dac30f4cccb"
         },
         "wakarimashita": {
@@ -1474,7 +1474,7 @@ export const AUDIO = {
           "speech": 0.69,
           "speed": 1.118,
           "rate": 9,
-          "hash": "3e0d68af460f",
+          "hash": "2dd2ea87651f",
           "made": "e532851d2660"
         }
       }

@@ -23,7 +23,7 @@ import { SPEEDS } from '../../site/js/game/speed.js';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const AUDIO_DIR = path.join(ROOT, 'site/audio');
 const MANIFEST = path.join(ROOT, 'site/js/data/audio.js');
-const SETTINGS = { pre: 0.08, post: 0.18, loudness: -18, bitrate: '48k', pitch: 'accent-shaped v1', tune: 'engine-timed v2' };
+const SETTINGS = { pre: 0.08, post: 0.18, loudness: -18, bitrate: '48k', pitch: 'accent-shaped v1', tune: 'engine-timed v2', measure: 'final mp3 v1' };
 const all = process.argv.includes('--all');
 
 const previous = fs.existsSync(MANIFEST) ? (await import(MANIFEST + '?t=' + Date.now())).AUDIO : { clips: {} };
@@ -63,12 +63,18 @@ for (const [voice, v] of Object.entries(VOICES)) {
       nominal ??= await nominalSeconds(voice, p.text, p.units);
       const speed = nominal / (moraCount / sp.rate);
       const pcm = await render(voice, p, speed);
-      const got = rateOf(pcm, moraCount);
+      let got = rateOf(pcm, moraCount);
       const tmp = path.join(AUDIO_DIR, `.${voice}-${sp.id}-${p.id}.wav`);
       fs.writeFileSync(tmp, encodeWav(pcm));
       // Same loudness for every clip and both voices; small mono MP3s play everywhere.
       execFileSync('ffmpeg', ['-loglevel', 'error', '-y', '-i', tmp, '-af', `loudnorm=I=${SETTINGS.loudness}:TP=-1.5:LRA=11`, '-ar', String(SAMPLE_RATE), '-ac', '1', '-c:a', 'libmp3lame', '-b:a', SETTINGS.bitrate, file]);
       fs.unlinkSync(tmp);
+      // Measure the file the app actually plays (after loudness and encoding), with the
+      // same speech detection the app applies to your own voice.
+      const final = execFileSync('ffmpeg', ['-loglevel', 'error', '-i', file, '-f', 's16le', '-ac', '1', '-ar', String(SAMPLE_RATE), '-']);
+      const played = new Float32Array(final.length / 2);
+      for (let i = 0; i < played.length; i++) played[i] = final.readInt16LE(i * 2) / 32768;
+      got = rateOf(played, moraCount);
       clips[voice][sp.id][p.id] = {
         src: rel,
         start: +got.span.start.toFixed(3), // seconds of lead-in before the voice

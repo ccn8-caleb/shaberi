@@ -113,14 +113,11 @@ export function analyze(pcm, sampleRate, { minPause = 0.3 } = {}) {
   }
   fixOctaves(frames);
 
-  // Speech span: first and last run of at least 3 loud frames.
   const loud = frames.map((f) => f.rms >= threshold);
-  const runStart = (i) => loud[i] && loud[i + 1] && loud[i + 2];
-  let first = -1;
-  let last = -1;
-  for (let i = 0; i + 2 < frames.length; i++) if (runStart(i)) { first = i; break; }
-  for (let i = frames.length - 1; i >= 2; i--) if (loud[i] && loud[i - 1] && loud[i - 2]) { last = i; break; }
-  const span = first >= 0 && last > first ? { start: frames[first].t, end: frames[last].t } : null;
+  const found = speechSpan(frames, loud);
+  const span = found && { start: frames[found.first].t, end: frames[found.last].t };
+  const first = found?.first ?? -1;
+  const last = found?.last ?? -1;
 
   const pauses = [];
   if (span) {
@@ -133,8 +130,62 @@ export function analyze(pcm, sampleRate, { minPause = 0.3 } = {}) {
       }
     }
   }
-  const medianF0 = median(frames.filter((f) => f.f0).map((f) => f.f0));
+  // The speaker's median pitch, from the speech itself (not stray sounds around it).
+  const inSpan = span ? frames.filter((f) => f.f0 && f.t >= span.start && f.t <= span.end) : [];
+  const medianF0 = median((inSpan.length ? inSpan : frames.filter((f) => f.f0)).map((f) => f.f0));
   return { frames, threshold, span, pauses, medianF0 };
+}
+
+// Where the attempt is, as frame indices { first, last }, or null.
+//
+// Not simply "first loud frame to last loud frame": a tap on the screen, a breath or
+// an earbud crackle a second after you finish would stretch that, and wreck the
+// rhythm and pitch scores. Instead:
+//   1. loud runs of at least 30 ms, grouped when less than 0.35 s apart (syllables,
+//      short consonant closures);
+//   2. the group with the most energy is the speech;
+//   3. neighbouring groups join it when they're real speech too (a pause mid-phrase):
+//      within 1.2 s, at least 120 ms long and at least a fifth of its energy.
+//      Short or faint sounds around it are left out.
+export function speechSpan(frames, loud, { join = 0.35, reach = 1.2, minPart = 0.12, minShare = 0.2 } = {}) {
+  const runs = [];
+  for (let i = 0; i < frames.length; i++) {
+    if (!loud[i]) continue;
+    let j = i;
+    while (j + 1 < frames.length && loud[j + 1]) j++;
+    if (j - i + 1 >= 3) runs.push({ first: i, last: j });
+    i = j;
+  }
+  if (!runs.length) return null;
+  const groups = [];
+  for (const r of runs) {
+    const g = groups[groups.length - 1];
+    if (g && frames[r.first].t - frames[g.last].t <= join) g.last = r.last;
+    else groups.push({ ...r });
+  }
+  for (const g of groups) {
+    g.energy = 0;
+    for (let i = g.first; i <= g.last; i++) if (loud[i]) g.energy += frames[i].rms;
+    g.length = frames[g.last].t - frames[g.first].t;
+  }
+  let lo = groups.indexOf(groups.reduce((a, b) => (b.energy > a.energy ? b : a)));
+  let hi = lo;
+  const main = groups[lo].energy;
+  const joins = (g, gap) => gap <= reach && g.length >= minPart && g.energy >= main * minShare;
+  for (let grown = true; grown; ) {
+    grown = false;
+    if (lo > 0 && joins(groups[lo - 1], frames[groups[lo].first].t - frames[groups[lo - 1].last].t)) {
+      lo--;
+      grown = true;
+    }
+    if (hi < groups.length - 1 && joins(groups[hi + 1], frames[groups[hi + 1].first].t - frames[groups[hi].last].t)) {
+      hi++;
+      grown = true;
+    }
+  }
+  const first = groups[lo].first;
+  const last = groups[hi].last;
+  return last > first ? { first, last } : null;
 }
 
 // YIN sometimes locks onto half or double the real period. Pull outliers back

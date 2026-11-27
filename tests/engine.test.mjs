@@ -159,3 +159,35 @@ test('rhythm: faster speeds are less forgiving of the same timing', async () => 
     assert.ok(scores[scores.length - 1] < 1, `native should penalise ${rate.toFixed(2)}: ${scores}`);
   }
 });
+
+test('span: stray sounds around a short phrase are ignored', () => {
+  const p = PHRASES.find((x) => x.id === 'mataashita');
+  const mora = phraseMora(p.units);
+  const phrase = 5 / 7; // seconds at 7 mora/s
+  const say = (pre, post) => {
+    const segs = [{ silence: 0.5 }, ...pre];
+    mora.forEach((m) => segs.push({ f0: m.high ? 165 : 140, dur: 1 / 7 }));
+    return synth([...segs, ...post, { silence: 0.4 }]);
+  };
+  // a click 1.2 s after the phrase, and a breath-like blip 0.9 s before it
+  const click = [{ silence: 1.2 }, { f0: 900, dur: 0.04 }];
+  const a = analyze(say([{ f0: 300, dur: 0.05 }, { silence: 0.9 }], click), 48000);
+  assert.ok(Math.abs(a.span.end - a.span.start - phrase) < 0.08, `span ${(a.span.end - a.span.start).toFixed(2)} s`);
+  assert.equal(a.pauses.length, 0);
+  const r = scoreAttempt({ analysis: a, mora, phrase: p, heard: null });
+  assert.ok(r.rhythm.score >= 0.9 && r.pitch.score >= 0.9, JSON.stringify({ rhythm: r.rhythm.score, pitch: r.pitch.score }));
+});
+
+test('span: a real pause in the middle of a phrase is kept, and flagged', () => {
+  const p = PHRASES.find((x) => x.id === 'yoroshiku');
+  const mora = phraseMora(p.units);
+  const segs = [{ silence: 0.5 }];
+  mora.forEach((m, i) => {
+    if (i === 4) segs.push({ silence: 0.8 }); // よろしく … おねがいします
+    segs.push({ f0: m.high ? 165 : 140, dur: 1 / 7 });
+  });
+  const a = analyze(synth([...segs, { silence: 0.5 }]), 48000);
+  const expected = mora.length / 7 + 0.8;
+  assert.ok(Math.abs(a.span.end - a.span.start - expected) < 0.08, `span ${(a.span.end - a.span.start).toFixed(2)} vs ${expected.toFixed(2)}`);
+  assert.equal(a.pauses.length, 1);
+});

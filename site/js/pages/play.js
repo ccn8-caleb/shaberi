@@ -13,6 +13,7 @@ import { nextUnlock } from '../game/arcade.js';
 import { Mic } from '../audio/mic.js';
 import { record } from '../audio/take.js';
 import * as model from '../audio/model.js';
+import { wavBlob } from '../audio/wav.js';
 import { listen, recognitionAvailable } from '../audio/recognizer.js';
 import { drawGraph } from './graph.js';
 import { confetti, floatPoints } from './fx.js';
@@ -161,6 +162,7 @@ const refDuration = () => current.refDuration || current.mora.length / DEFAULT_M
 
 function startRecording() {
   if (recording || !current) return;
+  selfAudio?.pause();
   model.stop();
   $('btn-listen').classList.remove('playing');
   current.graph.clear();
@@ -203,6 +205,7 @@ async function finishRecording(pcm, listener) {
   btn.disabled = false;
 
   current.last = result;
+  current.take = { pcm, sampleRate: mic.sampleRate, analysis };
   // The best attempt is the one worth the most points (a faster speed can win).
   if (!current.best || basePoints(result) > basePoints(current.best)) current.best = result;
   showResult(result, analysis);
@@ -277,6 +280,7 @@ function showResult(result, analysis) {
   $('heard').hidden = !heard;
   if (heard) $('heard').innerHTML = `${escapeHtml(t('聞こえた言葉：', 'Heard: '))}<b lang="ja">${escapeHtml(heard)}</b>`;
 
+  renderDetails(result, analysis);
   const tips = tipsFor(result);
   $('tips').innerHTML = tips.length
     ? tips.map((tip) => `<li>${escapeHtml(tip)}</li>`).join('')
@@ -293,6 +297,41 @@ function showResult(result, analysis) {
   else if (result.grade === 'A') confetti(window.innerWidth / 2, g.getBoundingClientRect().top, 50);
   $('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
+
+// What the app measured, for "why did I get this score?" (and bug reports).
+function renderDetails(result, analysis) {
+  const take = current.take;
+  const recorded = take ? take.pcm.length / take.sampleRate : 0;
+  const speech = analysis.span ? analysis.span.end - analysis.span.start : 0;
+  const ref = current.refDuration;
+  const f = (x) => x.toFixed(2);
+  const parts = [
+    t(`録音 ${f(recorded)}秒`, `Recorded ${f(recorded)} s`),
+    t(`声 ${f(speech)}秒`, `Speech ${f(speech)} s`) + (analysis.span ? t(`（${f(analysis.span.start)}〜${f(analysis.span.end)}秒）`, ` (${f(analysis.span.start)}–${f(analysis.span.end)} s)`) : ''),
+    ref ? t(`お手本 ${f(ref)}秒`, `Model ${f(ref)} s`) : null,
+    result.rhythm.ratio ? t(`比 ×${f(result.rhythm.ratio)}`, `ratio ×${f(result.rhythm.ratio)}`) : null,
+    t(`間 ${analysis.pauses.length}`, `pauses ${analysis.pauses.length}`),
+    analysis.medianF0 ? t(`声の高さ ${Math.round(analysis.medianF0)}Hz`, `pitch ${Math.round(analysis.medianF0)} Hz`) : null,
+    mic.track?.label ? t(`マイク：${mic.track.label}`, `mic: ${mic.track.label}`) : null,
+  ];
+  $('details').textContent = parts.filter(Boolean).join(' · ');
+}
+
+// Play back what the microphone captured.
+const selfAudio = typeof Audio !== 'undefined' ? new Audio() : null;
+let selfUrl = null;
+$('btn-self').addEventListener('click', () => {
+  if (!current?.take || !selfAudio) return;
+  model.stop();
+  if (selfUrl) URL.revokeObjectURL(selfUrl);
+  selfUrl = URL.createObjectURL(wavBlob(current.take.pcm, current.take.sampleRate));
+  selfAudio.src = selfUrl;
+  selfAudio.play().catch((err) => console.warn('[self playback]', err));
+});
+$('btn-model-again').addEventListener('click', () => {
+  selfAudio?.pause();
+  playModel();
+});
 
 function next() {
   if (!current?.best) return;
