@@ -45,5 +45,10 @@ node --test tests/*.test.mjs    # engine tests (Node 22)
 
 ## Licences
 
+The model voices are recordings made with VOICEVOX (VOICEVOX:剣崎雌雄, VOICEVOX:春日部つむぎ).
+They live in `site/audio/`, are **not** covered by the MIT licence, and may not be
+redistributed; see `site/audio/README.md`. Regenerate them with
+`node tools/voice/build-phrases.mjs` (instructions in the file).
+
 Code: MIT. Latin text uses a subset of [Inter](https://rsms.me/inter/) (SIL Open Font
 License, `site/fonts/inter-LICENSE.txt`); icons follow [Lucide](https://lucide.dev) (ISC).

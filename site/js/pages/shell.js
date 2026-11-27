@@ -7,6 +7,7 @@ import { escapeHtml } from '../core/util.js';
 import { versionLabel } from '../core/version.js';
 import { FAMILY } from '../core/constants.js';
 import { load, currentStreak } from '../game/store.js';
+import { VOICES } from '../data/audio.js';
 import { bump } from './fx.js';
 
 const $ = (id) => document.getElementById(id);
@@ -27,7 +28,8 @@ function renderTopButtons() {
 
 function renderFooter() {
   const family = FAMILY.map((f) => `<a href="${f.url}">${escapeHtml(t(f.ja, f.en))}</a>`).join(' · ');
-  $('foot').innerHTML = `${escapeHtml(versionLabel())} · ${family}`;
+  const credits = Object.values(VOICES).map((v) => escapeHtml(v.credit)).join(' · ');
+  $('foot').innerHTML = `${escapeHtml(versionLabel())} · ${family}<br>${escapeHtml(t('お手本の声', 'Voices'))}: ${credits}`;
 }
 
 // onPrefs: called after language/theme changes, to re-render dynamic text.

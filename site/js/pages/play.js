@@ -11,7 +11,7 @@ import { recordRun, currentStreak, hasPracticedToday, dailyBonus } from '../game
 import { nextUnlock } from '../game/arcade.js';
 import { Mic } from '../audio/mic.js';
 import { record } from '../audio/take.js';
-import { loadVoice, hasVoice, speak } from '../audio/tts.js';
+import * as model from '../audio/model.js';
 import { listen, recognitionAvailable } from '../audio/recognizer.js';
 import { drawGraph } from './graph.js';
 import { confetti, floatPoints } from './fx.js';
@@ -77,11 +77,6 @@ function renderChecks() {
       ? ['ok', t('音声認識あり（言葉も採点）', 'Speech recognition on (words are scored)')]
       : ['warn', t('このブラウザは音声認識なし：アクセントとリズムだけ採点', 'No speech recognition here: only pitch and rhythm are scored')]
   );
-  items.push(
-    hasVoice()
-      ? ['ok', t('お手本の音声あり', 'Model voice available')]
-      : ['warn', t('日本語の音声が見つかりません（お手本なし）', 'No Japanese voice found (no model audio)')]
-  );
   items.push(['ok', t('静かな場所で、普通の声で話してください', 'Find a quiet spot and speak at a normal volume')]);
   $('checks').innerHTML = items.map(([cls, text]) => `<li class="${cls}">${escapeHtml(text)}</li>`).join('');
 }
@@ -102,6 +97,7 @@ async function startRun() {
   }
   $('btn-start').disabled = false;
   run = newRun(PHRASES);
+  model.preload(mic.ctx, run.phrases[0].id);
   show('play');
   loadPhrase();
 }
@@ -110,14 +106,17 @@ function loadPhrase() {
   const phrase = run.phrases[run.index];
   const mora = phraseMora(phrase.units);
   const graph = drawGraph($('pitch-graph'), mora);
-  current = { phrase, mora, graph, refDuration: null, best: null, last: null };
+  current = { phrase, mora, graph, refDuration: model.speechLength(phrase.id), best: null, last: null };
+  // Get the next phrase's recording ready too.
+  const upcoming = run.phrases[run.index + 1];
+  if (upcoming) model.preload(mic.ctx, upcoming.id);
   renderPhrase();
   renderRunBar();
   $('result').hidden = true;
   $('controls').hidden = false;
   setStatus(t('まず聞いて、それから話そう', 'Listen first, then speak'));
   // Play the model once on arrival.
-  if (hasVoice()) setTimeout(playModel, 350);
+  setTimeout(playModel, 350);
 }
 
 function renderPhrase() {
@@ -145,12 +144,13 @@ function renderRunBar() {
 const setStatus = (text) => ($('status').textContent = text);
 
 async function playModel() {
-  if (!current || recording || !hasVoice()) return;
+  if (!current || recording) return;
   const btn = $('btn-listen');
   btn.classList.add('playing');
-  const duration = await speak(current.phrase.text);
+  const duration = await model.play(mic.ctx, current.phrase);
   btn.classList.remove('playing');
-  if (duration && current) current.refDuration = duration;
+  // The recording's own length is the target; browser speech only when there's none.
+  if (duration && current && !current.refDuration) current.refDuration = duration;
 }
 
 // ---------------------------------------------------------------- recording
@@ -159,7 +159,8 @@ const refDuration = () => current.refDuration || current.mora.length / DEFAULT_M
 
 function startRecording() {
   if (recording || !current) return;
-  window.speechSynthesis?.cancel();
+  model.stop();
+  $('btn-listen').classList.remove('playing');
   current.graph.clear();
   $('result').hidden = true;
   const btn = $('btn-rec');
@@ -335,9 +336,26 @@ initShell({
   onPrefs: () => {
     renderChecks();
     renderHome();
+    renderVoicePicker();
     if (screen === 'play' && current) renderPhrase();
   },
 });
+// Model voice picker (home screen).
+function renderVoicePicker() {
+  const now = model.getVoice();
+  $('voice-picker').innerHTML = model.VOICE_IDS.map((id) => {
+    const v = model.VOICES[id];
+    const label = id === 'kenzaki' ? t('男性', 'Male') : t('女性', 'Female');
+    return `<button type="button" class="voice-chip${id === now ? ' on' : ''}" data-voice="${id}" aria-pressed="${id === now}"><b lang="ja">${escapeHtml(v.name)}</b><small>${escapeHtml(label)}</small></button>`;
+  }).join('');
+}
+$('voice-picker').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-voice]');
+  if (!b) return;
+  model.setVoice(b.dataset.voice);
+  renderVoicePicker();
+});
+
 renderHome();
 renderChecks();
-loadVoice().then(renderChecks);
+renderVoicePicker();

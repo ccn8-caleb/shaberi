@@ -4,6 +4,21 @@ Versions follow [semver](https://semver.org/). The version lives in
 `site/js/core/version.js`; every release needs an entry here (CI checks it). Each
 deploy also carries a build id (commit hash), shown next to the version in the app.
 
+## [0.1.3] — 2026-11-27 — Real model voices
+
+### Added
+- **The 聞く button plays real recordings** of every practice phrase, in two VOICEVOX
+  voices: 剣崎雌雄 (male) and 春日部つむぎ (female). Pick one on the home screen. They
+  sound the same on every device, work offline, and no longer depend on the phone
+  having a Japanese voice. Credits are in the footer.
+- Each recording says the phrase with exactly the pitch accent shown in the graph,
+  at a learner-friendly pace (about 7 syllables a second), and its length is now the
+  rhythm target.
+
+### Fixed
+- ください had the wrong accent in three phrases' pitch graphs (it falls after さ,
+  not after だ).
+
 ## [0.1.2] — 2026-11-26 — Words on Android
 
 ### Fixed

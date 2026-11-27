@@ -1,8 +1,6 @@
-// Model voice for the PoC: the browser's own Japanese text-to-speech.
-//
-// Voices differ by device, so this is a stand-in: the plan is pre-generated reference
-// audio (e.g. VOICEVOX) that sounds the same everywhere and can be analysed too.
-// What it does give us now is the model's duration, used as the rhythm target.
+// Fallback model voice: the browser's own Japanese text-to-speech. Phrases normally
+// play the VOICEVOX recordings (audio/model.js); this is used only when a recording
+// can't be played, and by the shelved walk game, which varies its speed.
 
 const PREFERRED = /Google|Kyoko|Otoya|O-ren|Nanami|Keita|Haruka|Ayumi|Ichiro|Sayaka/i;
 

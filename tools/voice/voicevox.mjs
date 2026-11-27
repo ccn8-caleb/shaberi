@@ -128,10 +128,35 @@ export async function query(voice, text) {
 
 // Plain speech. units ([kana, accent] pairs, as in site/js/data/phrases.js) set the
 // accents from our data instead of VOICEVOX's guesses, which are sometimes wrong.
-export async function speak(voice, text, { units = null, speed = 1 } = {}) {
+export async function speak(voice, text, { units = null, speed = 1, pre = null, post = null } = {}) {
   const q = units ? await accentQuery(voice, units) : await query(voice, text);
   q.speedScale = speed;
+  if (pre !== null) q.prePhonemeLength = pre;
+  if (post !== null) q.postPhonemeLength = post;
   return audio(`/synthesis?speaker=${VOICES[voice].talk}`, q);
+}
+
+export async function engineVersion() {
+  return (await fetch(API + '/version')).json();
+}
+
+export function encodeWav(pcm, sampleRate = SAMPLE_RATE) {
+  const buf = Buffer.alloc(44 + pcm.length * 2);
+  buf.write('RIFF', 0);
+  buf.writeUInt32LE(36 + pcm.length * 2, 4);
+  buf.write('WAVE', 8);
+  buf.write('fmt ', 12);
+  buf.writeUInt32LE(16, 16);
+  buf.writeUInt16LE(1, 20);
+  buf.writeUInt16LE(1, 22);
+  buf.writeUInt32LE(sampleRate, 24);
+  buf.writeUInt32LE(sampleRate * 2, 28);
+  buf.writeUInt16LE(2, 32);
+  buf.writeUInt16LE(16, 34);
+  buf.write('data', 36);
+  buf.writeUInt32LE(pcm.length * 2, 40);
+  pcm.forEach((v, i) => buf.writeInt16LE(Math.max(-32768, Math.min(32767, Math.round(v * 32767))), 44 + i * 2));
+  return buf;
 }
 
 // VOICEVOX's kana notation has no ー: spell a long vowel out (コーヒー → コオヒイ).
@@ -160,8 +185,31 @@ export function accentKana(units) {
 async function accentQuery(voice, units) {
   const r = await post(`/accent_phrases?speaker=${VOICES[voice].talk}&text=${encodeURIComponent(accentKana(units))}&is_kana=true`);
   const q = await query(voice, units.map((u) => u[0]).join(''));
-  q.accent_phrases = await r.json();
+  q.accent_phrases = shapePitch(await r.json(), units);
   return q;
+}
+
+// Even with the accent marked, VOICEVOX's predicted pitch can put the peak a mora late
+// (つむぎ does this a lot), so the model voice wouldn't match the pitch graph. Set each
+// mora's pitch from our accent pattern instead: high moras `step` semitones above the
+// voice's own average, low ones below, on a gently falling line (natural declination).
+// Unvoiced moras (pitch 0) stay unvoiced; the engine smooths between moras.
+export function shapePitch(accentPhrases, units, { step = 2, declination = 0.2 } = {}) {
+  const voiced = accentPhrases.flatMap((ap) => ap.moras.map((m) => m.pitch)).filter((p) => p > 0);
+  if (!voiced.length) return accentPhrases;
+  const mean = voiced.reduce((s, p) => s + p, 0) / voiced.length;
+  const toLog = (st) => (st * Math.LN2) / 12;
+  let i = 0;
+  accentPhrases.forEach((ap, u) => {
+    const accent = units[u]?.[1] ?? ap.accent;
+    ap.moras.forEach((m, k) => {
+      const n = k + 1;
+      const high = accent === 1 ? n === 1 : accent === 0 ? n > 1 : n > 1 && n <= accent;
+      if (m.pitch > 0) m.pitch = mean + toLog((high ? step : -step) - declination * i + declination * 3);
+      i++;
+    });
+  });
+  return accentPhrases;
 }
 
 // Speech locked to a beat grid. Returns { pcm, onset }: place it at (beat time − onset).

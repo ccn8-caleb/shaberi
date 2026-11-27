@@ -468,3 +468,40 @@
   animation: bump 1.6s ease infinite;
 }
 
+
+/* ================= VOICE PICKER ================= */
+.voice-pick {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+}
+.voice-pick-label {
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+.voice-picker {
+  display: flex;
+  gap: 8px;
+}
+.voice-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 16px;
+  border-radius: 16px;
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-sm);
+  border: 2px solid transparent;
+  line-height: 1.25;
+}
+.voice-chip small {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+.voice-chip.on {
+  border-color: var(--purple);
+  background: color-mix(in srgb, var(--purple) 12%, var(--bg-surface));
+}

@@ -28,6 +28,11 @@ shared pieces, check whether the same change belongs there too. Shaberi is the
   and つむぎ sings 'as-sung' (no pitch cleanup: it sounds less natural). Set accents
   from our phrase data (`speak(..., { units })`), never VOICEVOX's guesses. Credit
   every voice used as 「VOICEVOX:名前」 in the app.
+- Phrase audio: `node tools/voice/build-phrases.mjs` (only regenerates what changed)
+  writes `site/audio/<voice>/<id>.mp3` and `site/js/data/audio.js`. Run it after any
+  phrase edit; `tests/audio.test.mjs` fails until you do. Pitch is shaped from our
+  accent data (`shapePitch`) because VOICEVOX's own prediction peaks a mora late,
+  especially for つむぎ. The audio is not MIT (see `site/audio/README.md`).
 - - Progress lives in localStorage (`game/store.js`). Bump SCHEMA_VERSION only with a
   migration in `migrate()`, so saves carry over.
 - Phrases: `site/js/data/phrases.js`. Accent numbers are hand-entered; verify against an
