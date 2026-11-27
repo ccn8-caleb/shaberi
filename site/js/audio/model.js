@@ -5,6 +5,7 @@
 
 import { STORAGE_KEYS } from '../core/constants.js';
 import { AUDIO, VOICES } from '../data/audio.js';
+import { speedById, DEFAULT_SPEED } from '../game/speed.js';
 import * as tts from './tts.js';
 
 export const VOICE_IDS = Object.keys(VOICES);
@@ -26,10 +27,25 @@ export function setVoice(v) {
   } catch (_) {}
 }
 
-export const clip = (phraseId, voice = getVoice()) => AUDIO.clips[voice]?.[phraseId] || null;
+// The model's speaking speed (a game/speed.js level id), remembered per browser.
+export function getSpeed() {
+  try {
+    return speedById(localStorage.getItem(STORAGE_KEYS.SPEED) || DEFAULT_SPEED).id;
+  } catch (_) {
+    return DEFAULT_SPEED;
+  }
+}
+
+export function setSpeed(id) {
+  try {
+    localStorage.setItem(STORAGE_KEYS.SPEED, speedById(id).id);
+  } catch (_) {}
+}
+
+export const clip = (phraseId, voice = getVoice(), speed = getSpeed()) => AUDIO.clips[voice]?.[speed]?.[phraseId] || null;
 
 // How long the model takes to say a phrase (seconds): the rhythm target.
-export const speechLength = (phraseId, voice = getVoice()) => clip(phraseId, voice)?.speech ?? null;
+export const speechLength = (phraseId, voice = getVoice(), speed = getSpeed()) => clip(phraseId, voice, speed)?.speech ?? null;
 
 const buffers = new Map(); // src -> Promise<AudioBuffer>
 let playing = null;
@@ -49,15 +65,15 @@ function load(ctx, src) {
 }
 
 // Fetch and decode ahead of time so playback starts instantly.
-export function preload(ctx, phraseId, voice = getVoice()) {
-  const c = clip(phraseId, voice);
+export function preload(ctx, phraseId, voice = getVoice(), speed = getSpeed()) {
+  const c = clip(phraseId, voice, speed);
   if (ctx && c) load(ctx, c.src).catch(() => {});
 }
 
 // Play a phrase; resolves when it has finished, with the phrase's speech length.
-export async function play(ctx, phrase, voice = getVoice()) {
+export async function play(ctx, phrase, voice = getVoice(), speed = getSpeed()) {
   stop();
-  const c = clip(phrase.id, voice);
+  const c = clip(phrase.id, voice, speed);
   if (ctx && c) {
     try {
       const buffer = await load(ctx, c.src);

@@ -212,6 +212,19 @@ export function shapePitch(accentPhrases, units, { step = 2, declination = 0.2 }
   return accentPhrases;
 }
 
+// How long a phrase takes at speedScale 1, from the engine's own mora lengths
+// (pauses inside the phrase included, silence before and after not). Exact, so the
+// speed for a target pace can be calculated instead of found by trial and error.
+export async function nominalSeconds(voice, text, units = null) {
+  const q = units ? await accentQuery(voice, units) : await query(voice, text);
+  let total = 0;
+  for (const ap of q.accent_phrases) {
+    for (const m of ap.moras) total += (m.consonant_length || 0) + m.vowel_length;
+    if (ap.pause_mora) total += ap.pause_mora.vowel_length;
+  }
+  return total;
+}
+
 // Speech locked to a beat grid. Returns { pcm, onset }: place it at (beat time − onset).
 export async function onGrid(voice, text, step) {
   const q = lockToGrid(await query(voice, text), step);

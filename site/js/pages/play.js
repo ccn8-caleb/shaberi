@@ -6,7 +6,8 @@ import { PHRASES } from '../data/phrases.js';
 import { phraseMora } from '../engine/mora.js';
 import { analyze, semitones } from '../engine/pitch.js';
 import { scoreAttempt, DEFAULT_MORA_RATE } from '../engine/score.js';
-import { newRun, commit, isOver, multiplier } from '../game/run.js';
+import { newRun, commit, isOver, multiplier, basePoints } from '../game/run.js';
+import { SPEEDS, speedById, step } from '../game/speed.js';
 import { recordRun, currentStreak, hasPracticedToday, dailyBonus } from '../game/store.js';
 import { nextUnlock } from '../game/arcade.js';
 import { Mic } from '../audio/mic.js';
@@ -195,11 +196,14 @@ async function finishRecording(pcm, listener) {
 
   const heard = await listener.stop();
   const analysis = analyze(pcm, mic.sampleRate);
-  const result = scoreAttempt({ analysis, mora: current.mora, phrase: current.phrase, heard, refDuration: current.refDuration });
+  const speed = speedById(model.getSpeed());
+  const scored = scoreAttempt({ analysis, mora: current.mora, phrase: current.phrase, heard, refDuration: current.refDuration, fit: speed.fit });
+  const result = { ...scored, speed: speed.id, speedPoints: speed.points };
   btn.disabled = false;
 
   current.last = result;
-  if (!current.best || result.total > current.best.total) current.best = result;
+  // The best attempt is the one worth the most points (a faster speed can win).
+  if (!current.best || basePoints(result) > basePoints(current.best)) current.best = result;
   showResult(result, analysis);
 }
 
@@ -237,7 +241,10 @@ function tipsFor(result) {
   const fb = result.rhythm.feedback || [];
   if (fb.includes('partial')) tips.push(t('一部しか聞き取れませんでした。ボタンを押してから、全部言ってください。', 'We only caught part of it. Tap first, then say the whole phrase.'));
   if (fb.includes('fast')) tips.push(t('少し速すぎます。お手本のスピードで。', 'A bit fast. Match the model’s speed.'));
-  if (fb.includes('slow')) tips.push(t('もう少しテンポよく。', 'Try a bit quicker, more smoothly.'));
+  if (fb.includes('slow')) {
+    tips.push(t('もう少しテンポよく。', 'Try a bit quicker, more smoothly.'));
+    if (model.getSpeed() !== SPEEDS[0].id) tips.push(t('このスピードが難しければ「速すぎる」でお手本をゆっくりに。', 'If this speed is too much, tap “Too fast” to slow the model down.'));
+  }
   if (fb.includes('pause')) tips.push(t('途中で止まらずに、一息で言ってみよう。', 'Try to say it in one breath, without stopping.'));
   if (result.words.missed) tips.push(t('音声認識が今回の声を受け取れなかったので、言葉は採点していません。', "Speech recognition didn't receive this attempt, so words weren't scored."));
   else if (result.words.score !== null && result.words.score < 0.7) tips.push(t('言葉がはっきり聞き取れませんでした。', "Some words didn't come through clearly."));
@@ -255,6 +262,8 @@ function showResult(result, analysis) {
   void g.offsetWidth;
   g.style.animation = '';
   $('result-total').textContent = result.total;
+  const sp = speedById(result.speed);
+  $('result-speed').textContent = t(`スピード：${sp.ja}（ポイント×${sp.points}）`, `Speed: ${sp.en} (points ×${sp.points})`);
 
   $('bars').innerHTML = [
     bar(t('言葉', 'Words'), result.words, 'var(--teal)'),
@@ -337,9 +346,38 @@ initShell({
     renderChecks();
     renderHome();
     renderVoicePicker();
+    renderSpeed();
     if (screen === 'play' && current) renderPhrase();
   },
 });
+// ---------------------------------------------------------------- speed
+
+function renderSpeed() {
+  const now = speedById(model.getSpeed());
+  const i = SPEEDS.indexOf(now);
+  $('speed-name').textContent = t(now.ja, now.en);
+  $('speed-points').textContent = t(`${now.rate}拍/秒・ポイント×${now.points}`, `${now.rate} morae/s · points ×${now.points}`);
+  $('speed-dots').innerHTML = SPEEDS.map((s, k) => `<i class="${k <= i ? 'on' : ''}"></i>`).join('');
+  $('speed-bar').dataset.level = now.id;
+  $('btn-too-fast').disabled = i === 0;
+  $('btn-too-slow').disabled = i === SPEEDS.length - 1;
+}
+
+// "Too fast" slows the model down a step; "Too slow" speeds it up. Then hear it again.
+function changeSpeed(by) {
+  const next = step(model.getSpeed(), by);
+  if (next === model.getSpeed()) return;
+  model.setSpeed(next);
+  renderSpeed();
+  if (!current) return;
+  current.refDuration = model.speechLength(current.phrase.id);
+  const upcoming = run?.phrases[run.index + 1];
+  if (upcoming) model.preload(mic.ctx, upcoming.id);
+  if (!recording) playModel();
+}
+$('btn-too-fast').addEventListener('click', () => changeSpeed(-1));
+$('btn-too-slow').addEventListener('click', () => changeSpeed(1));
+
 // Model voice picker (home screen).
 function renderVoicePicker() {
   const now = model.getVoice();
@@ -359,3 +397,4 @@ $('voice-picker').addEventListener('click', (e) => {
 renderHome();
 renderChecks();
 renderVoicePicker();
+renderSpeed();

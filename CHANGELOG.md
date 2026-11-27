@@ -4,6 +4,24 @@ Versions follow [semver](https://semver.org/). The version lives in
 `site/js/core/version.js`; every release needs an entry here (CI checks it). Each
 deploy also carries a build id (commit hash), shown next to the version in the app.
 
+## [0.1.4] — 2026-11-27 — Speed levels
+
+### Added
+- **「速すぎる」/「遅すぎる」 buttons** under the practice controls. They slow the model
+  voice down or speed it up a step and play it again. Four levels, remembered:
+  ゆっくり (6 morae/s), ふつう (7), はやめ (8) and ネイティブ (9).
+- **Faster pays more:** a phrase's points are ×0.8, ×1, ×1.25 or ×1.5 by speed (shown
+  on the result card and in the Next button's points).
+- **Faster is stricter:** the rhythm check's full-marks window narrows with speed,
+  from 0.75–1.45× the model's time at ゆっくり to 0.9–1.12× at ネイティブ, and the
+  score falls off faster outside it. If you're too slow for the level, the result
+  suggests slowing the model down.
+
+### Changed
+- Every phrase is recorded at each speed (160 recordings, 1.9 MB), timed from the
+  voice engine's own syllable lengths so each level is exactly its pace. The new
+  ふつう is a touch brisker than 0.1.3's recordings; ゆっくり is close to the old pace.
+
 ## [0.1.3] — 2026-11-27 — Real model voices
 
 ### Added

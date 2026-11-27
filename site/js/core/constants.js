@@ -7,6 +7,7 @@ export const STORAGE_KEYS = {
   THEME: 'shaberi_theme',
   PROGRESS: 'shaberi_progress', // points, best run, per-phrase bests (see game/store.js)
   VOICE: 'shaberi_voice', // which model voice plays the phrases (see audio/model.js)
+  SPEED: 'shaberi_speed', // the model's speaking speed (see game/speed.js)
 };
 
 export const SCHEMA_VERSION = 2;

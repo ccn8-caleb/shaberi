@@ -31,3 +31,15 @@ test('combo grows on good scores, resets on a miss, and multiplies points', () =
   assert.ok(isOver(run));
   assert.equal(run.points, run.results.reduce((s, r) => s + r.earned, 0));
 });
+
+test('faster speeds earn more points for the same attempt', async () => {
+  const { SPEEDS, step, speedById, DEFAULT_SPEED } = await import('../site/js/game/speed.js');
+  const { basePoints } = await import('../site/js/game/run.js');
+  const pts = SPEEDS.map((s) => basePoints({ total: 80, grade: 'A', speedPoints: s.points }));
+  for (let i = 1; i < pts.length; i++) assert.ok(pts[i] > pts[i - 1]);
+  assert.equal(basePoints({ total: 80, grade: 'A' }), 100); // no speed: ×1
+  assert.equal(step('normal', 1), 'quick');
+  assert.equal(step('native', 1), 'native');
+  assert.equal(step('slow', -1), 'slow');
+  assert.equal(speedById('nope').id, DEFAULT_SPEED);
+});

@@ -107,6 +107,15 @@
           <span class="level" id="rec-level"></span>
         </button>
       </div>
+      <div class="speed-bar" id="speed-bar">
+        <button type="button" class="speed-btn" id="btn-too-fast" data-ja="速すぎる" data-en="Too fast">速すぎる</button>
+        <div class="speed-now" aria-live="polite">
+          <span class="speed-dots" id="speed-dots" aria-hidden="true"></span>
+          <b id="speed-name"></b>
+          <small id="speed-points"></small>
+        </div>
+        <button type="button" class="speed-btn" id="btn-too-slow" data-ja="遅すぎる" data-en="Too slow">遅すぎる</button>
+      </div>
       <p class="status" id="status" role="status"></p>
 
       <div class="result" id="result" hidden>
@@ -114,6 +123,7 @@
           <div class="grade" id="grade">S</div>
           <div class="result-score"><b id="result-total">0</b><span>/100</span></div>
         </div>
+        <p class="result-speed" id="result-speed"></p>
         <div class="bars" id="bars"></div>
         <p class="heard" id="heard" hidden></p>
         <ul class="tips" id="tips"></ul>

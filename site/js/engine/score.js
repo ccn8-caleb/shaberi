@@ -74,7 +74,12 @@ export function pitchScore(analysis, mora) {
 
 // --- Rhythm ------------------------------------------------------------------------
 
-export function rhythmScore(analysis, moraCount, refDuration = null) {
+// Rhythm tolerance (your time ÷ the model's): full marks from min to max, falling to
+// zero over fallFast below min and fallSlow above max. Faster model speeds use tighter
+// ones (game/speed.js); this is the "normal" one.
+export const NORMAL_FIT = { min: 0.8, max: 1.3, fallFast: 0.4, fallSlow: 0.9 };
+
+export function rhythmScore(analysis, moraCount, refDuration = null, fit = NORMAL_FIT) {
   const { span, pauses } = analysis;
   if (!span) return { score: null, ratio: null, duration: 0, pauses: [], feedback: [] };
   const duration = span.end - span.start;
@@ -82,14 +87,14 @@ export function rhythmScore(analysis, moraCount, refDuration = null) {
   const ratio = duration / ref;
   // Anything from a little quicker to a little slower than the model is full marks.
   let score = 1;
-  if (ratio < 0.8) score = 1 - (0.8 - ratio) / 0.4;
-  else if (ratio > 1.3) score = 1 - (ratio - 1.3) / 0.9;
+  if (ratio < fit.min) score = 1 - (fit.min - ratio) / fit.fallFast;
+  else if (ratio > fit.max) score = 1 - (ratio - fit.max) / fit.fallSlow;
   score -= pauses.length * 0.15;
   const feedback = [];
   // Far shorter than the phrase can be said: we only caught part of it.
   if (ratio < 0.45) feedback.push('partial');
-  else if (ratio < 0.8) feedback.push('fast');
-  if (ratio > 1.3) feedback.push('slow');
+  else if (ratio < fit.min) feedback.push('fast');
+  if (ratio > fit.max) feedback.push('slow');
   if (pauses.length) feedback.push('pause');
   return { score: clamp01(score), ratio, duration, pauses, feedback };
 }
@@ -170,11 +175,11 @@ export const recognizerMissed = (heard, rhythm) =>
   Array.isArray(heard) && !heard.some((h) => normalize(h)) && rhythm.ratio !== null && rhythm.ratio >= 0.45;
 
 // Score one attempt end to end.
-export function scoreAttempt({ analysis, mora, phrase, heard, refDuration }) {
+export function scoreAttempt({ analysis, mora, phrase, heard, refDuration, fit = NORMAL_FIT }) {
   if (!analysis.span) {
     return { total: 0, grade: 'D', silent: true, words: { score: null }, pitch: { score: null }, rhythm: { score: null } };
   }
-  const rhythm = rhythmScore(analysis, mora.length, refDuration);
+  const rhythm = rhythmScore(analysis, mora.length, refDuration, fit);
   const missed = recognizerMissed(heard, rhythm);
   const parts = {
     words: missed ? { score: null, heard: null, missed: true } : wordsScore(heard, phrase),

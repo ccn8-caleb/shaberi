@@ -45,13 +45,17 @@ export function newRun(phrases, seed = (Math.random() * 2 ** 32) >>> 0) {
   return { seed, phrases: pickPhrases(phrases, seed), index: 0, combo: 0, maxCombo: 0, points: 0, results: [] };
 }
 
+// Points an attempt is worth before the combo: score + grade bonus, times the speed
+// multiplier it was spoken at (result.speedPoints, from game/speed.js).
+export const basePoints = (result) => (result.total + GRADE_BONUS[result.grade]) * (result.speedPoints ?? 1);
+
 // Commit a phrase's final attempt. Returns the points it earned.
 // The multiplier uses the combo going into this phrase, plus this one if it counts.
 export function commit(run, result) {
   const keeps = result.total >= COMBO_SCORE;
   run.combo = keeps ? run.combo + 1 : 0;
   run.maxCombo = Math.max(run.maxCombo, run.combo);
-  const earned = Math.round((result.total + GRADE_BONUS[result.grade]) * multiplier(run.combo));
+  const earned = Math.round(basePoints(result) * multiplier(run.combo));
   run.points += earned;
   run.results.push({ id: run.phrases[run.index].id, total: result.total, grade: result.grade, earned, combo: run.combo });
   run.index++;

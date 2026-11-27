@@ -144,3 +144,18 @@ test('words: an empty recogniser result over a clear attempt is unscored, not 0'
   // Recognition unavailable: unscored as before, without the "missed" note.
   assert.equal(scoreAttempt({ analysis, mora, phrase: p, heard: null }).words.missed, undefined);
 });
+
+test('rhythm: faster speeds are less forgiving of the same timing', async () => {
+  const { SPEEDS } = await import('../site/js/game/speed.js');
+  const p = PHRASES.find((x) => x.id === 'yoroshiku');
+  const mora = phraseMora(p.units);
+  const model = mora.length / 7;
+  // 18% slower and 12% quicker than the model: fine when slow, penalised at native speed.
+  for (const rate of [7 / 1.18, 7 / 0.88]) {
+    const a = analyze(sayPattern(mora, { rate }), 48000);
+    const scores = SPEEDS.map((s) => rhythmScore(a, mora.length, model, s.fit).score);
+    assert.equal(scores[0], 1, `slow level at ${rate.toFixed(2)}: ${scores}`);
+    for (let i = 1; i < scores.length; i++) assert.ok(scores[i] <= scores[i - 1], `${rate.toFixed(2)}: ${scores}`);
+    assert.ok(scores[scores.length - 1] < 1, `native should penalise ${rate.toFixed(2)}: ${scores}`);
+  }
+});
