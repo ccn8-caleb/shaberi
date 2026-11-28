@@ -4,7 +4,16 @@ Versions follow [semver](https://semver.org/). The version lives in
 `site/js/core/version.js`; every release needs an entry here (CI checks it). Each
 deploy also carries a build id (commit hash), shown next to the version in the app.
 
-## [0.1.11] — 2026-11-28 — Quick Groove
+## [0.1.11] — 2026-11-28 — Natural voices, quick Groove
+
+### Changed
+- **The model voices sound natural again.** Since 0.1.3 every recording had its pitch
+  flattened into textbook high/low steps and was re-timed to an exact pace, which made
+  both voices stiff. Now they're VOICEVOX as is: only the accent and the particle
+  reading (は → わ) come from our data. The speed levels use VOICEVOX's own speed
+  setting (×0.85, as is, ×1.12, ×1.25), shown as "speed ×…" under the speed buttons.
+  Your pitch is still scored against the recording itself, so the scoring follows the
+  natural melody; the graph still shows the dictionary accent.
 
 ### Fixed
 - **相づちグルーヴ made you wait up to three seconds to answer** at はやめ and ネイティブ:

@@ -447,7 +447,7 @@ function renderSpeed() {
   const now = speedById(model.getSpeed());
   const i = SPEEDS.indexOf(now);
   $('speed-name').textContent = t(now.ja, now.en);
-  $('speed-points').textContent = t(`${now.rate}拍/秒・ポイント×${now.points}`, `${now.rate} morae/s · points ×${now.points}`);
+  $('speed-points').textContent = t(`速さ×${now.scale}・ポイント×${now.points}`, `speed ×${now.scale} · points ×${now.points}`);
   $('speed-dots').innerHTML = SPEEDS.map((s, k) => `<i class="${k <= i ? 'on' : ''}"></i>`).join('');
   $('speed-bar').dataset.level = now.id;
   $('btn-too-fast').disabled = i === 0;

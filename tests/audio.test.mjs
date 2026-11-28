@@ -22,19 +22,19 @@ test('every phrase has a recording in every voice at every speed', () => {
   });
 });
 
-test("each recording is spoken at its level's pace", () => {
+test("each recording is the voice as is, at its level's speed setting", () => {
   each((voice, sp, p, c) => {
-    // The engine's own timing: exact.
-    assert.ok(Math.abs(c.rate / sp.rate - 1) < 0.01, `${voice}/${sp.id}/${p.id}: ${c.rate} mora/s, want ${sp.rate}`);
-    // As our analyser hears it (it misses whispered endings, so a little faster).
-    const heard = phraseMora(p.units).length / c.speech;
-    assert.ok(heard > sp.rate * 0.95 && heard < sp.rate * 1.4, `${voice}/${sp.id}/${p.id}: heard at ${heard.toFixed(1)} mora/s`);
+    assert.equal(c.speed, sp.scale, `${voice}/${sp.id}/${p.id}: speed ×${c.speed}`);
+    // A natural pace for its level, by the engine's own timing (VOICEVOX talks at about
+    // 8 morae a second as is). Our speech detector misses whispered endings, so it
+    // isn't used for this.
+    assert.ok(c.rate > 5 && c.rate < 12.5, `${voice}/${sp.id}/${p.id}: ${c.rate} mora/s`);
     assert.ok(c.start >= 0 && c.start < 0.35, `${voice}/${sp.id}/${p.id}: starts at ${c.start}s`);
   });
   // Faster levels really are faster, phrase by phrase.
   for (const voice of Object.keys(RECIPES)) for (const p of PHRASES) {
-    const lengths = SPEEDS.map((sp) => AUDIO.clips[voice][sp.id][p.id].speech);
-    for (let i = 1; i < lengths.length; i++) assert.ok(lengths[i] < lengths[i - 1], `${voice}/${p.id}: ${lengths}`);
+    const paces = SPEEDS.map((sp) => AUDIO.clips[voice][sp.id][p.id].rate);
+    for (let i = 1; i < paces.length; i++) assert.ok(paces[i] > paces[i - 1], `${voice}/${p.id}: ${paces}`);
   }
 });
 

@@ -209,31 +209,10 @@ export function accentKana(units) {
 async function accentQuery(voice, units) {
   const r = await post(`/accent_phrases?speaker=${VOICES[voice].talk}&text=${encodeURIComponent(accentKana(units))}&is_kana=true`);
   const q = await query(voice, units.map((u) => u[0]).join(''));
-  q.accent_phrases = shapePitch(await r.json(), units);
+  // Our accent marks only: the engine's own melody and timing are left as they are
+  // (shaping the pitch made the voices sound stiff).
+  q.accent_phrases = await r.json();
   return q;
-}
-
-// Even with the accent marked, VOICEVOX's predicted pitch can put the peak a mora late
-// (つむぎ does this a lot), so the model voice wouldn't match the pitch graph. Set each
-// mora's pitch from our accent pattern instead: high moras `step` semitones above the
-// voice's own average, low ones below, on a gently falling line (natural declination).
-// Unvoiced moras (pitch 0) stay unvoiced; the engine smooths between moras.
-export function shapePitch(accentPhrases, units, { step = 2, declination = 0.2 } = {}) {
-  const voiced = accentPhrases.flatMap((ap) => ap.moras.map((m) => m.pitch)).filter((p) => p > 0);
-  if (!voiced.length) return accentPhrases;
-  const mean = voiced.reduce((s, p) => s + p, 0) / voiced.length;
-  const toLog = (st) => (st * Math.LN2) / 12;
-  let i = 0;
-  accentPhrases.forEach((ap, u) => {
-    const accent = units[u]?.[1] ?? ap.accent;
-    ap.moras.forEach((m, k) => {
-      const n = k + 1;
-      const high = accent === 1 ? n === 1 : accent === 0 ? n > 1 : n > 1 && n <= accent;
-      if (m.pitch > 0) m.pitch = mean + toLog((high ? step : -step) - declination * i + declination * 3);
-      i++;
-    });
-  });
-  return accentPhrases;
 }
 
 // How long a phrase takes at speedScale 1, from the engine's own mora lengths

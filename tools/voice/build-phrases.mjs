@@ -5,7 +5,8 @@
 //   node tools/voice/build-phrases.mjs --all      # everything
 //
 // Writes site/audio/<voice>/<speed>/<phrase id>.mp3, one per speed level in
-// site/js/game/speed.js, each tuned to that level's exact mora rate, and the manifest
+// site/js/game/speed.js at that level's VOICEVOX speed setting (otherwise the voice as
+// is: our accent marks only, no pitch or timing changes), and the manifest
 // site/js/data/audio.js (where each clip's speech starts and how long it lasts).
 // Needs ffmpeg. Accents come from our phrase data, not VOICEVOX's guesses.
 
@@ -23,7 +24,7 @@ import { SPEEDS } from '../../site/js/game/speed.js';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const AUDIO_DIR = path.join(ROOT, 'site/audio');
 const MANIFEST = path.join(ROOT, 'site/js/data/audio.js');
-const SETTINGS = { pre: 0.08, post: 0.18, loudness: -18, bitrate: '48k', pitch: 'accent-shaped v1', tune: 'engine-timed v2', measure: 'final mp3 v1', reference: 'contour 20ms v1', kana: 'particles as said v1' };
+const SETTINGS = { pre: 0.08, post: 0.18, loudness: -18, bitrate: '48k', pitch: 'engine as is v2', tune: 'speedScale v3', measure: 'final mp3 v1', reference: 'contour 20ms v1', kana: 'particles as said v1' };
 const all = process.argv.includes('--all');
 
 const previous = fs.existsSync(MANIFEST) ? (await import(MANIFEST + '?t=' + Date.now())).AUDIO : { clips: {} };
@@ -50,7 +51,7 @@ for (const [voice, v] of Object.entries(VOICES)) {
     for (const sp of SPEEDS) {
       clips[voice][sp.id] ||= {};
       fs.mkdirSync(path.join(AUDIO_DIR, voice, sp.id), { recursive: true });
-      const hash = crypto.createHash('sha1').update(JSON.stringify([engine, v.talk, p.text, p.units, sp.rate, SETTINGS])).digest('hex').slice(0, 12);
+      const hash = crypto.createHash('sha1').update(JSON.stringify([engine, v.talk, p.text, p.units, sp.scale, SETTINGS])).digest('hex').slice(0, 12);
       const rel = `audio/${voice}/${sp.id}/${p.id}.mp3`;
       const file = path.join(ROOT, 'site', rel);
       const old = previous.clips?.[voice]?.[sp.id]?.[p.id];
@@ -59,9 +60,9 @@ for (const [voice, v] of Object.entries(VOICES)) {
         kept++;
         continue;
       }
-      // Speed for exactly the target mora rate, from the engine's own timing.
+      // VOICEVOX's own speed setting, nothing else: the delivery is left as it is.
       nominal ??= await nominalSeconds(voice, p.text, p.units);
-      const speed = nominal / (moraCount / sp.rate);
+      const speed = sp.scale;
       const { pcm, moraStarts, end } = await render(voice, p, speed);
       if (moraStarts.length !== moraCount) throw new Error(`${voice}/${p.id}: ${moraStarts.length} morae from the engine, ${moraCount} in our data`);
       let got = rateOf(pcm, moraCount);

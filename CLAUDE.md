@@ -26,14 +26,15 @@ shared pieces, check whether the same change belongs there too. Shaberi is the
   change them without asking: 剣崎 sings 'octave-lift' (the singing model can't go
   below ~E3), 'goofy' is his deliberately octave-wobbly style for comic moments only,
   and つむぎ sings 'as-sung' (no pitch cleanup: it sounds less natural). Set accents
-  from our phrase data (`speak(..., { units })`), never VOICEVOX's guesses. Credit
+  from our phrase data (`speak(..., { units })`), never VOICEVOX's guesses. **Speech is
+  VOICEVOX as is** (the user's call, 2026-11-28): only our accent marks and the particle
+  reading; no pitch shaping or re-timing, which made the voices sound stiff. Speed
+  levels use VOICEVOX's plain speedScale. Pitch/timing edits are for singing only. Credit
   every voice used as 「VOICEVOX:名前」 in the app.
 - Phrase audio: `node tools/voice/build-phrases.mjs` (only regenerates what changed)
-  writes `site/audio/<voice>/<speed>/<id>.mp3` (one per level in `game/speed.js`, each
-  timed from the engine's own mora lengths, so pace is exact) and `site/js/data/audio.js`. Run it after any
-  phrase edit; `tests/audio.test.mjs` fails until you do. Pitch is shaped from our
-  accent data (`shapePitch`) because VOICEVOX's own prediction peaks a mora late,
-  especially for つむぎ. The audio is not MIT (see `site/audio/README.md`).
+  writes `site/audio/<voice>/<speed>/<id>.mp3` (one per level in `game/speed.js`, at its
+  speedScale) and `site/js/data/audio.js`. Run it after any
+  phrase edit; `tests/audio.test.mjs` fails until you do. The audio is not MIT (see `site/audio/README.md`).
 - Speech recognition on Android is a separate system service that needs the mic to
   itself: while we hold the mic, it hears nothing. Flash Speak releases the mic for
   reply/count rounds (recognizer.stream has pause/resume). Practice can't recognise
