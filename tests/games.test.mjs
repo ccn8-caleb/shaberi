@@ -42,7 +42,7 @@ test('onsets: silence gives none', () => {
 
 test('groove timeline: 4-beat count-in and bars, each line twice (demo, then your turn), at every tempo', () => {
   for (const { bpm, turn } of TEMPOS) {
-    assert.equal(turn % BAR, 0, `${bpm}: turns are whole 4-beat bars`);
+    assert.equal(turn, BAR, `${bpm}: one bar per turn, so you answer right after the line`);
     const { cues, targets, end } = timeline(SONG, bpm);
     assert.equal(cues.filter((c) => c.kind === 'count').length, 4);
     assert.equal(targets.length, SONG.length);
@@ -86,7 +86,9 @@ test('groove voices fit at every tempo, spoken at a natural speed', () => {
       const sound = { start: line.t, end: line.t - clip.onset + clip.end };
       // Even with the worst device delay, an answer at the start of the window isn't taken for an echo.
       assert.ok(!isEcho(tg.t - ok + MAX_LATENCY, [sound], MAX_LATENCY), `${bpm}: "${line.text}" runs too long (${clip.end}s)`);
-      assert.ok(clip.speed <= 1.45, `${bpm}: "${line.text}" had to be sped up ×${clip.speed}`);
+      // The friend may talk faster at the fast tempos, within reason.
+      const cap = bpm >= 132 ? 1.55 : bpm >= 116 ? 1.3 : 1.05;
+      assert.ok(clip.speed <= cap, `${bpm}: "${line.text}" had to be sped up ×${clip.speed}`);
     }
     for (const s of songOf(story)) assert.ok(set.answers[s.you], `${bpm}: no recording for "${s.you}"`);
     }

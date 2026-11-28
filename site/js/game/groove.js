@@ -13,15 +13,15 @@ export const COUNT_IN = 4; // beats before the first bar
 export const BAR = 4;
 
 // Tempos. Faster ones: the beat is quicker, the timing windows (a share of the beat)
-// get tighter, and points are multiplied. turn = beats per turn (the friend's line, then
-// you answer on its last beat): one bar at the slower tempos; at the fast ones, two bars,
-// so the lines still fit at a natural speaking speed. The first two are open from the
-// start; scoring UNLOCK_SCORE on your fastest open tempo opens the next.
+// get tighter, the friend talks faster, and points are multiplied. Every turn is one
+// bar: the friend's line from beat 1, your answer on beat 4, so the back-and-forth stays
+// quick (two-bar turns made you wait up to three seconds). The first two are open from
+// the start; scoring UNLOCK_SCORE on your fastest open tempo opens the next.
 export const TEMPOS = [
   { bpm: 84, turn: 4, ja: 'ゆっくり', en: 'Easy', points: 1 },
   { bpm: 100, turn: 4, ja: 'ふつう', en: 'Normal', points: 1.25 },
-  { bpm: 116, turn: 8, ja: 'はやめ', en: 'Quick', points: 1.5 },
-  { bpm: 132, turn: 8, ja: 'ネイティブ', en: 'Native', points: 2 },
+  { bpm: 116, turn: 4, ja: 'はやめ', en: 'Quick', points: 1.5 },
+  { bpm: 132, turn: 4, ja: 'ネイティブ', en: 'Native', points: 2 },
 ];
 // The countdown on screen before your answer: 3・2・1・いま！
 export const COUNTDOWN = 3;

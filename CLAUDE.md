@@ -40,8 +40,8 @@ shared pieces, check whether the same change belongs there too. Shaberi is the
   words on Android while it records for pitch.
 - Groove voices: `node tools/voice/build-groove.mjs` (lines must die away before the
   answer window, see lineMax; tests/games.test.mjs checks the recordings fit). Bars are
-  always 4 beats (the user found 5-beat bars irregular); fast tempos use two-bar turns
-  (`turn: 8`). Stories live in `STORIES` in game/groove.js; add more there and rebuild.
+  always 4 beats and every turn is one bar (the user found 5-beat bars irregular and
+  two-bar turns too slow): at fast tempos the friend speaks faster instead. Stories live in `STORIES` in game/groove.js; add more there and rebuild.
 - Voice kana: VOICEVOX's kana notation reads kana literally, so `accentKana` writes a
   unit-final は/へ as ワ/エ. A unit that really ends in "ha" takes `{ read }` as a third
   element.

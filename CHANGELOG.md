@@ -4,6 +4,15 @@ Versions follow [semver](https://semver.org/). The version lives in
 `site/js/core/version.js`; every release needs an entry here (CI checks it). Each
 deploy also carries a build id (commit hash), shown next to the version in the app.
 
+## [0.1.11] — 2026-11-28 — Quick Groove
+
+### Fixed
+- **相づちグルーヴ made you wait up to three seconds to answer** at はやめ and ネイティブ:
+  0.1.10 gave each line two bars there. Every turn is one 4-beat bar again at every
+  tempo (the line from beat 1, your answer on beat 4), so the back-and-forth stays quick.
+  At the fast tempos the friend talks faster to fit (most lines need no speed-up; the
+  longest is ×1.48 at ネイティブ).
+
 ## [0.1.10] — 2026-11-28 — Playtest fixes
 
 ### Fixed
