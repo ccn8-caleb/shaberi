@@ -4,6 +4,20 @@ Versions follow [semver](https://semver.org/). The version lives in
 `site/js/core/version.js`; every release needs an entry here (CI checks it). Each
 deploy also carries a build id (commit hash), shown next to the version in the app.
 
+## [0.1.12] — 2026-11-28 — Faster on-device check
+
+### Fixed
+- **The on-device check timed out in 瞬間しゃべり.** It ran the speech model's audio
+  encoder (the slow part) once for every candidate answer, about a dozen per round:
+  roughly 12 seconds in a desktop browser and far longer on a phone. It now encodes
+  your recording once and compares every candidate against that, with identical
+  results: about 1.8 seconds for a whole round's candidates in a desktop browser.
+  Word scoring in practice gets faster the same way.
+- **The fuse kept burning while your answer was being checked**, so even a quick check
+  looked like running out of time. The clock now stops as soon as you've answered,
+  「確認中…」 shows while it's checked, and if a check ever takes more than 8 seconds
+  the round doesn't count rather than costing a life.
+
 ## [0.1.11] — 2026-11-28 — Natural voices, quick Groove
 
 ### Changed

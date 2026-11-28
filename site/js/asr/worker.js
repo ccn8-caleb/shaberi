@@ -29,11 +29,25 @@ function load() {
   return ready;
 }
 
-async function closeness(features, text) {
+// Run the audio encoder once per recording. Passing input_features to model() for each
+// candidate text re-ran it every time: ×5 slower with a dozen candidates (seconds on a
+// phone). This helper is what generate() uses; the library version is pinned above.
+async function encode(audio) {
+  const { input_features } = await processor(audio);
+  const { encoder_outputs } = await model._prepare_encoder_decoder_kwargs_for_generation({
+    inputs_tensor: input_features,
+    model_inputs: { input_features },
+    model_input_name: 'input_features',
+    generation_config: { guidance_scale: null },
+  });
+  return encoder_outputs;
+}
+
+async function closeness(encoded, text) {
   const ids = tokenizer.encode(text, { add_special_tokens: false });
   const seq = [...prefix, ...ids];
   const input = new Tensor('int64', BigInt64Array.from(seq.map(BigInt)), [1, seq.length]);
-  const { logits } = await model({ input_features: features, decoder_input_ids: input });
+  const { logits } = await model({ encoder_outputs: encoded, decoder_input_ids: input });
   const V = logits.dims[2];
   const targets = [...ids, eot];
   let deficit = 0;
@@ -55,16 +69,16 @@ onmessage = async (e) => {
       postMessage({ type: 'ready', id });
     } else if (type === 'check') {
       await load();
-      const { input_features } = await processor(e.data.audio);
+      const encoded = await encode(e.data.audio);
       let best = -Infinity;
-      for (const text of e.data.forms) best = Math.max(best, await closeness(input_features, text));
+      for (const text of e.data.forms) best = Math.max(best, await closeness(encoded, text));
       postMessage({ type: 'result', id, closeness: best });
     } else if (type === 'rank') {
       // Closeness of each form, in order (for choosing between candidate answers).
       await load();
-      const { input_features } = await processor(e.data.audio);
+      const encoded = await encode(e.data.audio);
       const each = [];
-      for (const text of e.data.forms) each.push(await closeness(input_features, text));
+      for (const text of e.data.forms) each.push(await closeness(encoded, text));
       postMessage({ type: 'result', id, closeness: each });
     }
   } catch (err) {

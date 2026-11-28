@@ -55,6 +55,10 @@ shared pieces, check whether the same change belongs there too. Shaberi is the
   forcing), not by free transcription; free transcription mis-kanji'd too often.
   Mapping: closeness ≥ −0.9 → full, ≤ −2.1 → 0 (tests/words.test.mjs has the measured
   values).
+  Encode each recording once (`encode()` in the worker) and pass `encoder_outputs` for
+  every candidate: passing `input_features` re-runs the encoder per candidate (×5 slower,
+  which made Flash Speak time out). Batching candidates in one decoder pass changed the
+  scores (up to 0.4), so it isn't used.
 - Bluetooth: never record from the earbuds' mic (audio/mic.js preferredInput picks the
   phone's own, e.g. "Speakerphone", when a Bluetooth input exists) and don't start the
   browser's SpeechRecognition while one is connected. Using the BT mic put a user's

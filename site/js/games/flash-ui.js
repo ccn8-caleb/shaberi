@@ -28,6 +28,7 @@ const COMMANDS = {
   accent: { ja: 'アクセント！', en: 'Accent!' },
 };
 const ACCENT_PASS = 0.6;
+const CHECK_LIMIT_MS = 8000;
 
 export function runFlash({ mic, bluetooth = false }) {
   const ctx = mic.ctx;
@@ -234,6 +235,8 @@ export function runFlash({ mic, bluetooth = false }) {
         active = { settle: () => (activeTake ? activeTake.stop() : settle('lose')) };
         (async () => {
           const out = await takeAnswer(seconds, started, () => done);
+          // Your answer is in: the clock stops while it's checked.
+          stopFuse();
           if (!out) return settle('void');
           if (!out.heardSpeech) {
             setEar('device');
@@ -242,7 +245,11 @@ export function runFlash({ mic, bluetooth = false }) {
           setEar('checking');
           const { span } = analyze(out.pcm, mic.sampleRate);
           const right = [...new Set([g.hint, ...g.answers].filter(Boolean))]; // the full form scores best
-          const r = await words.choose(out.pcm, mic.sampleRate, right, rivals(g), span).catch((err) => (console.warn('[words]', err), null));
+          // If the check takes unreasonably long (a slow phone), the round doesn't count.
+          const r = await Promise.race([
+            words.choose(out.pcm, mic.sampleRate, right, rivals(g), span).catch((err) => (console.warn('[words]', err), null)),
+            sleep(CHECK_LIMIT_MS).then(() => null),
+          ]);
           setEar('device');
           if (!r) return settle('void');
           // Right if it's closer to an answer than to any other answer, and close enough.
