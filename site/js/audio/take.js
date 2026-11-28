@@ -68,11 +68,19 @@ export class LivePitch {
 //   maxSeconds: hard limit;  silenceMs: stop this long after speech ends
 //   onBlock({ level, speaking, sinceSpeech, f0, st, points }): per block, for meters
 //   and graphs; points = [{ t: seconds since speech began, st }] every 10 ms
-export function record(mic, { maxSeconds = 5, silenceMs = 900, onBlock } = {}) {
+//
+// Speech only counts once it has lasted minSpeechMs: a single loud block (the pop of
+// the mic switching on, a tap, the last round's sound effect) used to start the
+// "you've finished" countdown, and Flash Speak's short one then ended the take before
+// the player had said anything. The first settleMs after the mic opens are ignored for
+// the same reason, and a blip that dies away is forgotten.
+export function record(mic, { maxSeconds = 5, silenceMs = 900, minSpeechMs = 150, settleMs = 250, onBlock, clock = () => performance.now() } = {}) {
   const live = new LivePitch(mic.sampleRate);
-  const startedAt = performance.now();
+  const startedAt = clock();
   let floor = Infinity;
-  let speechAt = null;
+  let speechAt = null; // when the current stretch of sound began
+  let speechMs = 0; // how much of it has been loud
+  let confirmed = false; // it lasted long enough to be speech
   let quietSince = null;
   let finish;
   const done = new Promise((r) => (finish = r));
@@ -83,21 +91,30 @@ export function record(mic, { maxSeconds = 5, silenceMs = 900, onBlock } = {}) {
     stopped = true;
     clearTimeout(limit);
     live.finish();
-    finish({ pcm: mic.stop(), heardSpeech: speechAt !== null });
+    finish({ pcm: mic.stop(), heardSpeech: confirmed });
   };
   const limit = setTimeout(stop, maxSeconds * 1000);
 
   mic.start((block, level) => {
     if (stopped) return;
-    const now = performance.now();
+    const now = clock();
+    const blockMs = (block.length / mic.sampleRate) * 1000;
     // Noise floor from the quietest blocks; speech is well above it.
     floor = Math.min(floor, Math.max(level, 1e-4));
-    const speaking = level > Math.max(floor * 4, 0.008);
+    const speaking = now - startedAt >= settleMs && level > Math.max(floor * 4, 0.008);
     if (speaking) {
       speechAt ??= now;
+      speechMs += blockMs;
+      if (speechMs >= minSpeechMs) confirmed = true;
       quietSince = null;
     } else if (speechAt !== null) {
       quietSince ??= now;
+      // A short blip that died away: not speech, forget it.
+      if (!confirmed && now - quietSince > 300) {
+        speechAt = null;
+        speechMs = 0;
+        quietSince = null;
+      }
     }
     const { f0, st, points } = live.feed(block, speaking);
     const sinceSpeech = speechAt === null ? null : (now - speechAt) / 1000;
@@ -110,7 +127,7 @@ export function record(mic, { maxSeconds = 5, silenceMs = 900, onBlock } = {}) {
       points: sinceSpeech === null ? [] : points.map((p) => ({ t: Math.max(0, sinceSpeech - p.back), st: p.st })),
       elapsed: (now - startedAt) / 1000,
     });
-    if (quietSince !== null && now - quietSince > silenceMs) stop();
+    if (confirmed && quietSince !== null && now - quietSince > silenceMs) stop();
   });
 
   return { done, stop };

@@ -4,6 +4,16 @@ Versions follow [semver](https://semver.org/). The version lives in
 `site/js/core/version.js`; every release needs an entry here (CI checks it). Each
 deploy also carries a build id (commit hash), shown next to the version in the app.
 
+## [0.1.13] — 2026-11-28 — Answers aren't cut off
+
+### Fixed
+- **瞬間しゃべり's アクセント rounds often counted you wrong before you'd said
+  anything.** Any brief sound (the pop of the microphone switching on, a tap, the end of
+  the last round's sound effect) was taken as the start of your answer, and 0.45 s of
+  quiet after it ended the recording. Now a sound only counts as speech once it has
+  lasted 0.15 s, the first 0.25 s after the mic opens is ignored, and short blips are
+  forgotten. The same applies to practice and on-device-checked answers.
+
 ## [0.1.12] — 2026-11-28 — Faster on-device check
 
 ### Fixed
