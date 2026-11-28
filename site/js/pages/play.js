@@ -199,18 +199,26 @@ async function startRecording() {
   setStatus(t('どうぞ！話し終わったら自動で止まります', 'Go! It stops by itself when you finish'));
 
   const points = [];
+  let drawQueued = false;
   // The browser's recogniser isn't used when the on-device check is ready, nor with a
   // Bluetooth mic connected (it would use the earbuds' mic and put them in call mode).
   const noRecognizer = words.status().state === 'ready' || btConnected;
   const listener = noRecognizer ? { stop: async () => null } : listen(mic.track);
   const take = record(mic, {
     maxSeconds: Math.max(5, refDuration() * 3),
-    onBlock: ({ level, speaking, sinceSpeech, st }) => {
+    onBlock: ({ level, speaking, sinceSpeech, points: live }) => {
       btn.style.setProperty('--lvl', (1 + Math.min(level * 6, 0.35)).toFixed(3));
       if (sinceSpeech === null) return;
-      if (speaking) points.push({ x: sinceSpeech / (refDuration() * 1.25), st });
+      // Across the full width over the model's length, as the scored curve will be.
+      if (speaking) for (const p of live) points.push({ x: Math.min(1, p.t / refDuration()), st: p.st });
       else if (points.length && points[points.length - 1].st !== null) points.push({ x: 0, st: null });
-      current.graph.setVoice(points);
+      if (!drawQueued) {
+        drawQueued = true;
+        requestAnimationFrame(() => {
+          drawQueued = false;
+          current?.graph.setVoice(points);
+        });
+      }
     },
   });
   recording = { take, listener };

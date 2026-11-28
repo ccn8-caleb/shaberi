@@ -1,6 +1,9 @@
 // 瞬間しゃべり (Flash Speak) on screen: splash → microgame with a burning fuse →
-// verdict, until the lives run out. Reply/Count are won the moment the speech
-// recogniser hears an answer; Accent Snap records a take and checks its pitch.
+// verdict, until the lives run out. Reply/Count are won the moment the browser's
+// speech recogniser hears an answer; where that can't work (no recogniser, Bluetooth
+// earbuds, or it can't reach its server: Brave always, Chrome offline) they record a
+// take and the on-device word check (asr/words.js) picks which answer it was.
+// Accent Snap records a take and checks its pitch.
 
 import { t } from '../core/prefs.js';
 import { escapeHtml } from '../core/util.js';
@@ -10,6 +13,8 @@ import { analyze } from '../engine/pitch.js';
 import { pitchScore } from '../engine/score.js';
 import { deck, matches, timeLimit, level, payout, LIVES, SPEEDUP_EVERY, HINT_AT } from '../game/flash.js';
 import { stream } from '../audio/recognizer.js';
+import * as words from '../asr/words.js';
+import { REPLIES, COUNTS } from '../data/micro.js';
 import { record } from '../audio/take.js';
 import * as sfx from '../audio/sfx.js';
 import { drawGraph } from '../pages/graph.js';
@@ -47,6 +52,9 @@ export function runFlash({ mic, bluetooth = false }) {
         ? t('Bluetoothイヤホン接続中は音声認識を使わないので、アクセント問題だけです', 'With Bluetooth earbuds, speech recognition is off: accent rounds only')
         : t('音声認識が使えないので、アクセント問題だけです', 'No speech recognition here: accent rounds only'),
       error: t(`音声認識のエラー（${detail}）`, `Speech recognition error (${detail})`),
+      offline: t('音声認識がサーバーにつながりません（Braveやオフライン）。ホームの「端末内チェック」をオンにすると全問題を遊べます', "Speech recognition can't reach its server (Brave, or offline). Turn on the on-device check on the home screen to play every round"),
+      device: t('端末内チェックで聞き取ります', 'Using the on-device check'),
+      checking: t('確認中…', 'Checking…'),
     };
     ear.dataset.state = state;
     ear.querySelector('span:last-child').textContent = words[state] ?? '';
@@ -55,19 +63,83 @@ export function runFlash({ mic, bluetooth = false }) {
   // The recogniser needs the microphone to itself on Android, so ours stays closed
   // except during accent rounds (see audio/recognizer.js).
   mic.release();
+  // The on-device check, if the player turned it on (loads from the browser's cache).
+  if (words.wanted() && words.status().state === 'off') words.enable().catch(() => {});
+  const deviceReady = () => words.status().state === 'ready';
+  // Errors that mean the browser's recogniser won't work in this session at all.
+  const DEAD = new Set(['network', 'not-allowed', 'service-not-allowed', 'language-not-supported']);
+  let webDead = false;
   const recog = bluetooth ? null : stream(
     (text) => {
       if (aborted) return;
       heard.textContent = `「${text}」`;
       if (active?.answers && matches(text, active.answers)) active.settle('win');
     },
-    { onState: (s, d) => !aborted && setEar(s, d) }
+    {
+      onState: (s, d) => {
+        if (aborted || webDead) return;
+        if (s === 'error' && DEAD.has(d)) {
+          // Stop retrying; finish this round without a penalty and switch over.
+          webDead = true;
+          recog.stop();
+          setEar(deviceReady() ? 'device' : 'offline');
+          if (active?.answers) active.settle('void');
+          return;
+        }
+        setEar(s, d);
+      },
+    }
   );
-  setEar(recog ? 'listening' : 'off');
+  const webOk = () => Boolean(recog?.working) && !webDead;
+  setEar(recog ? 'listening' : deviceReady() ? 'device' : 'off');
   const seed = (Math.random() * 2 ** 32) >>> 0;
   const full = deck(seed);
   const accentOnly = deck(seed + 1, ['accent']);
-  const draw = () => (recog?.working ? full() : accentOnly());
+  const draw = () => (webOk() || deviceReady() ? full() : accentOnly());
+
+  // Record one answer with our own mic (the recogniser steps aside meanwhile).
+  // Returns { pcm, heardSpeech } or null if the mic couldn't open / the round ended.
+  async function takeAnswer(seconds, started, isDone, { onBlock } = {}) {
+    recog?.pause();
+    setEar('starting');
+    try {
+      await mic.open();
+      await mic.waitForAudio(800);
+    } catch (err) {
+      console.warn('[mic]', err);
+      mic.release();
+      recog?.resume();
+      return null;
+    }
+    if (isDone()) {
+      mic.release();
+      recog?.resume();
+      return null;
+    }
+    setEar('recording');
+    const left = Math.max(1.5, seconds - (performance.now() - started) / 1000);
+    const take = record(mic, {
+      maxSeconds: left,
+      silenceMs: 450,
+      onBlock: (b) => {
+        ear.style.setProperty('--lvl', Math.min(1, b.level * 8).toFixed(2));
+        if (b.speaking) ear.dataset.state = 'hearing';
+        onBlock?.(b);
+      },
+    });
+    activeTake = take;
+    const out = await take.done;
+    activeTake = null;
+    mic.release();
+    ear.style.removeProperty('--lvl');
+    recog?.resume();
+    return out;
+  }
+  let activeTake = null;
+
+  // Other answers the word check weighs a recording against.
+  const rivals = (g) =>
+    g.kind === 'count' ? COUNTS.filter((c) => c.n !== g.n).map((c) => c.answers[0]) : REPLIES.filter((r) => r.id !== g.id).map((r) => r.hint);
 
   let lives = LIVES;
   let cleared = 0;
@@ -138,55 +210,47 @@ export function runFlash({ mic, bluetooth = false }) {
       }, seconds * HINT_AT * 1000);
       if (g.kind === 'accent') {
         const started = performance.now();
-        active = { settle: () => settle('lose') };
+        active = { settle: () => (activeTake ? activeTake.stop() : settle('lose')) };
         (async () => {
-          // Our own recording: the recogniser steps aside, the mic opens.
-          recog?.pause();
-          setEar('starting');
-          try {
-            await mic.open();
-            await mic.waitForAudio(800);
-          } catch (err) {
-            console.warn('[mic]', err);
-            mic.release();
-            recog?.resume();
-            return settle('void');
-          }
-          if (done) {
-            mic.release();
-            recog?.resume();
-            return;
-          }
-          setEar('recording');
           const mora = phraseMora([[g.kana, g.accent]]);
           const graph = drawGraph($('flash-graph'), mora);
           const points = [];
-          const left = Math.max(1.5, seconds - (performance.now() - started) / 1000);
-          const take = record(mic, {
-            maxSeconds: left,
-            silenceMs: 450,
-            onBlock: ({ level, speaking, sinceSpeech, st }) => {
-              ear.style.setProperty('--lvl', Math.min(1, level * 8).toFixed(2));
-              if (speaking) ear.dataset.state = 'hearing';
+          const out = await takeAnswer(seconds, started, () => done, {
+            onBlock: ({ speaking, sinceSpeech, st }) => {
               if (sinceSpeech === null) return;
               if (speaking) points.push({ x: sinceSpeech / (mora.length / 6), st });
               graph.setVoice(points);
             },
           });
-          // Aborting stops the take, which settles the microgame.
-          active = { settle: () => take.stop() };
-          const { pcm, heardSpeech } = await take.done;
-          mic.release();
-          ear.style.removeProperty('--lvl');
-          recog?.resume();
-          if (!recog) setEar('off');
-          if (!heardSpeech) return settle('lose');
-          const p = pitchScore(analyze(pcm, mic.sampleRate), mora);
+          if (!out) return settle('void');
+          setEar(webOk() ? 'listening' : deviceReady() ? 'device' : webDead ? 'offline' : 'off');
+          if (!out.heardSpeech) return settle('lose');
+          const p = pitchScore(analyze(out.pcm, mic.sampleRate), mora);
           settle(p.score !== null && p.score >= ACCENT_PASS ? 'win' : 'lose');
+        })();
+      } else if (!webOk() && deviceReady()) {
+        // No working recogniser: record the answer and let the on-device check decide.
+        const started = performance.now();
+        active = { settle: () => (activeTake ? activeTake.stop() : settle('lose')) };
+        (async () => {
+          const out = await takeAnswer(seconds, started, () => done);
+          if (!out) return settle('void');
+          if (!out.heardSpeech) {
+            setEar('device');
+            return settle('lose');
+          }
+          setEar('checking');
+          const { span } = analyze(out.pcm, mic.sampleRate);
+          const right = [...new Set([g.hint, ...g.answers].filter(Boolean))]; // the full form scores best
+          const r = await words.choose(out.pcm, mic.sampleRate, right, rivals(g), span).catch((err) => (console.warn('[words]', err), null));
+          setEar('device');
+          if (!r) return settle('void');
+          // Right if it's closer to an answer than to any other answer, and close enough.
+          settle(r.best >= r.rival && r.score >= 0.5 ? 'win' : 'lose');
         })();
       } else {
         active = { answers: g.answers, settle };
-        timer = setTimeout(() => settle(recog?.working ? 'lose' : 'void'), seconds * 1000);
+        timer = setTimeout(() => settle(webOk() ? 'lose' : 'void'), seconds * 1000);
       }
     });
   }
@@ -225,7 +289,7 @@ export function runFlash({ mic, bluetooth = false }) {
         stage.classList.add('shake');
         stage.insertAdjacentHTML('beforeend', `<div class="verdict lose"><div>✕<small lang="ja">${escapeHtml(answerHint(g))}</small></div></div>`);
       } else {
-        stage.insertAdjacentHTML('beforeend', `<div class="verdict lose"><div>…<small>${escapeHtml(t('音声認識が使えません', 'Speech recognition unavailable'))}</small></div></div>`);
+        stage.insertAdjacentHTML('beforeend', `<div class="verdict void"><div>…<small>${escapeHtml(t('この問題はノーカウント', "This round doesn't count"))}</small></div></div>`);
       }
       renderHud();
       await sleep(result === 'lose' ? 1100 : 700);

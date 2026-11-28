@@ -23,7 +23,7 @@ import { SPEEDS } from '../../site/js/game/speed.js';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const AUDIO_DIR = path.join(ROOT, 'site/audio');
 const MANIFEST = path.join(ROOT, 'site/js/data/audio.js');
-const SETTINGS = { pre: 0.08, post: 0.18, loudness: -18, bitrate: '48k', pitch: 'accent-shaped v1', tune: 'engine-timed v2', measure: 'final mp3 v1', reference: 'contour 20ms v1' };
+const SETTINGS = { pre: 0.08, post: 0.18, loudness: -18, bitrate: '48k', pitch: 'accent-shaped v1', tune: 'engine-timed v2', measure: 'final mp3 v1', reference: 'contour 20ms v1', kana: 'particles as said v1' };
 const all = process.argv.includes('--all');
 
 const previous = fs.existsSync(MANIFEST) ? (await import(MANIFEST + '?t=' + Date.now())).AUDIO : { clips: {} };

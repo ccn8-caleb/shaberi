@@ -9,89 +9,323 @@ export const GROOVE_AUDIO = {
     "84": {
       "lines": {
         "いちにさん": {
-          "src": "audio/groove/tsumugi-7abd65b588.mp3",
+          "src": "audio/groove/tsumugi-024d9d07e7.mp3",
           "onset": 0.01,
           "end": 0.627,
           "speed": 1
         },
         "きのうね": {
-          "src": "audio/groove/tsumugi-c885d78746.mp3",
+          "src": "audio/groove/tsumugi-38441db819.mp3",
           "onset": 0.055,
           "end": 0.527,
           "speed": 1
         },
         "ねこを みたの": {
-          "src": "audio/groove/tsumugi-15cf675518.mp3",
+          "src": "audio/groove/tsumugi-6db874977e.mp3",
           "onset": 0.02,
-          "end": 1.367,
-          "speed": 1.043
+          "end": 0.767,
+          "speed": 1
         },
         "おおきい ねこ": {
-          "src": "audio/groove/tsumugi-3c676f4dfe.mp3",
+          "src": "audio/groove/tsumugi-ce55168bf1.mp3",
           "onset": 0.01,
-          "end": 1.377,
+          "end": 0.757,
           "speed": 1
         },
         "ぼうし つきで": {
-          "src": "audio/groove/tsumugi-18b587a364.mp3",
-          "onset": 0.04,
-          "end": 1.387,
+          "src": "audio/groove/tsumugi-5b7ccc1d00.mp3",
+          "onset": 0.045,
+          "end": 0.717,
           "speed": 1
         },
         "でんしゃに のった": {
-          "src": "audio/groove/tsumugi-8ad666809f.mp3",
-          "onset": 0.025,
-          "end": 1.407,
-          "speed": 1.065
+          "src": "audio/groove/tsumugi-075877335c.mp3",
+          "onset": 0.03,
+          "end": 0.857,
+          "speed": 1
         },
         "ほんとうだよ": {
-          "src": "audio/groove/tsumugi-2bcdbc2a93.mp3",
+          "src": "audio/groove/tsumugi-93e3999fef.mp3",
           "onset": 0.085,
           "end": 0.747,
+          "speed": 1
+        },
+        "けさ カフェでね": {
+          "src": "audio/groove/tsumugi-12ff55a31e.mp3",
+          "onset": 0.05,
+          "end": 0.757,
+          "speed": 1
+        },
+        "ケーキ たのんだら": {
+          "src": "audio/groove/tsumugi-c65357a7e7.mp3",
+          "onset": 0.065,
+          "end": 0.927,
+          "speed": 1
+        },
+        "ふたつ きたの": {
+          "src": "audio/groove/tsumugi-753ca37805.mp3",
+          "onset": 0.06,
+          "end": 0.737,
+          "speed": 1
+        },
+        "おまけ だって": {
+          "src": "audio/groove/tsumugi-4e9958d320.mp3",
+          "onset": 0.01,
+          "end": 0.707,
+          "speed": 1
+        },
+        "ぜんぶ たべた": {
+          "src": "audio/groove/tsumugi-16622e1f48.mp3",
+          "onset": 0.045,
+          "end": 0.777,
+          "speed": 1
+        },
+        "おなか いっぱい": {
+          "src": "audio/groove/tsumugi-e6f5a66483.mp3",
+          "onset": 0.01,
+          "end": 0.747,
+          "speed": 1
+        },
+        "きょう あめでしょ": {
+          "src": "audio/groove/tsumugi-04bd0982cb.mp3",
+          "onset": 0.05,
+          "end": 0.807,
+          "speed": 1
+        },
+        "かさ わすれて": {
+          "src": "audio/groove/tsumugi-a2ba291302.mp3",
+          "onset": 0.04,
+          "end": 0.817,
+          "speed": 1
+        },
+        "えきまで はしった": {
+          "src": "audio/groove/tsumugi-45736b735c.mp3",
+          "onset": 0.01,
+          "end": 1.027,
+          "speed": 1
+        },
+        "でも ついたら": {
+          "src": "audio/groove/tsumugi-0f7f65a7e7.mp3",
+          "onset": 0.035,
+          "end": 0.757,
+          "speed": 1
+        },
+        "あめ やんでた": {
+          "src": "audio/groove/tsumugi-a2bdc1a70d.mp3",
+          "onset": 0.015,
+          "end": 0.737,
+          "speed": 1
+        },
+        "ついてないよね": {
+          "src": "audio/groove/tsumugi-b5df5159dc.mp3",
+          "onset": 0.04,
+          "end": 0.847,
+          "speed": 1
+        },
+        "あしたの テスト": {
+          "src": "audio/groove/tsumugi-9469eb3b3f.mp3",
+          "onset": 0.02,
+          "end": 0.827,
+          "speed": 1
+        },
+        "ぜんぜん してない": {
+          "src": "audio/groove/tsumugi-8a5e616f81.mp3",
+          "onset": 0.045,
+          "end": 0.847,
+          "speed": 1
+        },
+        "でも だいじょうぶ": {
+          "src": "audio/groove/tsumugi-7681016e52.mp3",
+          "onset": 0.035,
+          "end": 0.807,
+          "speed": 1
+        },
+        "もんだいを ぜんぶ": {
+          "src": "audio/groove/tsumugi-b96121443c.mp3",
+          "onset": 0.02,
+          "end": 0.967,
+          "speed": 1
+        },
+        "よそう したから": {
+          "src": "audio/groove/tsumugi-72ef1f2b37.mp3",
+          "onset": 0.02,
+          "end": 0.817,
+          "speed": 1
+        },
+        "たぶん ね": {
+          "src": "audio/groove/tsumugi-05670b2049.mp3",
+          "onset": 0.05,
+          "end": 0.507,
+          "speed": 1
+        },
+        "しゅうまつ ね": {
+          "src": "audio/groove/tsumugi-7502f129d0.mp3",
+          "onset": 0.045,
+          "end": 0.727,
+          "speed": 1
+        },
+        "やまに いったの": {
+          "src": "audio/groove/tsumugi-3a0ff91485.mp3",
+          "onset": 0.015,
+          "end": 0.807,
+          "speed": 1
+        },
+        "さるが いてね": {
+          "src": "audio/groove/tsumugi-219fea520f.mp3",
+          "onset": 0.035,
+          "end": 0.717,
+          "speed": 1
+        },
+        "おにぎり とられた": {
+          "src": "audio/groove/tsumugi-8d17bc8d45.mp3",
+          "onset": 0.01,
+          "end": 0.967,
+          "speed": 1
+        },
+        "でも かわいかった": {
+          "src": "audio/groove/tsumugi-e569fdf792.mp3",
+          "onset": 0.045,
+          "end": 1.027,
+          "speed": 1
+        },
+        "また いきたい": {
+          "src": "audio/groove/tsumugi-bf13168719.mp3",
+          "onset": 0.025,
+          "end": 0.647,
+          "speed": 1
+        },
+        "あたらしい しごと": {
+          "src": "audio/groove/tsumugi-de56c07be3.mp3",
+          "onset": 0.01,
+          "end": 0.967,
+          "speed": 1
+        },
+        "きょうから なの": {
+          "src": "audio/groove/tsumugi-39e34fd5a8.mp3",
+          "onset": 0.05,
+          "end": 0.727,
+          "speed": 1
+        },
+        "せんぱいが やさしい": {
+          "src": "audio/groove/tsumugi-bda856feb0.mp3",
+          "onset": 0.04,
+          "end": 1.147,
+          "speed": 1
+        },
+        "ひるも おごって": {
+          "src": "audio/groove/tsumugi-032f3a8571.mp3",
+          "onset": 0.055,
+          "end": 0.867,
+          "speed": 1
+        },
+        "あさが はやい": {
+          "src": "audio/groove/tsumugi-675edeb245.mp3",
+          "onset": 0.015,
+          "end": 0.717,
+          "speed": 1
+        },
+        "がんばるね": {
+          "src": "audio/groove/tsumugi-f2345d01a8.mp3",
+          "onset": 0.035,
+          "end": 0.577,
           "speed": 1
         }
       },
       "answers": {
         "はい！": {
-          "src": "audio/groove/kenzaki-3bbf8a7829.mp3",
+          "src": "audio/groove/kenzaki-338e8ae96f.mp3",
           "onset": 0.07,
           "end": 0.377,
           "speed": 1
         },
         "うん": {
-          "src": "audio/groove/kenzaki-19b1d0116c.mp3",
+          "src": "audio/groove/kenzaki-d49cb4342f.mp3",
           "onset": 0.03,
           "end": 0.317,
           "speed": 1
         },
         "へえ！": {
-          "src": "audio/groove/kenzaki-f93d83dc92.mp3",
+          "src": "audio/groove/kenzaki-1f90c68d1f.mp3",
           "onset": 0.06,
           "end": 0.407,
           "speed": 1
         },
         "ほんと？": {
-          "src": "audio/groove/kenzaki-df21fc4d4f.mp3",
+          "src": "audio/groove/kenzaki-3fb94f43ac.mp3",
           "onset": 0.095,
           "end": 0.577,
           "speed": 1
         },
         "えー！": {
-          "src": "audio/groove/kenzaki-83b772b4d3.mp3",
+          "src": "audio/groove/kenzaki-3f47a8a5a4.mp3",
           "onset": 0.03,
           "end": 0.367,
           "speed": 1
         },
         "すごい！": {
-          "src": "audio/groove/kenzaki-7dfaa05937.mp3",
+          "src": "audio/groove/kenzaki-7b2d4d8c0b.mp3",
           "onset": 0.06,
           "end": 0.477,
           "speed": 1
         },
         "なるほど": {
-          "src": "audio/groove/kenzaki-146f8eda35.mp3",
+          "src": "audio/groove/kenzaki-5f7336b91a.mp3",
           "onset": 0.04,
           "end": 0.517,
+          "speed": 1
+        },
+        "いいね！": {
+          "src": "audio/groove/kenzaki-cfe8ed0986.mp3",
+          "onset": 0.035,
+          "end": 0.467,
+          "speed": 1
+        },
+        "わかる": {
+          "src": "audio/groove/kenzaki-2f60a8436f.mp3",
+          "onset": 0.035,
+          "end": 0.387,
+          "speed": 1
+        },
+        "まじで？": {
+          "src": "audio/groove/kenzaki-308a8005bf.mp3",
+          "onset": 0.04,
+          "end": 0.577,
+          "speed": 1
+        },
+        "うそ！": {
+          "src": "audio/groove/kenzaki-54c81edd11.mp3",
+          "onset": 0.03,
+          "end": 0.417,
+          "speed": 1
+        },
+        "たしかに": {
+          "src": "audio/groove/kenzaki-51638820f0.mp3",
+          "onset": 0.04,
+          "end": 0.497,
+          "speed": 1
+        },
+        "そっか": {
+          "src": "audio/groove/kenzaki-604c3db0a8.mp3",
+          "onset": 0.07,
+          "end": 0.497,
+          "speed": 1
+        },
+        "よかった！": {
+          "src": "audio/groove/kenzaki-759c3c568a.mp3",
+          "onset": 0.04,
+          "end": 0.467,
+          "speed": 1
+        },
+        "たいへん！": {
+          "src": "audio/groove/kenzaki-a42e62dbd3.mp3",
+          "onset": 0.055,
+          "end": 0.457,
+          "speed": 1
+        },
+        "うん！": {
+          "src": "audio/groove/kenzaki-bce14e4a75.mp3",
+          "onset": 0.03,
+          "end": 0.317,
           "speed": 1
         }
       }
@@ -99,89 +333,323 @@ export const GROOVE_AUDIO = {
     "100": {
       "lines": {
         "いちにさん": {
-          "src": "audio/groove/tsumugi-7abd65b588.mp3",
+          "src": "audio/groove/tsumugi-024d9d07e7.mp3",
           "onset": 0.01,
           "end": 0.627,
           "speed": 1
         },
         "きのうね": {
-          "src": "audio/groove/tsumugi-c885d78746.mp3",
+          "src": "audio/groove/tsumugi-38441db819.mp3",
           "onset": 0.055,
           "end": 0.527,
           "speed": 1
         },
         "ねこを みたの": {
-          "src": "audio/groove/tsumugi-453bf3faec.mp3",
-          "onset": 0.01,
-          "end": 1.107,
-          "speed": 1.313
+          "src": "audio/groove/tsumugi-6db874977e.mp3",
+          "onset": 0.02,
+          "end": 0.767,
+          "speed": 1
         },
         "おおきい ねこ": {
-          "src": "audio/groove/tsumugi-8353436fe8.mp3",
-          "onset": 0,
-          "end": 1.077,
-          "speed": 1.321
+          "src": "audio/groove/tsumugi-ce55168bf1.mp3",
+          "onset": 0.01,
+          "end": 0.757,
+          "speed": 1
         },
         "ぼうし つきで": {
-          "src": "audio/groove/tsumugi-2511c8c973.mp3",
-          "onset": 0.025,
-          "end": 1.087,
-          "speed": 1.325
+          "src": "audio/groove/tsumugi-5b7ccc1d00.mp3",
+          "onset": 0.045,
+          "end": 0.717,
+          "speed": 1
         },
         "でんしゃに のった": {
-          "src": "audio/groove/tsumugi-26e7b0e5b5.mp3",
-          "onset": 0.005,
-          "end": 1.097,
-          "speed": 1.399
+          "src": "audio/groove/tsumugi-075877335c.mp3",
+          "onset": 0.03,
+          "end": 0.857,
+          "speed": 1
         },
         "ほんとうだよ": {
-          "src": "audio/groove/tsumugi-2bcdbc2a93.mp3",
+          "src": "audio/groove/tsumugi-93e3999fef.mp3",
           "onset": 0.085,
           "end": 0.747,
+          "speed": 1
+        },
+        "けさ カフェでね": {
+          "src": "audio/groove/tsumugi-12ff55a31e.mp3",
+          "onset": 0.05,
+          "end": 0.757,
+          "speed": 1
+        },
+        "ケーキ たのんだら": {
+          "src": "audio/groove/tsumugi-c65357a7e7.mp3",
+          "onset": 0.065,
+          "end": 0.927,
+          "speed": 1
+        },
+        "ふたつ きたの": {
+          "src": "audio/groove/tsumugi-753ca37805.mp3",
+          "onset": 0.06,
+          "end": 0.737,
+          "speed": 1
+        },
+        "おまけ だって": {
+          "src": "audio/groove/tsumugi-4e9958d320.mp3",
+          "onset": 0.01,
+          "end": 0.707,
+          "speed": 1
+        },
+        "ぜんぶ たべた": {
+          "src": "audio/groove/tsumugi-16622e1f48.mp3",
+          "onset": 0.045,
+          "end": 0.777,
+          "speed": 1
+        },
+        "おなか いっぱい": {
+          "src": "audio/groove/tsumugi-e6f5a66483.mp3",
+          "onset": 0.01,
+          "end": 0.747,
+          "speed": 1
+        },
+        "きょう あめでしょ": {
+          "src": "audio/groove/tsumugi-04bd0982cb.mp3",
+          "onset": 0.05,
+          "end": 0.807,
+          "speed": 1
+        },
+        "かさ わすれて": {
+          "src": "audio/groove/tsumugi-a2ba291302.mp3",
+          "onset": 0.04,
+          "end": 0.817,
+          "speed": 1
+        },
+        "えきまで はしった": {
+          "src": "audio/groove/tsumugi-45736b735c.mp3",
+          "onset": 0.01,
+          "end": 1.027,
+          "speed": 1
+        },
+        "でも ついたら": {
+          "src": "audio/groove/tsumugi-0f7f65a7e7.mp3",
+          "onset": 0.035,
+          "end": 0.757,
+          "speed": 1
+        },
+        "あめ やんでた": {
+          "src": "audio/groove/tsumugi-a2bdc1a70d.mp3",
+          "onset": 0.015,
+          "end": 0.737,
+          "speed": 1
+        },
+        "ついてないよね": {
+          "src": "audio/groove/tsumugi-b5df5159dc.mp3",
+          "onset": 0.04,
+          "end": 0.847,
+          "speed": 1
+        },
+        "あしたの テスト": {
+          "src": "audio/groove/tsumugi-9469eb3b3f.mp3",
+          "onset": 0.02,
+          "end": 0.827,
+          "speed": 1
+        },
+        "ぜんぜん してない": {
+          "src": "audio/groove/tsumugi-8a5e616f81.mp3",
+          "onset": 0.045,
+          "end": 0.847,
+          "speed": 1
+        },
+        "でも だいじょうぶ": {
+          "src": "audio/groove/tsumugi-7681016e52.mp3",
+          "onset": 0.035,
+          "end": 0.807,
+          "speed": 1
+        },
+        "もんだいを ぜんぶ": {
+          "src": "audio/groove/tsumugi-b96121443c.mp3",
+          "onset": 0.02,
+          "end": 0.967,
+          "speed": 1
+        },
+        "よそう したから": {
+          "src": "audio/groove/tsumugi-72ef1f2b37.mp3",
+          "onset": 0.02,
+          "end": 0.817,
+          "speed": 1
+        },
+        "たぶん ね": {
+          "src": "audio/groove/tsumugi-05670b2049.mp3",
+          "onset": 0.05,
+          "end": 0.507,
+          "speed": 1
+        },
+        "しゅうまつ ね": {
+          "src": "audio/groove/tsumugi-7502f129d0.mp3",
+          "onset": 0.045,
+          "end": 0.727,
+          "speed": 1
+        },
+        "やまに いったの": {
+          "src": "audio/groove/tsumugi-3a0ff91485.mp3",
+          "onset": 0.015,
+          "end": 0.807,
+          "speed": 1
+        },
+        "さるが いてね": {
+          "src": "audio/groove/tsumugi-219fea520f.mp3",
+          "onset": 0.035,
+          "end": 0.717,
+          "speed": 1
+        },
+        "おにぎり とられた": {
+          "src": "audio/groove/tsumugi-8d17bc8d45.mp3",
+          "onset": 0.01,
+          "end": 0.967,
+          "speed": 1
+        },
+        "でも かわいかった": {
+          "src": "audio/groove/tsumugi-e569fdf792.mp3",
+          "onset": 0.045,
+          "end": 1.027,
+          "speed": 1
+        },
+        "また いきたい": {
+          "src": "audio/groove/tsumugi-bf13168719.mp3",
+          "onset": 0.025,
+          "end": 0.647,
+          "speed": 1
+        },
+        "あたらしい しごと": {
+          "src": "audio/groove/tsumugi-de56c07be3.mp3",
+          "onset": 0.01,
+          "end": 0.967,
+          "speed": 1
+        },
+        "きょうから なの": {
+          "src": "audio/groove/tsumugi-39e34fd5a8.mp3",
+          "onset": 0.05,
+          "end": 0.727,
+          "speed": 1
+        },
+        "せんぱいが やさしい": {
+          "src": "audio/groove/tsumugi-bda856feb0.mp3",
+          "onset": 0.04,
+          "end": 1.147,
+          "speed": 1
+        },
+        "ひるも おごって": {
+          "src": "audio/groove/tsumugi-032f3a8571.mp3",
+          "onset": 0.055,
+          "end": 0.867,
+          "speed": 1
+        },
+        "あさが はやい": {
+          "src": "audio/groove/tsumugi-675edeb245.mp3",
+          "onset": 0.015,
+          "end": 0.717,
+          "speed": 1
+        },
+        "がんばるね": {
+          "src": "audio/groove/tsumugi-f2345d01a8.mp3",
+          "onset": 0.035,
+          "end": 0.577,
           "speed": 1
         }
       },
       "answers": {
         "はい！": {
-          "src": "audio/groove/kenzaki-3bbf8a7829.mp3",
+          "src": "audio/groove/kenzaki-338e8ae96f.mp3",
           "onset": 0.07,
           "end": 0.377,
           "speed": 1
         },
         "うん": {
-          "src": "audio/groove/kenzaki-19b1d0116c.mp3",
+          "src": "audio/groove/kenzaki-d49cb4342f.mp3",
           "onset": 0.03,
           "end": 0.317,
           "speed": 1
         },
         "へえ！": {
-          "src": "audio/groove/kenzaki-f93d83dc92.mp3",
+          "src": "audio/groove/kenzaki-1f90c68d1f.mp3",
           "onset": 0.06,
           "end": 0.407,
           "speed": 1
         },
         "ほんと？": {
-          "src": "audio/groove/kenzaki-df21fc4d4f.mp3",
+          "src": "audio/groove/kenzaki-3fb94f43ac.mp3",
           "onset": 0.095,
           "end": 0.577,
           "speed": 1
         },
         "えー！": {
-          "src": "audio/groove/kenzaki-83b772b4d3.mp3",
+          "src": "audio/groove/kenzaki-3f47a8a5a4.mp3",
           "onset": 0.03,
           "end": 0.367,
           "speed": 1
         },
         "すごい！": {
-          "src": "audio/groove/kenzaki-7dfaa05937.mp3",
+          "src": "audio/groove/kenzaki-7b2d4d8c0b.mp3",
           "onset": 0.06,
           "end": 0.477,
           "speed": 1
         },
         "なるほど": {
-          "src": "audio/groove/kenzaki-146f8eda35.mp3",
+          "src": "audio/groove/kenzaki-5f7336b91a.mp3",
           "onset": 0.04,
           "end": 0.517,
+          "speed": 1
+        },
+        "いいね！": {
+          "src": "audio/groove/kenzaki-cfe8ed0986.mp3",
+          "onset": 0.035,
+          "end": 0.467,
+          "speed": 1
+        },
+        "わかる": {
+          "src": "audio/groove/kenzaki-2f60a8436f.mp3",
+          "onset": 0.035,
+          "end": 0.387,
+          "speed": 1
+        },
+        "まじで？": {
+          "src": "audio/groove/kenzaki-b4761612e3.mp3",
+          "onset": 0.04,
+          "end": 0.537,
+          "speed": 1.091
+        },
+        "うそ！": {
+          "src": "audio/groove/kenzaki-54c81edd11.mp3",
+          "onset": 0.03,
+          "end": 0.417,
+          "speed": 1
+        },
+        "たしかに": {
+          "src": "audio/groove/kenzaki-51638820f0.mp3",
+          "onset": 0.04,
+          "end": 0.497,
+          "speed": 1
+        },
+        "そっか": {
+          "src": "audio/groove/kenzaki-604c3db0a8.mp3",
+          "onset": 0.07,
+          "end": 0.497,
+          "speed": 1
+        },
+        "よかった！": {
+          "src": "audio/groove/kenzaki-759c3c568a.mp3",
+          "onset": 0.04,
+          "end": 0.467,
+          "speed": 1
+        },
+        "たいへん！": {
+          "src": "audio/groove/kenzaki-a42e62dbd3.mp3",
+          "onset": 0.055,
+          "end": 0.457,
+          "speed": 1
+        },
+        "うん！": {
+          "src": "audio/groove/kenzaki-bce14e4a75.mp3",
+          "onset": 0.03,
+          "end": 0.317,
           "speed": 1
         }
       }
@@ -189,180 +657,648 @@ export const GROOVE_AUDIO = {
     "116": {
       "lines": {
         "いちにさん": {
-          "src": "audio/groove/tsumugi-7abd65b588.mp3",
+          "src": "audio/groove/tsumugi-024d9d07e7.mp3",
           "onset": 0.01,
           "end": 0.627,
           "speed": 1
         },
         "きのうね": {
-          "src": "audio/groove/tsumugi-c885d78746.mp3",
+          "src": "audio/groove/tsumugi-38441db819.mp3",
           "onset": 0.055,
           "end": 0.527,
           "speed": 1
         },
         "ねこを みたの": {
-          "src": "audio/groove/tsumugi-4171e94cb5.mp3",
+          "src": "audio/groove/tsumugi-6db874977e.mp3",
           "onset": 0.02,
-          "end": 1.427,
+          "end": 0.767,
           "speed": 1
         },
         "おおきい ねこ": {
-          "src": "audio/groove/tsumugi-3c676f4dfe.mp3",
+          "src": "audio/groove/tsumugi-ce55168bf1.mp3",
           "onset": 0.01,
-          "end": 1.377,
+          "end": 0.757,
           "speed": 1
         },
         "ぼうし つきで": {
-          "src": "audio/groove/tsumugi-18b587a364.mp3",
-          "onset": 0.04,
-          "end": 1.387,
+          "src": "audio/groove/tsumugi-5b7ccc1d00.mp3",
+          "onset": 0.045,
+          "end": 0.717,
           "speed": 1
         },
         "でんしゃに のった": {
-          "src": "audio/groove/tsumugi-ff9a88ff02.mp3",
-          "onset": 0.025,
-          "end": 1.447,
-          "speed": 1.048
+          "src": "audio/groove/tsumugi-075877335c.mp3",
+          "onset": 0.03,
+          "end": 0.857,
+          "speed": 1
         },
         "ほんとうだよ": {
-          "src": "audio/groove/tsumugi-2bcdbc2a93.mp3",
+          "src": "audio/groove/tsumugi-93e3999fef.mp3",
           "onset": 0.085,
           "end": 0.747,
+          "speed": 1
+        },
+        "けさ カフェでね": {
+          "src": "audio/groove/tsumugi-12ff55a31e.mp3",
+          "onset": 0.05,
+          "end": 0.757,
+          "speed": 1
+        },
+        "ケーキ たのんだら": {
+          "src": "audio/groove/tsumugi-c65357a7e7.mp3",
+          "onset": 0.065,
+          "end": 0.927,
+          "speed": 1
+        },
+        "ふたつ きたの": {
+          "src": "audio/groove/tsumugi-753ca37805.mp3",
+          "onset": 0.06,
+          "end": 0.737,
+          "speed": 1
+        },
+        "おまけ だって": {
+          "src": "audio/groove/tsumugi-4e9958d320.mp3",
+          "onset": 0.01,
+          "end": 0.707,
+          "speed": 1
+        },
+        "ぜんぶ たべた": {
+          "src": "audio/groove/tsumugi-16622e1f48.mp3",
+          "onset": 0.045,
+          "end": 0.777,
+          "speed": 1
+        },
+        "おなか いっぱい": {
+          "src": "audio/groove/tsumugi-e6f5a66483.mp3",
+          "onset": 0.01,
+          "end": 0.747,
+          "speed": 1
+        },
+        "きょう あめでしょ": {
+          "src": "audio/groove/tsumugi-04bd0982cb.mp3",
+          "onset": 0.05,
+          "end": 0.807,
+          "speed": 1
+        },
+        "かさ わすれて": {
+          "src": "audio/groove/tsumugi-a2ba291302.mp3",
+          "onset": 0.04,
+          "end": 0.817,
+          "speed": 1
+        },
+        "えきまで はしった": {
+          "src": "audio/groove/tsumugi-45736b735c.mp3",
+          "onset": 0.01,
+          "end": 1.027,
+          "speed": 1
+        },
+        "でも ついたら": {
+          "src": "audio/groove/tsumugi-0f7f65a7e7.mp3",
+          "onset": 0.035,
+          "end": 0.757,
+          "speed": 1
+        },
+        "あめ やんでた": {
+          "src": "audio/groove/tsumugi-a2bdc1a70d.mp3",
+          "onset": 0.015,
+          "end": 0.737,
+          "speed": 1
+        },
+        "ついてないよね": {
+          "src": "audio/groove/tsumugi-b5df5159dc.mp3",
+          "onset": 0.04,
+          "end": 0.847,
+          "speed": 1
+        },
+        "あしたの テスト": {
+          "src": "audio/groove/tsumugi-9469eb3b3f.mp3",
+          "onset": 0.02,
+          "end": 0.827,
+          "speed": 1
+        },
+        "ぜんぜん してない": {
+          "src": "audio/groove/tsumugi-8a5e616f81.mp3",
+          "onset": 0.045,
+          "end": 0.847,
+          "speed": 1
+        },
+        "でも だいじょうぶ": {
+          "src": "audio/groove/tsumugi-7681016e52.mp3",
+          "onset": 0.035,
+          "end": 0.807,
+          "speed": 1
+        },
+        "もんだいを ぜんぶ": {
+          "src": "audio/groove/tsumugi-b96121443c.mp3",
+          "onset": 0.02,
+          "end": 0.967,
+          "speed": 1
+        },
+        "よそう したから": {
+          "src": "audio/groove/tsumugi-72ef1f2b37.mp3",
+          "onset": 0.02,
+          "end": 0.817,
+          "speed": 1
+        },
+        "たぶん ね": {
+          "src": "audio/groove/tsumugi-05670b2049.mp3",
+          "onset": 0.05,
+          "end": 0.507,
+          "speed": 1
+        },
+        "しゅうまつ ね": {
+          "src": "audio/groove/tsumugi-7502f129d0.mp3",
+          "onset": 0.045,
+          "end": 0.727,
+          "speed": 1
+        },
+        "やまに いったの": {
+          "src": "audio/groove/tsumugi-3a0ff91485.mp3",
+          "onset": 0.015,
+          "end": 0.807,
+          "speed": 1
+        },
+        "さるが いてね": {
+          "src": "audio/groove/tsumugi-219fea520f.mp3",
+          "onset": 0.035,
+          "end": 0.717,
+          "speed": 1
+        },
+        "おにぎり とられた": {
+          "src": "audio/groove/tsumugi-8d17bc8d45.mp3",
+          "onset": 0.01,
+          "end": 0.967,
+          "speed": 1
+        },
+        "でも かわいかった": {
+          "src": "audio/groove/tsumugi-e569fdf792.mp3",
+          "onset": 0.045,
+          "end": 1.027,
+          "speed": 1
+        },
+        "また いきたい": {
+          "src": "audio/groove/tsumugi-bf13168719.mp3",
+          "onset": 0.025,
+          "end": 0.647,
+          "speed": 1
+        },
+        "あたらしい しごと": {
+          "src": "audio/groove/tsumugi-de56c07be3.mp3",
+          "onset": 0.01,
+          "end": 0.967,
+          "speed": 1
+        },
+        "きょうから なの": {
+          "src": "audio/groove/tsumugi-39e34fd5a8.mp3",
+          "onset": 0.05,
+          "end": 0.727,
+          "speed": 1
+        },
+        "せんぱいが やさしい": {
+          "src": "audio/groove/tsumugi-bda856feb0.mp3",
+          "onset": 0.04,
+          "end": 1.147,
+          "speed": 1
+        },
+        "ひるも おごって": {
+          "src": "audio/groove/tsumugi-032f3a8571.mp3",
+          "onset": 0.055,
+          "end": 0.867,
+          "speed": 1
+        },
+        "あさが はやい": {
+          "src": "audio/groove/tsumugi-675edeb245.mp3",
+          "onset": 0.015,
+          "end": 0.717,
+          "speed": 1
+        },
+        "がんばるね": {
+          "src": "audio/groove/tsumugi-f2345d01a8.mp3",
+          "onset": 0.035,
+          "end": 0.577,
           "speed": 1
         }
       },
       "answers": {
         "はい！": {
-          "src": "audio/groove/kenzaki-3bbf8a7829.mp3",
+          "src": "audio/groove/kenzaki-338e8ae96f.mp3",
           "onset": 0.07,
           "end": 0.377,
           "speed": 1
         },
         "うん": {
-          "src": "audio/groove/kenzaki-19b1d0116c.mp3",
+          "src": "audio/groove/kenzaki-d49cb4342f.mp3",
           "onset": 0.03,
           "end": 0.317,
           "speed": 1
         },
         "へえ！": {
-          "src": "audio/groove/kenzaki-f93d83dc92.mp3",
+          "src": "audio/groove/kenzaki-1f90c68d1f.mp3",
           "onset": 0.06,
           "end": 0.407,
           "speed": 1
         },
         "ほんと？": {
-          "src": "audio/groove/kenzaki-cbeec59618.mp3",
+          "src": "audio/groove/kenzaki-d265595edf.mp3",
           "onset": 0.085,
           "end": 0.477,
           "speed": 1.148
         },
         "えー！": {
-          "src": "audio/groove/kenzaki-83b772b4d3.mp3",
+          "src": "audio/groove/kenzaki-3f47a8a5a4.mp3",
           "onset": 0.03,
           "end": 0.367,
           "speed": 1
         },
         "すごい！": {
-          "src": "audio/groove/kenzaki-7dfaa05937.mp3",
+          "src": "audio/groove/kenzaki-7b2d4d8c0b.mp3",
           "onset": 0.06,
           "end": 0.477,
           "speed": 1
         },
         "なるほど": {
-          "src": "audio/groove/kenzaki-19b7ef1cae.mp3",
+          "src": "audio/groove/kenzaki-32ea72b198.mp3",
           "onset": 0.04,
           "end": 0.457,
           "speed": 1.125
+        },
+        "いいね！": {
+          "src": "audio/groove/kenzaki-1bdfaca3e7.mp3",
+          "onset": 0.035,
+          "end": 0.457,
+          "speed": 1.063
+        },
+        "わかる": {
+          "src": "audio/groove/kenzaki-2f60a8436f.mp3",
+          "onset": 0.035,
+          "end": 0.387,
+          "speed": 1
+        },
+        "まじで？": {
+          "src": "audio/groove/kenzaki-2b2a0051ae.mp3",
+          "onset": 0.02,
+          "end": 0.427,
+          "speed": 1.265
+        },
+        "うそ！": {
+          "src": "audio/groove/kenzaki-54c81edd11.mp3",
+          "onset": 0.03,
+          "end": 0.417,
+          "speed": 1
+        },
+        "たしかに": {
+          "src": "audio/groove/kenzaki-31e983f663.mp3",
+          "onset": 0.04,
+          "end": 0.487,
+          "speed": 1.031
+        },
+        "そっか": {
+          "src": "audio/groove/kenzaki-604c3db0a8.mp3",
+          "onset": 0.07,
+          "end": 0.497,
+          "speed": 1
+        },
+        "よかった！": {
+          "src": "audio/groove/kenzaki-759c3c568a.mp3",
+          "onset": 0.04,
+          "end": 0.467,
+          "speed": 1
+        },
+        "たいへん！": {
+          "src": "audio/groove/kenzaki-a42e62dbd3.mp3",
+          "onset": 0.055,
+          "end": 0.457,
+          "speed": 1
+        },
+        "うん！": {
+          "src": "audio/groove/kenzaki-bce14e4a75.mp3",
+          "onset": 0.03,
+          "end": 0.317,
+          "speed": 1
         }
       }
     },
     "132": {
       "lines": {
         "いちにさん": {
-          "src": "audio/groove/tsumugi-7abd65b588.mp3",
+          "src": "audio/groove/tsumugi-024d9d07e7.mp3",
           "onset": 0.01,
           "end": 0.627,
           "speed": 1
         },
         "きのうね": {
-          "src": "audio/groove/tsumugi-c885d78746.mp3",
+          "src": "audio/groove/tsumugi-38441db819.mp3",
           "onset": 0.055,
           "end": 0.527,
           "speed": 1
         },
         "ねこを みたの": {
-          "src": "audio/groove/tsumugi-86c24688ad.mp3",
-          "onset": 0.01,
-          "end": 1.137,
-          "speed": 1.256
+          "src": "audio/groove/tsumugi-6db874977e.mp3",
+          "onset": 0.02,
+          "end": 0.767,
+          "speed": 1
         },
         "おおきい ねこ": {
-          "src": "audio/groove/tsumugi-cdb2ab87e8.mp3",
+          "src": "audio/groove/tsumugi-ce55168bf1.mp3",
           "onset": 0.01,
-          "end": 1.187,
-          "speed": 1.212
+          "end": 0.757,
+          "speed": 1
         },
         "ぼうし つきで": {
-          "src": "audio/groove/tsumugi-5a0190575b.mp3",
-          "onset": 0.04,
-          "end": 1.237,
-          "speed": 1.155
+          "src": "audio/groove/tsumugi-5b7ccc1d00.mp3",
+          "onset": 0.045,
+          "end": 0.717,
+          "speed": 1
         },
         "でんしゃに のった": {
-          "src": "audio/groove/tsumugi-909c1df7dd.mp3",
-          "onset": 0.015,
-          "end": 1.187,
-          "speed": 1.293
+          "src": "audio/groove/tsumugi-075877335c.mp3",
+          "onset": 0.03,
+          "end": 0.857,
+          "speed": 1
         },
         "ほんとうだよ": {
-          "src": "audio/groove/tsumugi-2bcdbc2a93.mp3",
+          "src": "audio/groove/tsumugi-93e3999fef.mp3",
           "onset": 0.085,
           "end": 0.747,
+          "speed": 1
+        },
+        "けさ カフェでね": {
+          "src": "audio/groove/tsumugi-12ff55a31e.mp3",
+          "onset": 0.05,
+          "end": 0.757,
+          "speed": 1
+        },
+        "ケーキ たのんだら": {
+          "src": "audio/groove/tsumugi-c65357a7e7.mp3",
+          "onset": 0.065,
+          "end": 0.927,
+          "speed": 1
+        },
+        "ふたつ きたの": {
+          "src": "audio/groove/tsumugi-753ca37805.mp3",
+          "onset": 0.06,
+          "end": 0.737,
+          "speed": 1
+        },
+        "おまけ だって": {
+          "src": "audio/groove/tsumugi-4e9958d320.mp3",
+          "onset": 0.01,
+          "end": 0.707,
+          "speed": 1
+        },
+        "ぜんぶ たべた": {
+          "src": "audio/groove/tsumugi-16622e1f48.mp3",
+          "onset": 0.045,
+          "end": 0.777,
+          "speed": 1
+        },
+        "おなか いっぱい": {
+          "src": "audio/groove/tsumugi-e6f5a66483.mp3",
+          "onset": 0.01,
+          "end": 0.747,
+          "speed": 1
+        },
+        "きょう あめでしょ": {
+          "src": "audio/groove/tsumugi-04bd0982cb.mp3",
+          "onset": 0.05,
+          "end": 0.807,
+          "speed": 1
+        },
+        "かさ わすれて": {
+          "src": "audio/groove/tsumugi-a2ba291302.mp3",
+          "onset": 0.04,
+          "end": 0.817,
+          "speed": 1
+        },
+        "えきまで はしった": {
+          "src": "audio/groove/tsumugi-45736b735c.mp3",
+          "onset": 0.01,
+          "end": 1.027,
+          "speed": 1
+        },
+        "でも ついたら": {
+          "src": "audio/groove/tsumugi-0f7f65a7e7.mp3",
+          "onset": 0.035,
+          "end": 0.757,
+          "speed": 1
+        },
+        "あめ やんでた": {
+          "src": "audio/groove/tsumugi-a2bdc1a70d.mp3",
+          "onset": 0.015,
+          "end": 0.737,
+          "speed": 1
+        },
+        "ついてないよね": {
+          "src": "audio/groove/tsumugi-b5df5159dc.mp3",
+          "onset": 0.04,
+          "end": 0.847,
+          "speed": 1
+        },
+        "あしたの テスト": {
+          "src": "audio/groove/tsumugi-9469eb3b3f.mp3",
+          "onset": 0.02,
+          "end": 0.827,
+          "speed": 1
+        },
+        "ぜんぜん してない": {
+          "src": "audio/groove/tsumugi-8a5e616f81.mp3",
+          "onset": 0.045,
+          "end": 0.847,
+          "speed": 1
+        },
+        "でも だいじょうぶ": {
+          "src": "audio/groove/tsumugi-7681016e52.mp3",
+          "onset": 0.035,
+          "end": 0.807,
+          "speed": 1
+        },
+        "もんだいを ぜんぶ": {
+          "src": "audio/groove/tsumugi-b96121443c.mp3",
+          "onset": 0.02,
+          "end": 0.967,
+          "speed": 1
+        },
+        "よそう したから": {
+          "src": "audio/groove/tsumugi-72ef1f2b37.mp3",
+          "onset": 0.02,
+          "end": 0.817,
+          "speed": 1
+        },
+        "たぶん ね": {
+          "src": "audio/groove/tsumugi-05670b2049.mp3",
+          "onset": 0.05,
+          "end": 0.507,
+          "speed": 1
+        },
+        "しゅうまつ ね": {
+          "src": "audio/groove/tsumugi-7502f129d0.mp3",
+          "onset": 0.045,
+          "end": 0.727,
+          "speed": 1
+        },
+        "やまに いったの": {
+          "src": "audio/groove/tsumugi-3a0ff91485.mp3",
+          "onset": 0.015,
+          "end": 0.807,
+          "speed": 1
+        },
+        "さるが いてね": {
+          "src": "audio/groove/tsumugi-219fea520f.mp3",
+          "onset": 0.035,
+          "end": 0.717,
+          "speed": 1
+        },
+        "おにぎり とられた": {
+          "src": "audio/groove/tsumugi-8d17bc8d45.mp3",
+          "onset": 0.01,
+          "end": 0.967,
+          "speed": 1
+        },
+        "でも かわいかった": {
+          "src": "audio/groove/tsumugi-e569fdf792.mp3",
+          "onset": 0.045,
+          "end": 1.027,
+          "speed": 1
+        },
+        "また いきたい": {
+          "src": "audio/groove/tsumugi-bf13168719.mp3",
+          "onset": 0.025,
+          "end": 0.647,
+          "speed": 1
+        },
+        "あたらしい しごと": {
+          "src": "audio/groove/tsumugi-de56c07be3.mp3",
+          "onset": 0.01,
+          "end": 0.967,
+          "speed": 1
+        },
+        "きょうから なの": {
+          "src": "audio/groove/tsumugi-39e34fd5a8.mp3",
+          "onset": 0.05,
+          "end": 0.727,
+          "speed": 1
+        },
+        "せんぱいが やさしい": {
+          "src": "audio/groove/tsumugi-bda856feb0.mp3",
+          "onset": 0.04,
+          "end": 1.147,
+          "speed": 1
+        },
+        "ひるも おごって": {
+          "src": "audio/groove/tsumugi-032f3a8571.mp3",
+          "onset": 0.055,
+          "end": 0.867,
+          "speed": 1
+        },
+        "あさが はやい": {
+          "src": "audio/groove/tsumugi-675edeb245.mp3",
+          "onset": 0.015,
+          "end": 0.717,
+          "speed": 1
+        },
+        "がんばるね": {
+          "src": "audio/groove/tsumugi-f2345d01a8.mp3",
+          "onset": 0.035,
+          "end": 0.577,
           "speed": 1
         }
       },
       "answers": {
         "はい！": {
-          "src": "audio/groove/kenzaki-3bbf8a7829.mp3",
+          "src": "audio/groove/kenzaki-338e8ae96f.mp3",
           "onset": 0.07,
           "end": 0.377,
           "speed": 1
         },
         "うん": {
-          "src": "audio/groove/kenzaki-19b1d0116c.mp3",
+          "src": "audio/groove/kenzaki-d49cb4342f.mp3",
           "onset": 0.03,
           "end": 0.317,
           "speed": 1
         },
         "へえ！": {
-          "src": "audio/groove/kenzaki-f93d83dc92.mp3",
+          "src": "audio/groove/kenzaki-1f90c68d1f.mp3",
           "onset": 0.06,
           "end": 0.407,
           "speed": 1
         },
         "ほんと？": {
-          "src": "audio/groove/kenzaki-40ac0abd16.mp3",
+          "src": "audio/groove/kenzaki-14f3788198.mp3",
           "onset": 0.065,
           "end": 0.427,
           "speed": 1.306
         },
         "えー！": {
-          "src": "audio/groove/kenzaki-83b772b4d3.mp3",
+          "src": "audio/groove/kenzaki-3f47a8a5a4.mp3",
           "onset": 0.03,
           "end": 0.367,
           "speed": 1
         },
         "すごい！": {
-          "src": "audio/groove/kenzaki-7dfaa05937.mp3",
+          "src": "audio/groove/kenzaki-7b2d4d8c0b.mp3",
           "onset": 0.06,
           "end": 0.477,
           "speed": 1
         },
         "なるほど": {
-          "src": "audio/groove/kenzaki-d185481b42.mp3",
+          "src": "audio/groove/kenzaki-74efe8ec48.mp3",
           "onset": 0.025,
           "end": 0.397,
           "speed": 1.28
+        },
+        "いいね！": {
+          "src": "audio/groove/kenzaki-b2f1f5ca59.mp3",
+          "onset": 0.035,
+          "end": 0.407,
+          "speed": 1.173
+        },
+        "わかる": {
+          "src": "audio/groove/kenzaki-2f60a8436f.mp3",
+          "onset": 0.035,
+          "end": 0.387,
+          "speed": 1
+        },
+        "まじで？": {
+          "src": "audio/groove/kenzaki-bcd665c0b5.mp3",
+          "onset": 0.02,
+          "end": 0.377,
+          "speed": 1.497
+        },
+        "うそ！": {
+          "src": "audio/groove/kenzaki-211c6d6f61.mp3",
+          "onset": 0.03,
+          "end": 0.407,
+          "speed": 1.04
+        },
+        "たしかに": {
+          "src": "audio/groove/kenzaki-0dae1bab81.mp3",
+          "onset": 0.04,
+          "end": 0.427,
+          "speed": 1.173
+        },
+        "そっか": {
+          "src": "audio/groove/kenzaki-604c3db0a8.mp3",
+          "onset": 0.07,
+          "end": 0.497,
+          "speed": 1
+        },
+        "よかった！": {
+          "src": "audio/groove/kenzaki-1644db8ffb.mp3",
+          "onset": 0.04,
+          "end": 0.417,
+          "speed": 1.192
+        },
+        "たいへん！": {
+          "src": "audio/groove/kenzaki-3038da4e99.mp3",
+          "onset": 0.04,
+          "end": 0.407,
+          "speed": 1.109
+        },
+        "うん！": {
+          "src": "audio/groove/kenzaki-bce14e4a75.mp3",
+          "onset": 0.03,
+          "end": 0.317,
+          "speed": 1
         }
       }
     }

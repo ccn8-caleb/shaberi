@@ -9,6 +9,7 @@ export const STORAGE_KEYS = {
   VOICE: 'shaberi_voice', // which model voice plays the phrases (see audio/model.js)
   SPEED: 'shaberi_speed', // the model's speaking speed (see game/speed.js)
   WORDS: 'shaberi_words', // 'on' when the on-device word check is wanted (see asr/words.js)
+  GROOVE_STORY: 'shaberi_groove_story', // the story played last in 相づちグルーヴ (to pick a different one)
 };
 
 export const SCHEMA_VERSION = 2;

@@ -299,6 +299,7 @@
 }
 .verdict.win { background: color-mix(in srgb, var(--teal) 88%, transparent); }
 .verdict.lose { background: color-mix(in srgb, var(--pink-deep) 88%, transparent); }
+.verdict.void { background: color-mix(in srgb, var(--text-muted) 80%, transparent); }
 .verdict small {
   display: block;
   font-size: 1.1rem;
@@ -856,6 +857,10 @@
 .ear[data-state='error'] { color: var(--pink-deep); }
 .ear[data-state='error'] .ear-dot { background: var(--pink); }
 .ear[data-state='off'] .ear-dot { background: var(--orange); }
+.ear[data-state='offline'] .ear-dot { background: var(--orange); }
+.ear[data-state='device'] .ear-dot,
+.ear[data-state='checking'] .ear-dot { background: var(--teal); }
+.ear[data-state='checking'] .ear-dot { animation: bump 0.6s ease infinite; }
 .mg-hint {
   font-size: 1rem;
   color: var(--text-muted);

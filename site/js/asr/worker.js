@@ -59,6 +59,13 @@ onmessage = async (e) => {
       let best = -Infinity;
       for (const text of e.data.forms) best = Math.max(best, await closeness(input_features, text));
       postMessage({ type: 'result', id, closeness: best });
+    } else if (type === 'rank') {
+      // Closeness of each form, in order (for choosing between candidate answers).
+      await load();
+      const { input_features } = await processor(e.data.audio);
+      const each = [];
+      for (const text of e.data.forms) each.push(await closeness(input_features, text));
+      postMessage({ type: 'result', id, closeness: each });
     }
   } catch (err) {
     postMessage({ type: 'error', id, message: String(err?.message || err) });

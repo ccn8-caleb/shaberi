@@ -2,7 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import { OnsetDetector } from '../site/js/engine/onset.js';
-import { timeline, Judge, isEcho, grade, spb, SONG, TEMPOS, DEFAULT_BPM, judgeWindows, MAX_LATENCY } from '../site/js/game/groove.js';
+import { timeline, Judge, isEcho, grade, spb, SONG, TEMPOS, DEFAULT_BPM, judgeWindows, MAX_LATENCY, STORIES, PRACTICE, songOf, pickStory, BAR, COUNTDOWN } from '../site/js/game/groove.js';
+import { splitMora } from '../site/js/engine/mora.js';
 import { GROOVE_AUDIO } from '../site/js/data/groove-audio.js';
 import { deck, matches, timeLimit, payout, level, MIN_SECONDS } from '../site/js/game/flash.js';
 import { REPLIES, COUNTS, ACCENT_PAIRS } from '../site/js/data/micro.js';
@@ -39,20 +40,36 @@ test('onsets: silence gives none', () => {
 
 // ------------------------------------------------------------------ groove
 
-test('groove timeline: count-in, then each line twice (demo, then your turn), at every tempo', () => {
-  for (const { bpm, bar } of TEMPOS) {
+test('groove timeline: 4-beat count-in and bars, each line twice (demo, then your turn), at every tempo', () => {
+  for (const { bpm, turn } of TEMPOS) {
+    assert.equal(turn % BAR, 0, `${bpm}: turns are whole 4-beat bars`);
     const { cues, targets, end } = timeline(SONG, bpm);
     assert.equal(cues.filter((c) => c.kind === 'count').length, 4);
     assert.equal(targets.length, SONG.length);
     assert.equal(cues.filter((c) => c.kind === 'demo').length, SONG.length);
-    // Your first answer: the last beat of the bar after the demo bar.
-    assert.ok(Math.abs(targets[0].t - (4 + bar + bar - 1) * spb(bpm)) < 1e-9, `${bpm}`);
+    // Your first answer: the last beat of the turn after the demo turn.
+    assert.ok(Math.abs(targets[0].t - (4 + turn + turn - 1) * spb(bpm)) < 1e-9, `${bpm}`);
     assert.ok(end > targets[targets.length - 1].t);
-    // A countdown to each of your answers (3-2-1 in 4-beat bars, 4-3-2-1 in 5-beat bars).
+    // Every answer lands on beat 4 of a bar, after a 3-2-1 countdown.
     for (const tg of targets) {
+      assert.equal(Math.round(tg.t / spb(bpm)) % BAR, BAR - 1, `${bpm}: answer on beat 4`);
       const cd = cues.filter((c) => c.kind === 'countdown' && c.bar === tg.bar).map((c) => c.text);
-      assert.deepEqual(cd, Array.from({ length: bar - 1 }, (_, i) => String(bar - 1 - i)));
+      assert.deepEqual(cd, Array.from({ length: COUNTDOWN }, (_, i) => String(COUNTDOWN - i)));
     }
+  }
+});
+
+test('groove stories: several, all different, short answers, never the same one twice running', () => {
+  assert.ok(STORIES.length >= 5);
+  assert.equal(new Set(STORIES.map((s) => s.id)).size, STORIES.length);
+  for (const s of STORIES) {
+    assert.ok(s.ja && s.en && s.lines.length >= 5, s.id);
+    assert.ok(songOf(s).slice(0, PRACTICE.length).every((x) => x.practice));
+    for (const l of s.lines) assert.ok(splitMora(l.you.replace(/[！？]/g, '')).length <= 5, `${s.id}: "${l.you}" too long to answer in a beat`);
+  }
+  for (let i = 0; i < 50; i++) {
+    const last = STORIES[i % STORIES.length].id;
+    assert.notEqual(pickStory(Math.random, last).id, last);
   }
 });
 
@@ -60,7 +77,8 @@ test('groove voices fit at every tempo, spoken at a natural speed', () => {
   for (const { bpm } of TEMPOS) {
     const set = GROOVE_AUDIO.tempos[bpm];
     assert.ok(set, `no recordings for ${bpm} BPM: run node tools/voice/build-groove.mjs`);
-    const { cues, targets } = timeline(SONG, bpm);
+    for (const story of STORIES) {
+    const { cues, targets } = timeline(songOf(story), bpm);
     const ok = judgeWindows(bpm).ok;
     for (const tg of targets) {
       const line = cues.find((c) => c.kind === 'line' && c.bar === tg.bar);
@@ -70,7 +88,8 @@ test('groove voices fit at every tempo, spoken at a natural speed', () => {
       assert.ok(!isEcho(tg.t - ok + MAX_LATENCY, [sound], MAX_LATENCY), `${bpm}: "${line.text}" runs too long (${clip.end}s)`);
       assert.ok(clip.speed <= 1.45, `${bpm}: "${line.text}" had to be sped up ×${clip.speed}`);
     }
-    for (const s of SONG) assert.ok(set.answers[s.you], `${bpm}: no recording for "${s.you}"`);
+    for (const s of songOf(story)) assert.ok(set.answers[s.you], `${bpm}: no recording for "${s.you}"`);
+    }
   }
 });
 

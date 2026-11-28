@@ -4,6 +4,33 @@ Versions follow [semver](https://semver.org/). The version lives in
 `site/js/core/version.js`; every release needs an entry here (CI checks it). Each
 deploy also carries a build id (commit hash), shown next to the version in the app.
 
+## [0.1.10] — 2026-11-28 — Playtest fixes
+
+### Fixed
+- **は sounded like "ha"** in 「今日はいい天気ですね」 and 「駅はどこですか」. The model
+  recordings now say the particles は and へ as わ and え (both voices, every speed).
+- **瞬間しゃべり stuck on 「音声認識のエラー（network）」.** That error means the browser's
+  speech recognition can't reach its server (always in Brave, and in Chrome when
+  offline). The game now stops retrying straight away, doesn't count the round, and,
+  if the on-device check is on, uses it for the reply and counting rounds: it records
+  your answer and checks whether it's closer to the right answer than to any other.
+  Without it, a clear message explains how to turn it on.
+- **The live pitch line was jumpy and laggy.** It now takes a reading every 10 ms
+  instead of every 43 ms, smooths out one-off misreads, starts from your usual pitch
+  (remembered from your last attempt), and spans the graph the way the scored curve
+  does, so it no longer jumps when the result appears.
+- **Stray marks on the scored pitch curve** (and the pitch score they affected):
+  readings far outside your voice's range and specks shorter than 60 ms are dropped.
+
+### Changed
+- **相づちグルーヴ keeps a steady 4-beat feel** at every tempo: the count-in and bars are
+  always 4 beats. At はやめ and ネイティブ each turn spans two bars (you answer on the
+  4th beat of the second) instead of using 5-beat bars.
+- **相づちグルーヴ has six stories** (the cat on the train, a café treat, a rainy day,
+  tomorrow's test, the mountain monkey, the new job), picked at random and never the
+  same one twice in a row. The story's title shows when the scored part starts.
+- The しゃべり logo at the top left now goes back to the home screen.
+
 ## [0.1.9] — 2026-11-27 — Earbuds stay earbuds; Groove tempos
 
 ### Fixed

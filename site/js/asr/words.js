@@ -110,6 +110,23 @@ export function to16k(pcm, rate) {
   return out;
 }
 
+// Which of several candidate answers a recording is (for 瞬間しゃべり): closeness of
+// the best right form and the best wrong one, or null if the check isn't ready.
+//   right: forms that count as the answer;  wrong: plausible other answers
+export async function choose(pcm, rate, right, wrong, span = null) {
+  if (state !== 'ready') return null;
+  let audio = pcm;
+  if (span) {
+    const a = Math.max(0, Math.floor((span.start - 0.25) * rate));
+    const b = Math.min(pcm.length, Math.ceil((span.end + 0.35) * rate));
+    audio = pcm.subarray(a, b);
+  }
+  const { closeness } = await call({ type: 'rank', audio: to16k(audio, rate), forms: [...right, ...wrong] });
+  const best = Math.max(...closeness.slice(0, right.length));
+  const rival = wrong.length ? Math.max(...closeness.slice(right.length)) : -Infinity;
+  return { best, rival, score: toScore(best) };
+}
+
 // Score a recording against a phrase: { score 0..1, closeness }, or null if the
 // on-device check isn't ready. Only the speech (plus a little margin) is sent.
 export async function check(pcm, rate, phrase, span = null) {

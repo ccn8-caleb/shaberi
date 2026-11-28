@@ -34,12 +34,20 @@ shared pieces, check whether the same change belongs there too. Shaberi is the
   phrase edit; `tests/audio.test.mjs` fails until you do. Pitch is shaped from our
   accent data (`shapePitch`) because VOICEVOX's own prediction peaks a mora late,
   especially for つむぎ. The audio is not MIT (see `site/audio/README.md`).
-- - Speech recognition on Android is a separate system service that needs the mic to
+- Speech recognition on Android is a separate system service that needs the mic to
   itself: while we hold the mic, it hears nothing. Flash Speak releases the mic for
   reply/count rounds (recognizer.stream has pause/resume). Practice can't recognise
   words on Android while it records for pitch.
 - Groove voices: `node tools/voice/build-groove.mjs` (lines must die away before the
-  answer window, see LINE_MAX; tests/games.test.mjs checks the recordings fit).
+  answer window, see lineMax; tests/games.test.mjs checks the recordings fit). Bars are
+  always 4 beats (the user found 5-beat bars irregular); fast tempos use two-bar turns
+  (`turn: 8`). Stories live in `STORIES` in game/groove.js; add more there and rebuild.
+- Voice kana: VOICEVOX's kana notation reads kana literally, so `accentKana` writes a
+  unit-final は/へ as ワ/エ. A unit that really ends in "ha" takes `{ read }` as a third
+  element.
+- Flash Speak: Web Speech errors like 'network' (Brave always) mean it won't work this
+  session; the game then uses the on-device check (`words.choose`, right answer vs.
+  the other answers) for reply/count rounds.
 - Words in practice: when the on-device check (`asr/words.js` + `asr/worker.js`,
   Whisper tiny via transformers.js 4.3.2 from jsDelivr) is ready, it scores the
   recording by how close the expected text is to the model's preferences (teacher
@@ -56,7 +64,7 @@ shared pieces, check whether the same change belongs there too. Shaberi is the
 - Pitch scoring with a model reference (`pitchAgainstModel` in engine/score.js) uses
   DTW with a narrow band (0.08). Wider bands overfit: a correct reading scored ~1.0
   against a mirrored accent at 0.35 (see tests/engine.test.mjs "mirrored").
-- - Progress lives in localStorage (`game/store.js`). Bump SCHEMA_VERSION only with a
+- Progress lives in localStorage (`game/store.js`). Bump SCHEMA_VERSION only with a
   migration in `migrate()`, so saves carry over.
 - Phrases: `site/js/data/phrases.js`. Accent numbers are hand-entered; verify against an
   accent dictionary before adding many. Units carry their particles / です・ます.

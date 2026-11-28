@@ -15,7 +15,7 @@ import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { SAMPLE_RATE, speak, encodeWav, onsetOf, engineVersion } from './voicevox.mjs';
-import { SONG, TEMPOS, lineMax, answerMax } from '../../site/js/game/groove.js';
+import { ALL_LINES, ALL_ANSWERS, TEMPOS, lineMax, answerMax } from '../../site/js/game/groove.js';
 import { analyze } from '../../site/js/engine/pitch.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -31,14 +31,15 @@ async function make(voice, text, { maxLength = Infinity } = {}) {
   let pcm;
   let length;
   for (let tries = 0; tries < 4; tries++) {
-    pcm = await speak(voice, text, { speed, pre: 0.02, post: 0.12 });
+    // The spaces are for reading on screen; spoken, they'd add a pause between words.
+    pcm = await speak(voice, text.replace(/\s+/g, ''), { speed, pre: 0.02, post: 0.12 });
     const { span } = analyze(pcm, SAMPLE_RATE);
     length = span.end - span.start;
     if (length <= maxLength) break;
     speed *= (length / maxLength) * 1.03;
   }
   if (length > maxLength) console.warn(`"${text}" is ${length.toFixed(2)} s, over ${maxLength.toFixed(2)} s`);
-  const id = crypto.createHash('sha1').update(JSON.stringify([engine, voice, text, speed])).digest('hex').slice(0, 10);
+  const id = crypto.createHash('sha1').update(JSON.stringify([engine, voice, text, speed, 'no-gap v1'])).digest('hex').slice(0, 10);
   const rel = `audio/groove/${voice}-${id}.mp3`;
   const tmp = path.join(DIR, `.${id}.wav`);
   fs.writeFileSync(tmp, encodeWav(pcm));
@@ -60,10 +61,8 @@ const tempos = {};
 for (const { bpm } of TEMPOS) {
   const lines = {};
   const answers = {};
-  for (const s of SONG) {
-    lines[s.line] ||= await make(FRIEND, s.line, { maxLength: lineMax(bpm) });
-    answers[s.you] ||= await make(MODEL, s.you, { maxLength: answerMax(bpm) });
-  }
+  for (const line of ALL_LINES) lines[line] = await make(FRIEND, line, { maxLength: lineMax(bpm) });
+  for (const you of ALL_ANSWERS) answers[you] = await make(MODEL, you, { maxLength: answerMax(bpm) });
   tempos[bpm] = { lines, answers };
 }
 
@@ -77,4 +76,4 @@ fs.writeFileSync(
 export const GROOVE_AUDIO = ${JSON.stringify({ engine, tempos }, null, 2)};
 `
 );
-console.log(`\n${TEMPOS.length} tempos × ${SONG.length} lines`);
+console.log(`\n${TEMPOS.length} tempos × ${ALL_LINES.length} lines + ${ALL_ANSWERS.length} answers`);

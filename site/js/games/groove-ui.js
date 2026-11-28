@@ -6,7 +6,7 @@
 import { t } from '../core/prefs.js';
 import { OnsetDetector } from '../engine/onset.js';
 import { grade as letterGrade } from '../engine/score.js';
-import { timeline, Judge, isEcho, judgeWindows, spb, tempoOf } from '../game/groove.js';
+import { timeline, Judge, isEcho, judgeWindows, spb, tempoOf, songOf, BAR } from '../game/groove.js';
 import { GROOVE_AUDIO } from '../data/groove-audio.js';
 import * as sfx from '../audio/sfx.js';
 
@@ -21,10 +21,11 @@ const LABELS = {
   miss: { ja: 'ミス', en: 'Miss' },
 };
 
-// Decode every clip the song uses at this tempo into AudioBuffers (before the music starts).
-export async function loadGroove(ctx, bpm) {
+// Decode every clip this story uses at this tempo into AudioBuffers (before the music starts).
+export async function loadGroove(ctx, bpm, story) {
   const set = GROOVE_AUDIO.tempos[bpm];
-  const all = [...Object.values(set.lines), ...Object.values(set.answers)];
+  const song = songOf(story);
+  const all = [...new Set([...song.map((s) => set.lines[s.line]), ...song.map((s) => set.answers[s.you])])];
   const buffers = new Map();
   await Promise.all(
     all.map(async (c) => {
@@ -36,12 +37,12 @@ export async function loadGroove(ctx, bpm) {
   return buffers;
 }
 
-export function runGroove({ mic, buffers, bpm }) {
+export function runGroove({ mic, buffers, bpm, story }) {
   const ctx = mic.ctx;
   const SPB = spb(bpm);
   const JUDGE = judgeWindows(bpm);
   const voices = GROOVE_AUDIO.tempos[bpm];
-  const { cues, targets, end } = timeline(undefined, bpm);
+  const { cues, targets, end } = timeline(songOf(story), bpm);
   const judge = new Judge(targets, JUDGE);
   const start = ctx.currentTime + LEAD_S;
   const lastPractice = Math.max(...targets.filter((x) => x.practice).map((x) => x.t));
@@ -84,8 +85,8 @@ export function runGroove({ mic, buffers, bpm }) {
   const youName = you.querySelector('.name');
   const friendBubble = $('groove-friend-bubble');
   const youBubble = $('groove-you-bubble');
-  // One dot per beat of the bar (4, or 5 at the fast tempos).
-  $('groove-beats').innerHTML = '<i></i>'.repeat(tempoOf(bpm).bar);
+  // One dot per beat of the 4-beat bar.
+  $('groove-beats').innerHTML = '<i></i>'.repeat(BAR);
   const dots = [...$('groove-beats').children];
   const pop = $('groove-judge');
   const banner = $('groove-banner');
@@ -140,7 +141,7 @@ export function runGroove({ mic, buffers, bpm }) {
       }
       if (c.kind === 'kick') {
         dots.forEach((d, i) => {
-          d.classList.toggle('on', i === c.beat);
+          d.classList.toggle('on', i === c.beat % BAR);
           d.classList.remove('you');
         });
         continue;
@@ -162,8 +163,8 @@ export function runGroove({ mic, buffers, bpm }) {
         continue;
       }
       dots.forEach((d, i) => {
-        d.classList.toggle('on', i === c.beat);
-        d.classList.toggle('you', i === c.beat && c.kind === 'you');
+        d.classList.toggle('on', i === c.beat % BAR);
+        d.classList.toggle('you', i === c.beat % BAR && c.kind === 'you');
       });
       if (c.kind === 'demo') {
         youBubble.textContent = c.text;
@@ -184,7 +185,7 @@ export function runGroove({ mic, buffers, bpm }) {
       calibrated = true;
       judge.calibrate();
       phase.textContent = t('本番', 'Live!');
-      showBanner(t('本番スタート！', 'Here we go!'), 1400);
+      showBanner(t(`本番：${story.ja}`, `Live: ${story.en}`), 1800);
     }
     if (ctx.currentTime - start > end + 0.4) return stop();
     raf = requestAnimationFrame(frame);

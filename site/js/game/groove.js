@@ -9,21 +9,27 @@
 
 export const COUNT_IN = 4; // beats before the first bar
 
+// Bars are always 4 beats (what anyone used to music expects).
+export const BAR = 4;
+
 // Tempos. Faster ones: the beat is quicker, the timing windows (a share of the beat)
-// get tighter, and points are multiplied. The fast ones have 5-beat bars (you answer on
-// the 5th) so the friend's lines still fit at a natural speaking speed. The first two
-// are open from the start; scoring UNLOCK_SCORE on your fastest open tempo opens the next.
+// get tighter, and points are multiplied. turn = beats per turn (the friend's line, then
+// you answer on its last beat): one bar at the slower tempos; at the fast ones, two bars,
+// so the lines still fit at a natural speaking speed. The first two are open from the
+// start; scoring UNLOCK_SCORE on your fastest open tempo opens the next.
 export const TEMPOS = [
-  { bpm: 84, bar: 4, ja: 'ゆっくり', en: 'Easy', points: 1 },
-  { bpm: 100, bar: 4, ja: 'ふつう', en: 'Normal', points: 1.25 },
-  { bpm: 116, bar: 5, ja: 'はやめ', en: 'Quick', points: 1.5 },
-  { bpm: 132, bar: 5, ja: 'ネイティブ', en: 'Native', points: 2 },
+  { bpm: 84, turn: 4, ja: 'ゆっくり', en: 'Easy', points: 1 },
+  { bpm: 100, turn: 4, ja: 'ふつう', en: 'Normal', points: 1.25 },
+  { bpm: 116, turn: 8, ja: 'はやめ', en: 'Quick', points: 1.5 },
+  { bpm: 132, turn: 8, ja: 'ネイティブ', en: 'Native', points: 2 },
 ];
+// The countdown on screen before your answer: 3・2・1・いま！
+export const COUNTDOWN = 3;
 export const OPEN_AT_START = 2;
 export const DEFAULT_BPM = 100;
 export const UNLOCK_SCORE = 80;
 export const tempoOf = (bpm) => TEMPOS.find((x) => x.bpm === bpm) || TEMPOS.find((x) => x.bpm === DEFAULT_BPM);
-export const answerBeat = (bpm) => tempoOf(bpm).bar - 1; // 0-based: the last beat of the bar
+export const answerBeat = (bpm) => tempoOf(bpm).turn - 1; // 0-based: the last beat of the turn
 
 export const spb = (bpm) => 60 / bpm; // seconds per beat
 // Timing windows (seconds either way), as shares of a beat: at 84 BPM that's ±0.10
@@ -40,27 +46,106 @@ export const lineMax = (bpm) => answerBeat(bpm) * spb(bpm) - judgeWindows(bpm).o
 // Longest a model answer may be: it must end before the next bar's line starts.
 export const answerMax = (bpm) => spb(bpm) * 0.85;
 
-// Original story. line: what the friend says; you: your answer.
-export const SONG = [
+// Every song starts with these (they measure your device's delay and aren't scored).
+export const PRACTICE = [
   { practice: true, line: 'いちにさん', you: 'はい！' },
   { practice: true, line: 'いちにさん', you: 'はい！' },
-  { line: 'きのうね', you: 'うん' },
-  { line: 'ねこを みたの', you: 'へえ！' },
-  { line: 'おおきい ねこ', you: 'ほんと？' },
-  { line: 'ぼうし つきで', you: 'えー！' },
-  { line: 'でんしゃに のった', you: 'すごい！' },
-  { line: 'ほんとうだよ', you: 'なるほど' },
 ];
 
+// Original stories, one per song, picked at random. line: what the friend says (kana,
+// short enough to say naturally in about three beats); you: your aizuchi (at most four
+// morae: it has to fit in a beat at the fastest tempo).
+export const STORIES = [
+  {
+    id: 'neko', ja: 'でんしゃの ねこ', en: 'The cat on the train',
+    lines: [
+      { line: 'きのうね', you: 'うん' },
+      { line: 'ねこを みたの', you: 'へえ！' },
+      { line: 'おおきい ねこ', you: 'ほんと？' },
+      { line: 'ぼうし つきで', you: 'えー！' },
+      { line: 'でんしゃに のった', you: 'すごい！' },
+      { line: 'ほんとうだよ', you: 'なるほど' },
+    ],
+  },
+  {
+    id: 'cafe', ja: 'カフェの おまけ', en: 'A café treat',
+    lines: [
+      { line: 'けさ カフェでね', you: 'うん' },
+      { line: 'ケーキ たのんだら', you: 'うん' },
+      { line: 'ふたつ きたの', you: 'えー！' },
+      { line: 'おまけ だって', you: 'いいね！' },
+      { line: 'ぜんぶ たべた', you: 'すごい！' },
+      { line: 'おなか いっぱい', you: 'わかる' },
+    ],
+  },
+  {
+    id: 'ame', ja: 'あめの ひ', en: 'A rainy day',
+    lines: [
+      { line: 'きょう あめでしょ', you: 'うん' },
+      { line: 'かさ わすれて', you: 'えー！' },
+      { line: 'えきまで はしった', you: 'まじで？' },
+      { line: 'でも ついたら', you: 'うん' },
+      { line: 'あめ やんでた', you: 'うそ！' },
+      { line: 'ついてないよね', you: 'たしかに' },
+    ],
+  },
+  {
+    id: 'test', ja: 'あしたの テスト', en: "Tomorrow's test",
+    lines: [
+      { line: 'あしたの テスト', you: 'うん' },
+      { line: 'ぜんぜん してない', you: 'えー！' },
+      { line: 'でも だいじょうぶ', you: 'ほんと？' },
+      { line: 'もんだいを ぜんぶ', you: 'うん' },
+      { line: 'よそう したから', you: 'すごい！' },
+      { line: 'たぶん ね', you: 'なるほど' },
+    ],
+  },
+  {
+    id: 'yama', ja: 'やまの さる', en: 'The mountain monkey',
+    lines: [
+      { line: 'しゅうまつ ね', you: 'うん' },
+      { line: 'やまに いったの', you: 'へえ！' },
+      { line: 'さるが いてね', you: 'ほんと？' },
+      { line: 'おにぎり とられた', you: 'うそ！' },
+      { line: 'でも かわいかった', you: 'そっか' },
+      { line: 'また いきたい', you: 'いいね！' },
+    ],
+  },
+  {
+    id: 'shigoto', ja: 'あたらしい しごと', en: 'The new job',
+    lines: [
+      { line: 'あたらしい しごと', you: 'うん' },
+      { line: 'きょうから なの', you: 'へえ！' },
+      { line: 'せんぱいが やさしい', you: 'よかった！' },
+      { line: 'ひるも おごって', you: 'いいね！' },
+      { line: 'あさが はやい', you: 'たいへん！' },
+      { line: 'がんばるね', you: 'うん！' },
+    ],
+  },
+];
+
+export const songOf = (story) => [...PRACTICE, ...story.lines];
+// A random story, not the one played last time (lastId) when there's a choice.
+export function pickStory(rand = Math.random, lastId = null) {
+  const pool = STORIES.filter((x) => x.id !== lastId);
+  return pool[Math.floor(rand() * pool.length)] || STORIES[0];
+}
+// Every line and answer in every story (for building the recordings).
+export const ALL_LINES = [...new Set([...PRACTICE, ...STORIES.flatMap((x) => x.lines)].map((x) => x.line))];
+export const ALL_ANSWERS = [...new Set([...PRACTICE, ...STORIES.flatMap((x) => x.lines)].map((x) => x.you))];
+
+export const SONG = songOf(STORIES[0]);
+
 // Everything that happens, in seconds from the song's start:
-//   cues:    [{ t, bar, beat, kind, text, practice }]
+//   cues:    [{ t, bar, beat, kind, text, practice }]  (bar = turn number; beat within
+//            the turn, so beat % BAR is the beat within the 4-beat bar)
 //            kind: 'count' | 'line' (friend speaks) | 'demo' (model answers) |
 //                  'countdown' (your bar's 3-2-1, text = '3' / '2' / '1') | 'you' (your beat) | 'kick'
 //   targets: [{ t, bar, practice, text }]  (your beats)
 //   end:     seconds
 export function timeline(song = SONG, bpm = DEFAULT_BPM) {
   const SPB = spb(bpm);
-  const BEATS_PER_BAR = tempoOf(bpm).bar;
+  const BEATS_PER_TURN = tempoOf(bpm).turn;
   const ANSWER_BEAT = answerBeat(bpm);
   const cues = [];
   const targets = [];
@@ -68,12 +153,12 @@ export function timeline(song = SONG, bpm = DEFAULT_BPM) {
   let bar = 0;
   song.forEach((s) => {
     for (const turn of ['demo', 'you']) {
-      const t0 = (COUNT_IN + bar * BEATS_PER_BAR) * SPB;
+      const t0 = (COUNT_IN + bar * BEATS_PER_TURN) * SPB;
       const base = { bar, practice: Boolean(s.practice) };
       cues.push({ ...base, t: t0, beat: 0, kind: 'line', text: s.line, turn });
       for (let beat = 0; beat < ANSWER_BEAT; beat++) {
         cues.push({ ...base, t: t0 + beat * SPB, beat, kind: 'kick' });
-        if (turn === 'you') cues.push({ ...base, t: t0 + beat * SPB, beat, kind: 'countdown', text: String(ANSWER_BEAT - beat) });
+        if (turn === 'you' && ANSWER_BEAT - beat <= COUNTDOWN) cues.push({ ...base, t: t0 + beat * SPB, beat, kind: 'countdown', text: String(ANSWER_BEAT - beat) });
       }
       const at = t0 + ANSWER_BEAT * SPB;
       if (turn === 'demo') cues.push({ ...base, t: at, beat: ANSWER_BEAT, kind: 'demo', text: s.you });
@@ -85,7 +170,7 @@ export function timeline(song = SONG, bpm = DEFAULT_BPM) {
     }
   });
   cues.sort((a, b) => a.t - b.t);
-  return { cues, targets, end: (COUNT_IN + bar * BEATS_PER_BAR) * SPB };
+  return { cues, targets, end: (COUNT_IN + bar * BEATS_PER_TURN) * SPB };
 }
 
 // Onsets during or right after the game's own sounds are probably the speakers leaking

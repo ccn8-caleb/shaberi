@@ -107,10 +107,29 @@ function userCurve(analysis) {
     for (const f of frames) if (Math.abs(f.t - t) <= 0.006) best = f;
     pts.push(best?.f0 ? semitones(best.f0, medianF0) : null);
   }
-  return pts.map((v, i) => {
+  return cleanCurve(pts);
+}
+
+// Tidy a pitch curve (semitones, null = unvoiced, one point per 20 ms) before it's
+// scored or drawn: readings far from the voice's own range are misreads (octave
+// slips, clicks) and go; voiced bits shorter than 60 ms are noise, not syllables; the
+// rest is smoothed with a median of five.
+export function cleanCurve(pts) {
+  const voiced = pts.filter((v) => v !== null);
+  if (!voiced.length) return pts;
+  const mid = median(voiced);
+  let out = pts.map((v) => (v !== null && Math.abs(v - mid) > 8 ? null : v));
+  out = out.map((v, i) => {
     if (v === null) return null;
-    const near = pts.slice(Math.max(0, i - 1), i + 2).filter((x) => x !== null);
-    return median(near);
+    let a = i;
+    let b = i;
+    while (a > 0 && out[a - 1] !== null) a--;
+    while (b < out.length - 1 && out[b + 1] !== null) b++;
+    return b - a + 1 < 3 ? null : v;
+  });
+  return out.map((v, i) => {
+    if (v === null) return null;
+    return median(out.slice(Math.max(0, i - 2), i + 3).filter((x) => x !== null));
   });
 }
 

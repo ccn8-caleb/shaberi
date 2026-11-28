@@ -11,6 +11,8 @@ import { recognitionAvailable } from '../audio/recognizer.js';
 import * as sfx from '../audio/sfx.js';
 import { runFlash } from '../games/flash-ui.js';
 import { runGroove, loadGroove } from '../games/groove-ui.js';
+import { pickStory } from '../game/groove.js';
+import { STORAGE_KEYS } from '../core/constants.js';
 import { runSanpo } from '../games/sanpo-ui.js';
 import { confetti } from './fx.js';
 import { initShell, renderHud } from './shell.js';
@@ -155,9 +157,18 @@ $('groove-start').addEventListener('click', async () => {
   const btn = $('groove-start');
   btn.disabled = true;
   btn.textContent = t('準備中…', 'Loading…');
+  // A different story from last time.
+  let last = null;
+  try {
+    last = localStorage.getItem(STORAGE_KEYS.GROOVE_STORY);
+  } catch (_) {}
+  const story = pickStory(Math.random, last);
+  try {
+    localStorage.setItem(STORAGE_KEYS.GROOVE_STORY, story.id);
+  } catch (_) {}
   let buffers;
   try {
-    buffers = await loadGroove(mic.ctx, grooveBpm);
+    buffers = await loadGroove(mic.ctx, grooveBpm, story);
   } catch (err) {
     console.warn('[groove]', err);
     btn.disabled = false;
@@ -168,7 +179,7 @@ $('groove-start').addEventListener('click', async () => {
   btn.disabled = false;
   btn.textContent = t('スタート', 'Start');
   $('groove-intro').hidden = true;
-  game = { id: 'groove', run: runGroove({ mic, buffers, bpm: grooveBpm }) };
+  game = { id: 'groove', run: runGroove({ mic, buffers, bpm: grooveBpm, story }) };
   const result = await game.run.done;
   if (game?.id === 'groove' && screen === 'groove') gameOver('groove', result);
 });

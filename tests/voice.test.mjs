@@ -61,8 +61,12 @@ test('lockToGrid gives every mora exactly one grid step', () => {
 
 test("accentKana writes our accents in VOICEVOX's kana notation", () => {
   assert.equal(accentKana([['すみません', 4]]), "スミマセ'ン");
-  assert.equal(accentKana([['きょうは', 1]]), "キョ'ウハ");
+  assert.equal(accentKana([['きょうは', 1]]), "キョ'ウワ");
   assert.equal(accentKana([['これを', 0], ['ください', 2]]), "コレヲ'/クダ'サイ");
   assert.equal(accentKana([['コーヒーを', 3]]), "コオヒ'イヲ"); // no ー in this notation
+  // Particles are written as said: は → ワ, へ → エ.
+  assert.equal(accentKana([['きょうは', 1], ['いい', 1]]), "キョ'ウワ/イ'イ");
+  assert.equal(accentKana([['えきへ', 1]]), "エ'キエ");
+  assert.equal(accentKana([['はは', 1, { read: 'はは' }]]), "ハ'ハ");
   for (const p of PHRASES) assert.equal(accentKana(p.units).split('/').length, p.units.length, p.id);
 });

@@ -183,15 +183,19 @@ export function encodeWav(pcm, sampleRate = SAMPLE_RATE) {
 const VOWEL_OF = { ア: 'アカガサザタダナハバパマヤラワャァ', イ: 'イキギシジチヂニヒビピミリィ', ウ: 'ウクグスズツヅヌフブプムユルュゥヴ', エ: 'エケゲセゼテデネヘベペメレェ', オ: 'オコゴソゾトドノホボポモヨロヲョォ' };
 const vowelOf = (mora) => Object.keys(VOWEL_OF).find((v) => VOWEL_OF[v].includes(mora[mora.length - 1])) || 'ウ';
 
-// Kana in VOICEVOX's notation with our accents (' after the accent nucleus, / between
+// Kana in VOICEVOX's notation (as pronounced) with our accents (' after the accent nucleus, / between
 // accent phrases). Heiban (0) puts the mark after the last mora: no fall inside the phrase.
 export function accentKana(units) {
   const toKata = (s) => s.replace(/[ぁ-ゖ]/g, (c) => String.fromCharCode(c.charCodeAt(0) + 0x60));
   const SMALL = 'ャュョァィゥェォヮ';
   return units
-    .map(([k, accent]) => {
+    .map(([k, accent, opts]) => {
+      // This notation reads kana literally, so the particles は and へ at the end of an
+      // accent unit (きょうは, えきへ, こんにちは) must be written as said: ワ, エ. A unit
+      // that really ends in "ha" can give its reading: ['はは', 1, { read: 'はは' }].
+      const said = opts?.read ?? (k.length > 1 ? k.replace(/は$/, 'わ').replace(/へ$/, 'え') : k);
       const mora = [];
-      for (const ch of toKata(k)) {
+      for (const ch of toKata(said)) {
         if (SMALL.includes(ch) && mora.length) mora[mora.length - 1] += ch;
         else if (ch === 'ー' && mora.length) mora.push(vowelOf(mora[mora.length - 1]));
         else mora.push(ch);

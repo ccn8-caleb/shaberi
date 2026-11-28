@@ -261,3 +261,13 @@ test("pitch vs the model: alignment can't bend a correct reading into the opposi
     assert.ok(r <= 0.3, `${id} mirrored: ${r.toFixed(2)}`);
   }
 });
+
+test('pitch curve clean-up drops misreads and specks, keeps the shape', async () => {
+  const { cleanCurve } = await import('../site/js/engine/score.js');
+  const curve = [null, -1, -1, -1, 11, -1, 2, 2, 2, 2, null, 9, null, null, 1, 1, 1, null];
+  const out = cleanCurve(curve);
+  assert.equal(out[4] === null || Math.abs(out[4]) < 3, true, 'octave slip removed');
+  assert.equal(out[11], null, 'a single-frame speck goes');
+  assert.ok(out[8] > 1 && out[2] < 0, 'rises and falls survive');
+  assert.deepEqual(cleanCurve([null, null]), [null, null]);
+});

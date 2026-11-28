@@ -112,7 +112,7 @@ export const AUDIO = {
             -5.8,
             null
           ],
-          "hash": "6cc9f9b80199",
+          "hash": "4f589970027c",
           "made": "53b985c9f306"
         },
         "arigatou": {
@@ -215,7 +215,7 @@ export const AUDIO = {
             null,
             -2
           ],
-          "hash": "7876fdd44eb9",
+          "hash": "56df7ad1a25a",
           "made": "fd57a86f442a"
         },
         "sumimasen": {
@@ -269,7 +269,7 @@ export const AUDIO = {
             -6.5,
             -7.1
           ],
-          "hash": "1308a6b517b1",
+          "hash": "14c47c8c10c7",
           "made": "ddb55ed0d4a9"
         },
         "itadakimasu": {
@@ -335,7 +335,7 @@ export const AUDIO = {
             -6.1,
             null
           ],
-          "hash": "aca249337ccc",
+          "hash": "d7e347abeb1c",
           "made": "013c8cab9d7f"
         },
         "gochisousama": {
@@ -429,7 +429,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "bebf7ce689b6",
+          "hash": "cb4d174128af",
           "made": "eed7847a3065"
         },
         "ittekimasu": {
@@ -496,7 +496,7 @@ export const AUDIO = {
             -2.2,
             null
           ],
-          "hash": "dff14e19979b",
+          "hash": "b6eed671b5ea",
           "made": "b3899616296d"
         },
         "hajimemashite": {
@@ -560,7 +560,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "509d9a803b15",
+          "hash": "30a82f492dd3",
           "made": "75a6672ed06e"
         },
         "yoroshiku": {
@@ -671,7 +671,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "2dd1989d21eb",
+          "hash": "d669322752f1",
           "made": "fbb8ace365ba"
         },
         "otsukaresama": {
@@ -755,7 +755,7 @@ export const AUDIO = {
             -5.8,
             null
           ],
-          "hash": "8455508c0293",
+          "hash": "7d0e0daa6b6c",
           "made": "423a2571c34e"
         },
         "osakini": {
@@ -867,7 +867,7 @@ export const AUDIO = {
             -6,
             null
           ],
-          "hash": "88893398d561",
+          "hash": "082644a72e96",
           "made": "15082e002df2"
         },
         "daijoubu": {
@@ -941,70 +941,70 @@ export const AUDIO = {
             -2,
             null
           ],
-          "hash": "6aaf2388bfee",
+          "hash": "fdeb88585ed0",
           "made": "451c3261b211"
         },
         "eki": {
           "src": "audio/kenzaki/slow/eki.mp3",
           "start": 0.107,
-          "speech": 1.25,
-          "speed": 0.751,
+          "speech": 1.24,
+          "speed": 0.772,
           "rate": 6,
           "morae": [
-            -0.001,
-            0.125,
-            0.307,
-            0.479,
-            0.61,
-            0.76,
-            0.886,
-            1.064
+            -0.003,
+            0.123,
+            0.297,
+            0.471,
+            0.629,
+            0.772,
+            0.895,
+            1.068
           ],
           "contour": [
             null,
             null,
-            5,
-            5.3,
-            5.3,
-            5.3,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            -0.5,
-            -0.5,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            5.5,
-            5.3,
+            4.6,
             4.8,
+            5,
+            5,
             null,
             null,
             null,
             null,
             null,
             null,
-            0,
-            0,
             null,
             null,
-            0,
-            -0.1,
+            -0.2,
             -0.3,
+            -0.2,
+            0.1,
+            0.1,
+            -0.1,
+            0,
+            0,
+            0,
             null,
+            null,
+            null,
+            null,
+            null,
+            5.1,
+            5.1,
+            4.7,
+            null,
+            null,
+            null,
+            null,
+            null,
+            0.1,
+            0,
+            null,
+            null,
+            null,
+            -0.3,
+            -0.5,
+            -1.1,
             null,
             null,
             null,
@@ -1020,12 +1020,11 @@ export const AUDIO = {
             null,
             null,
             -1.5,
-            -1.5,
-            -1.7,
+            null,
             null,
             null
           ],
-          "hash": "4d483174d93c",
+          "hash": "df304a0576ec",
           "made": "684e652c1ae6"
         },
         "ikura": {
@@ -1091,7 +1090,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "d96e11678d76",
+          "hash": "9110c522b948",
           "made": "d3135197f5ad"
         },
         "kore": {
@@ -1162,7 +1161,7 @@ export const AUDIO = {
             null,
             -5.7
           ],
-          "hash": "bbde9914fbac",
+          "hash": "32953cd35447",
           "made": "6ed31bd2749e"
         },
         "omizu": {
@@ -1246,7 +1245,7 @@ export const AUDIO = {
             -5.9,
             null
           ],
-          "hash": "9fe3e5fe85a3",
+          "hash": "b46ff77f89ca",
           "made": "cd6a7ffa9d59"
         },
         "coffee": {
@@ -1364,7 +1363,7 @@ export const AUDIO = {
             -2.6,
             null
           ],
-          "hash": "a26278b08a33",
+          "hash": "0a7ec62df47c",
           "made": "bf89de4856a3"
         },
         "chotto": {
@@ -1465,94 +1464,94 @@ export const AUDIO = {
             -0.8,
             -1.5
           ],
-          "hash": "ee5f0453f672",
+          "hash": "19bf059b7bf4",
           "made": "51e55fae627c"
         },
         "tenki": {
           "src": "audio/kenzaki/slow/tenki.mp3",
           "start": 0.207,
-          "speech": 1.65,
-          "speed": 0.735,
+          "speech": 1.66,
+          "speed": 0.733,
           "rate": 6,
           "morae": [
             -0.098,
-            0.129,
-            0.251,
-            0.467,
-            0.573,
+            0.145,
+            0.258,
+            0.441,
+            0.564,
             0.674,
-            0.908,
-            0.996,
-            1.14,
-            1.274,
+            0.905,
+            0.995,
+            1.139,
+            1.273,
             1.449
           ],
           "contour": [
             null,
-            5.4,
-            5.4,
-            5.3,
+            null,
+            null,
             5.1,
-            4.6,
-            3.7,
-            null,
-            0.4,
-            null,
-            -1.2,
-            -1.3,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
+            5.2,
             4.9,
-            4.8,
-            4.5,
-            null,
-            null,
-            null,
-            1.1,
+            4.2,
+            3.4,
+            0.8,
+            0.7,
             0.5,
-            0.4,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            4.2,
-            4.3,
-            4.4,
-            4.2,
-            3.8,
-            2,
-            1,
-            0.1,
-            -0.4,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            -0.4,
+            0.6,
+            0.6,
+            -0.3,
+            -0.5,
             -0.6,
-            -1,
             null,
-            0.1,
-            -0.1,
-            -0.8,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            3.3,
+            null,
+            null,
             -1.2,
             null,
             null,
             null,
+            0.3,
+            0,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            3.6,
+            3.6,
+            3.7,
+            3.7,
+            3.5,
+            2.6,
+            1,
+            0.5,
+            0,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            -0.3,
+            -1.5,
+            -2.1,
+            null,
+            -0.2,
+            -0.4,
+            -0.8,
+            null,
+            null,
+            null,
             null,
             null,
             null,
@@ -1560,19 +1559,19 @@ export const AUDIO = {
             null,
             null,
             -2.8,
-            -2.8,
-            -2.8,
-            -2.4,
-            -2.3,
+            -2.7,
+            -1.9,
+            -1.9,
+            -1.9,
+            -1.9,
             -2,
-            -2.2,
-            -2.8,
-            -2.8,
-            -2.9,
+            null,
+            null,
+            null,
             null,
             null
           ],
-          "hash": "32d9fc08b8be",
+          "hash": "58dcd73fb49e",
           "made": "4eda85aa3289"
         },
         "mataashita": {
@@ -1628,7 +1627,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "e9194bea8c8f",
+          "hash": "01e4ca823360",
           "made": "7dac30f4cccb"
         },
         "wakarimashita": {
@@ -1694,7 +1693,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "89692383cc96",
+          "hash": "154e99fab910",
           "made": "e532851d2660"
         }
       },
@@ -1780,7 +1779,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "c4eeddd975a1",
+          "hash": "adafef8db455",
           "made": "53b985c9f306"
         },
         "arigatou": {
@@ -1870,7 +1869,7 @@ export const AUDIO = {
             null,
             -2.1
           ],
-          "hash": "29c3aba5cdd6",
+          "hash": "5909dcc6a01d",
           "made": "fd57a86f442a"
         },
         "sumimasen": {
@@ -1919,7 +1918,7 @@ export const AUDIO = {
             -5.9,
             -6.8
           ],
-          "hash": "69658e79d70d",
+          "hash": "e134f69a9e26",
           "made": "ddb55ed0d4a9"
         },
         "itadakimasu": {
@@ -1979,7 +1978,7 @@ export const AUDIO = {
             -5.6,
             null
           ],
-          "hash": "9f4967dd8342",
+          "hash": "fbd6b04c51aa",
           "made": "013c8cab9d7f"
         },
         "gochisousama": {
@@ -2063,7 +2062,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "fd06cee48f26",
+          "hash": "ba9dc1324d95",
           "made": "eed7847a3065"
         },
         "ittekimasu": {
@@ -2124,7 +2123,7 @@ export const AUDIO = {
             -3.1,
             null
           ],
-          "hash": "737847ca5c9c",
+          "hash": "5e114294efc7",
           "made": "b3899616296d"
         },
         "hajimemashite": {
@@ -2182,7 +2181,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "7898036297ca",
+          "hash": "6277ce9cc13d",
           "made": "75a6672ed06e"
         },
         "yoroshiku": {
@@ -2279,7 +2278,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "89750d2b8f85",
+          "hash": "62c752e9d74c",
           "made": "fbb8ace365ba"
         },
         "otsukaresama": {
@@ -2355,7 +2354,7 @@ export const AUDIO = {
             -6.2,
             null
           ],
-          "hash": "c3cc117cb7df",
+          "hash": "1bf904448c1d",
           "made": "423a2571c34e"
         },
         "osakini": {
@@ -2456,7 +2455,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "c035bb5ec3f7",
+          "hash": "f6c07226bd84",
           "made": "15082e002df2"
         },
         "daijoubu": {
@@ -2522,30 +2521,63 @@ export const AUDIO = {
             -2.3,
             null
           ],
-          "hash": "ece3d7b9aa03",
+          "hash": "d18248784a17",
           "made": "451c3261b211"
         },
         "eki": {
           "src": "audio/kenzaki/normal/eki.mp3",
-          "start": 0.107,
-          "speech": 1.08,
-          "speed": 0.877,
+          "start": 0.087,
+          "speech": 1.07,
+          "speed": 0.9,
           "rate": 7,
           "morae": [
-            -0.016,
-            0.092,
-            0.248,
-            0.396,
-            0.508,
-            0.636,
-            0.744,
-            0.897
+            0.002,
+            0.11,
+            0.259,
+            0.409,
+            0.544,
+            0.667,
+            0.772,
+            0.921
           ],
           "contour": [
             null,
-            0,
+            null,
+            4.1,
+            4.2,
+            4.2,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            -1.2,
+            null,
+            null,
+            null,
+            null,
+            -0.3,
             0.1,
-            0.2,
+            null,
+            null,
+            -0.1,
+            0.3,
+            null,
+            4.5,
+            4.5,
+            4.2,
+            null,
+            null,
+            null,
+            null,
+            null,
+            -0.4,
+            null,
+            null,
+            -1.1,
+            -1.1,
             null,
             null,
             null,
@@ -2559,45 +2591,12 @@ export const AUDIO = {
             null,
             null,
             null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            0.4,
-            0.4,
-            0,
-            null,
-            null,
-            null,
-            null,
-            null,
-            -4.5,
-            null,
-            null,
-            null,
-            -5.4,
-            -5.5,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            -6,
+            -1.8,
             null,
             null,
             null
           ],
-          "hash": "f07cea907682",
+          "hash": "c4b2ae3ef42f",
           "made": "684e652c1ae6"
         },
         "ikura": {
@@ -2657,7 +2656,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "e375dd82a875",
+          "hash": "63c01f4f59b5",
           "made": "d3135197f5ad"
         },
         "kore": {
@@ -2720,7 +2719,7 @@ export const AUDIO = {
             -4,
             null
           ],
-          "hash": "0cf120b15498",
+          "hash": "b8cef1665bbc",
           "made": "6ed31bd2749e"
         },
         "omizu": {
@@ -2795,7 +2794,7 @@ export const AUDIO = {
             -3.9,
             null
           ],
-          "hash": "5135dff7648b",
+          "hash": "db11e49f7d27",
           "made": "cd6a7ffa9d59"
         },
         "coffee": {
@@ -2900,7 +2899,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "baae91ce064d",
+          "hash": "404310086df6",
           "made": "bf89de4856a3"
         },
         "chotto": {
@@ -2989,40 +2988,47 @@ export const AUDIO = {
             -1.5,
             -2.1
           ],
-          "hash": "66cdd0fee94c",
+          "hash": "a22f1f234520",
           "made": "51e55fae627c"
         },
         "tenki": {
           "src": "audio/kenzaki/normal/tenki.mp3",
           "start": 0.177,
-          "speech": 1.44,
-          "speed": 0.858,
+          "speech": 1.42,
+          "speed": 0.856,
           "rate": 7,
           "morae": [
             -0.084,
-            0.111,
-            0.216,
-            0.401,
-            0.492,
+            0.125,
+            0.222,
+            0.379,
+            0.484,
             0.578,
-            0.779,
-            0.854,
-            0.977,
-            1.093,
+            0.777,
+            0.853,
+            0.976,
+            1.092,
             1.242
           ],
           "contour": [
             null,
             null,
-            5.1,
-            5,
-            4.9,
-            4.5,
+            5.2,
+            5.3,
+            5.3,
+            4.7,
+            4.3,
             null,
-            0.5,
-            0.3,
+            0.1,
+            -0.1,
             -0.2,
-            -1,
+            -0.4,
+            -0.4,
+            null,
+            null,
+            null,
+            1.9,
+            1.9,
             null,
             null,
             null,
@@ -3032,61 +3038,53 @@ export const AUDIO = {
             null,
             null,
             null,
-            null,
-            null,
-            4.7,
-            4.7,
-            null,
-            null,
-            -10.2,
-            null,
-            0,
-            0,
+            0.4,
             null,
             null,
             null,
             null,
             null,
             null,
-            null,
-            3.2,
-            3.1,
+            3.8,
+            3.9,
+            3.9,
+            3.6,
             2.6,
-            1.4,
+            1,
             0.6,
-            -0.1,
+            0,
             null,
             null,
             null,
             null,
             null,
-            null,
-            -1.5,
-            -1.9,
-            null,
-            -0.1,
-            -0.3,
-            -0.9,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            -2.5,
-            -2.5,
-            -2.5,
-            -2.5,
-            -2.1,
-            -1.8,
             null,
             -0.5,
+            -0.5,
+            null,
+            0.4,
+            -0.5,
+            -0.6,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            -2.6,
+            -2.7,
+            null,
+            null,
+            -2.1,
+            -2.3,
+            -2.3,
+            -2.3,
             null,
             null,
             null
           ],
-          "hash": "57778ce5437f",
+          "hash": "25884be5f889",
           "made": "4eda85aa3289"
         },
         "mataashita": {
@@ -3137,7 +3135,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "533543cab988",
+          "hash": "cfc26c1c144d",
           "made": "7dac30f4cccb"
         },
         "wakarimashita": {
@@ -3195,7 +3193,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "5507684f1bf5",
+          "hash": "017e690c2176",
           "made": "e532851d2660"
         }
       },
@@ -3274,7 +3272,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "3a3d832a7814",
+          "hash": "ad0b0921fade",
           "made": "53b985c9f306"
         },
         "arigatou": {
@@ -3349,7 +3347,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "96500cc0265d",
+          "hash": "a3eaa848cd6c",
           "made": "fd57a86f442a"
         },
         "sumimasen": {
@@ -3393,7 +3391,7 @@ export const AUDIO = {
             -6.1,
             -6.8
           ],
-          "hash": "429714c2d83d",
+          "hash": "c7e9fc3646f7",
           "made": "ddb55ed0d4a9"
         },
         "itadakimasu": {
@@ -3448,7 +3446,7 @@ export const AUDIO = {
             -5.4,
             null
           ],
-          "hash": "86e4536995ba",
+          "hash": "07be78a3ece4",
           "made": "013c8cab9d7f"
         },
         "gochisousama": {
@@ -3524,7 +3522,7 @@ export const AUDIO = {
             -6.1,
             null
           ],
-          "hash": "da0095013cc6",
+          "hash": "790932db9ca3",
           "made": "eed7847a3065"
         },
         "ittekimasu": {
@@ -3579,7 +3577,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "41ffd665b8ba",
+          "hash": "ec01449f9a3e",
           "made": "b3899616296d"
         },
         "hajimemashite": {
@@ -3632,7 +3630,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "b9595b7d75d3",
+          "hash": "7e31fbbe7ff9",
           "made": "75a6672ed06e"
         },
         "yoroshiku": {
@@ -3721,7 +3719,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "cfb59c1c2333",
+          "hash": "7562727bb882",
           "made": "fbb8ace365ba"
         },
         "otsukaresama": {
@@ -3788,7 +3786,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "0300dcdf9dd8",
+          "hash": "52de7f8d363a",
           "made": "423a2571c34e"
         },
         "osakini": {
@@ -3877,7 +3875,7 @@ export const AUDIO = {
             null,
             -6.3
           ],
-          "hash": "75b424e78407",
+          "hash": "8f0769b0752d",
           "made": "15082e002df2"
         },
         "daijoubu": {
@@ -3937,31 +3935,31 @@ export const AUDIO = {
             null,
             -4.2
           ],
-          "hash": "d149d5f8f986",
+          "hash": "3afe39e38f5d",
           "made": "451c3261b211"
         },
         "eki": {
           "src": "audio/kenzaki/quick/eki.mp3",
           "start": 0.077,
-          "speech": 0.94,
-          "speed": 1.002,
+          "speech": 0.96,
+          "speed": 1.029,
           "rate": 8,
           "morae": [
-            0.003,
-            0.097,
-            0.234,
-            0.363,
-            0.461,
-            0.573,
-            0.668,
-            0.801
+            0.001,
+            0.095,
+            0.226,
+            0.357,
+            0.475,
+            0.582,
+            0.674,
+            0.805
           ],
           "contour": [
             null,
             null,
-            2.8,
-            2.8,
-            2.8,
+            3.3,
+            3.3,
+            3.3,
             null,
             null,
             null,
@@ -3971,15 +3969,16 @@ export const AUDIO = {
             null,
             null,
             null,
+            -2.6,
             null,
-            null,
+            -1,
             null,
             null,
             null,
             0,
             null,
-            2.9,
-            2.8,
+            3.4,
+            3.4,
             null,
             null,
             null,
@@ -3988,9 +3987,9 @@ export const AUDIO = {
             null,
             null,
             null,
-            -2.5,
-            -2.6,
-            null,
+            -1.8,
+            -2,
+            -2.3,
             null,
             null,
             null,
@@ -4006,7 +4005,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "388d2e7a7028",
+          "hash": "5c6e6d69af75",
           "made": "684e652c1ae6"
         },
         "ikura": {
@@ -4060,7 +4059,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "0036d9240ec7",
+          "hash": "202e7e544c1d",
           "made": "d3135197f5ad"
         },
         "kore": {
@@ -4118,7 +4117,7 @@ export const AUDIO = {
             -3.8,
             null
           ],
-          "hash": "b82e939c7b50",
+          "hash": "aacc2054b2aa",
           "made": "6ed31bd2749e"
         },
         "omizu": {
@@ -4186,7 +4185,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "6f3604b4f0ac",
+          "hash": "5018e2a3a69a",
           "made": "cd6a7ffa9d59"
         },
         "coffee": {
@@ -4279,7 +4278,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "72d759343a64",
+          "hash": "9c6a16814f5e",
           "made": "bf89de4856a3"
         },
         "chotto": {
@@ -4360,78 +4359,78 @@ export const AUDIO = {
             -1.2,
             -1.4
           ],
-          "hash": "77263c708acb",
+          "hash": "416c776a433a",
           "made": "51e55fae627c"
         },
         "tenki": {
           "src": "audio/kenzaki/quick/tenki.mp3",
           "start": 0.157,
-          "speech": 1.27,
-          "speed": 0.98,
+          "speech": 1.28,
+          "speed": 0.978,
           "rate": 8,
           "morae": [
             -0.075,
-            0.095,
-            0.187,
-            0.349,
-            0.428,
+            0.107,
+            0.192,
+            0.329,
+            0.421,
             0.504,
-            0.679,
-            0.745,
-            0.853,
-            0.954,
+            0.677,
+            0.744,
+            0.852,
+            0.953,
             1.085
           ],
           "contour": [
             null,
             null,
-            4.3,
+            4.7,
+            4.7,
+            4.5,
+            4,
+            null,
+            0.2,
+            0,
+            -0.2,
+            -0.2,
+            -0.2,
+            0,
+            null,
+            null,
+            1.8,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            0.5,
+            0.5,
+            null,
+            null,
+            null,
+            null,
+            null,
             4.2,
-            3.9,
-            2.9,
-            1.7,
-            0.4,
+            4.1,
+            3.7,
+            3.2,
+            1.4,
+            0.8,
             0,
             null,
             null,
             null,
             null,
             null,
-            null,
-            null,
-            1,
-            null,
-            null,
-            null,
-            null,
-            3.7,
-            null,
-            2.1,
+            -0.4,
+            -0.4,
             null,
             0.1,
-            -0.3,
-            null,
-            null,
-            null,
-            null,
-            3.7,
-            3.7,
-            3.6,
-            null,
-            1.3,
-            0.5,
-            -0.4,
-            null,
-            null,
-            null,
-            null,
-            null,
-            -1.6,
-            -1.6,
-            null,
-            -0.4,
-            null,
-            -1.6,
+            -0.7,
+            -1,
             null,
             null,
             null,
@@ -4440,15 +4439,16 @@ export const AUDIO = {
             null,
             -2.4,
             -2.4,
+            null,
+            -2.2,
+            -2.2,
+            -2.2,
             -2.3,
-            -2.5,
-            -2.6,
-            -2.8,
-            -2.9,
             null,
-            -3.9
+            null,
+            null
           ],
-          "hash": "f6f462c047af",
+          "hash": "16a263f1a218",
           "made": "4eda85aa3289"
         },
         "mataashita": {
@@ -4495,7 +4495,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "feeeef07f32d",
+          "hash": "2eada5850548",
           "made": "7dac30f4cccb"
         },
         "wakarimashita": {
@@ -4548,7 +4548,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "83e191c782ec",
+          "hash": "7dbe4c2fd00a",
           "made": "e532851d2660"
         }
       },
@@ -4616,7 +4616,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "128713f93c84",
+          "hash": "fa76fcdb1007",
           "made": "53b985c9f306"
         },
         "arigatou": {
@@ -4686,7 +4686,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "79786b242464",
+          "hash": "f354f88381ce",
           "made": "fd57a86f442a"
         },
         "sumimasen": {
@@ -4728,7 +4728,7 @@ export const AUDIO = {
             -5.2,
             -5.8
           ],
-          "hash": "0cf4c9ba132f",
+          "hash": "c70def66ce1f",
           "made": "ddb55ed0d4a9"
         },
         "itadakimasu": {
@@ -4778,7 +4778,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "fd4f2bdf4b18",
+          "hash": "dddf898d9a78",
           "made": "013c8cab9d7f"
         },
         "gochisousama": {
@@ -4849,7 +4849,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "f515a212a39c",
+          "hash": "ce3636763a34",
           "made": "eed7847a3065"
         },
         "ittekimasu": {
@@ -4902,7 +4902,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "b6ed88ba4c59",
+          "hash": "168d2b88c65e",
           "made": "b3899616296d"
         },
         "hajimemashite": {
@@ -4950,7 +4950,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "840e38fe64c2",
+          "hash": "52590f4815a0",
           "made": "75a6672ed06e"
         },
         "yoroshiku": {
@@ -5029,7 +5029,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "4a1fa13c49a7",
+          "hash": "d3c227278a1b",
           "made": "fbb8ace365ba"
         },
         "otsukaresama": {
@@ -5093,7 +5093,7 @@ export const AUDIO = {
             null,
             -6.3
           ],
-          "hash": "97d851e8ad7a",
+          "hash": "350bab97e2f1",
           "made": "423a2571c34e"
         },
         "osakini": {
@@ -5171,7 +5171,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "3ca9756a9cab",
+          "hash": "5a6d2135d0da",
           "made": "15082e002df2"
         },
         "daijoubu": {
@@ -5226,31 +5226,29 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "567e51e6a553",
+          "hash": "58b862736f52",
           "made": "451c3261b211"
         },
         "eki": {
           "src": "audio/kenzaki/native/eki.mp3",
-          "start": 0.077,
+          "start": 0.067,
           "speech": 0.83,
-          "speed": 1.127,
+          "speed": 1.158,
           "rate": 9,
           "morae": [
-            -0.006,
-            0.078,
-            0.199,
-            0.314,
-            0.401,
-            0.501,
-            0.585,
-            0.704
+            0.002,
+            0.086,
+            0.202,
+            0.319,
+            0.424,
+            0.519,
+            0.601,
+            0.717
           ],
           "contour": [
             null,
-            null,
-            0,
-            0,
-            null,
+            4.7,
+            4.7,
             null,
             null,
             null,
@@ -5258,24 +5256,24 @@ export const AUDIO = {
             null,
             null,
             null,
+            -0.2,
+            -0.1,
+            0.2,
             null,
             null,
             null,
             null,
             null,
-            null,
-            0,
-            0,
-            null,
+            4.7,
+            4.7,
             null,
             null,
             null,
             null,
-            -5.2,
-            -5.1,
-            -4.8,
             null,
-            null,
+            -0.1,
+            -0.1,
+            -0.1,
             null,
             null,
             null,
@@ -5285,11 +5283,13 @@ export const AUDIO = {
             null,
             null,
             null,
-            -6.1,
+            null,
+            null,
+            null,
             null,
             null
           ],
-          "hash": "f7c1ebc66a95",
+          "hash": "39b4b18e2469",
           "made": "684e652c1ae6"
         },
         "ikura": {
@@ -5341,7 +5341,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "2e93b17c9f8f",
+          "hash": "5fba4a610848",
           "made": "d3135197f5ad"
         },
         "kore": {
@@ -5395,7 +5395,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "20adb8f23a74",
+          "hash": "91476fc353a5",
           "made": "6ed31bd2749e"
         },
         "omizu": {
@@ -5459,7 +5459,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "5c67b2f6ef0b",
+          "hash": "8814d96e3bd2",
           "made": "cd6a7ffa9d59"
         },
         "coffee": {
@@ -5545,7 +5545,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "1e5d51e3c9fa",
+          "hash": "061adca5c97c",
           "made": "bf89de4856a3"
         },
         "chotto": {
@@ -5621,36 +5621,40 @@ export const AUDIO = {
             null,
             -2.1
           ],
-          "hash": "632a09c8c415",
+          "hash": "935adce2dd80",
           "made": "51e55fae627c"
         },
         "tenki": {
           "src": "audio/kenzaki/native/tenki.mp3",
           "start": 0.137,
-          "speech": 1.14,
-          "speed": 1.103,
+          "speech": 1.13,
+          "speed": 1.1,
           "rate": 9,
           "morae": [
             -0.064,
-            0.087,
-            0.168,
-            0.313,
-            0.383,
-            0.451,
-            0.606,
-            0.665,
-            0.761,
+            0.098,
+            0.173,
+            0.295,
+            0.377,
+            0.45,
+            0.605,
+            0.664,
+            0.76,
             0.85,
             0.967
           ],
           "contour": [
             null,
             null,
-            3.8,
+            4.2,
+            4.1,
             3.6,
             2.9,
+            2.9,
             1.9,
-            1.2,
+            0,
+            -0.1,
+            0,
             null,
             null,
             null,
@@ -5659,51 +5663,46 @@ export const AUDIO = {
             null,
             null,
             null,
-            null,
-            null,
-            null,
-            null,
-            3.7,
-            null,
-            0.9,
-            0.2,
-            -0.2,
-            null,
-            null,
-            null,
-            null,
-            3.4,
-            3.3,
-            null,
+            1.3,
             1,
-            0.3,
-            -0.3,
+            0.8,
+            0.5,
+            null,
+            null,
+            null,
+            null,
+            null,
+            3.5,
+            null,
+            null,
+            0.4,
+            0,
+            -0.7,
+            null,
+            null,
+            null,
+            null,
+            null,
+            -2.8,
+            null,
+            -0.8,
+            -0.8,
             null,
             null,
             null,
             null,
             null,
             null,
+            -2.8,
             null,
             null,
-            -0.9,
-            -1,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            -2.1,
-            -2.2,
-            -2.4,
+            -2.5,
+            -2.5,
             -2.6,
-            -2.7,
-            -2.9,
-            -3.1,
+            -2.8,
             null
           ],
-          "hash": "47e0d4d3f14b",
+          "hash": "c73457b79303",
           "made": "4eda85aa3289"
         },
         "mataashita": {
@@ -5747,7 +5746,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "1352aee025b2",
+          "hash": "8c35b1bc5009",
           "made": "7dac30f4cccb"
         },
         "wakarimashita": {
@@ -5797,7 +5796,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "5f36726f55ec",
+          "hash": "8cf3fa2ec5e1",
           "made": "e532851d2660"
         }
       }
@@ -5893,7 +5892,7 @@ export const AUDIO = {
             -4.7,
             -5.1
           ],
-          "hash": "d23355be94fe",
+          "hash": "33f40beac850",
           "made": "53b985c9f306"
         },
         "arigatou": {
@@ -5994,7 +5993,7 @@ export const AUDIO = {
             -2.5,
             -2.7
           ],
-          "hash": "c511257c7db7",
+          "hash": "5f619cc98e32",
           "made": "fd57a86f442a"
         },
         "sumimasen": {
@@ -6044,7 +6043,7 @@ export const AUDIO = {
             -5.9,
             -6.5
           ],
-          "hash": "83527c76bd07",
+          "hash": "a51afd7e7825",
           "made": "ddb55ed0d4a9"
         },
         "itadakimasu": {
@@ -6109,7 +6108,7 @@ export const AUDIO = {
             -4.5,
             -4.5
           ],
-          "hash": "fbafc327001b",
+          "hash": "e3598726ea7b",
           "made": "013c8cab9d7f"
         },
         "gochisousama": {
@@ -6200,7 +6199,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "85293443fb15",
+          "hash": "0a791e59a95f",
           "made": "eed7847a3065"
         },
         "ittekimasu": {
@@ -6265,7 +6264,7 @@ export const AUDIO = {
             -4.1,
             -4.2
           ],
-          "hash": "bee0a2bb4992",
+          "hash": "9584f077dcf1",
           "made": "b3899616296d"
         },
         "hajimemashite": {
@@ -6329,7 +6328,7 @@ export const AUDIO = {
             -4,
             null
           ],
-          "hash": "13c83f4b74c9",
+          "hash": "61cb5ea9ef8e",
           "made": "75a6672ed06e"
         },
         "yoroshiku": {
@@ -6438,7 +6437,7 @@ export const AUDIO = {
             -4.5,
             -4.5
           ],
-          "hash": "96c81988f59f",
+          "hash": "1c4ae361b31c",
           "made": "fbb8ace365ba"
         },
         "otsukaresama": {
@@ -6522,7 +6521,7 @@ export const AUDIO = {
             -4.3,
             -4.5
           ],
-          "hash": "aa4e188a2802",
+          "hash": "f4f72a230880",
           "made": "423a2571c34e"
         },
         "osakini": {
@@ -6634,7 +6633,7 @@ export const AUDIO = {
             -4.6,
             -4.7
           ],
-          "hash": "1b334438855a",
+          "hash": "ad064db71bb9",
           "made": "15082e002df2"
         },
         "daijoubu": {
@@ -6706,92 +6705,91 @@ export const AUDIO = {
             -1,
             -1.3
           ],
-          "hash": "a1ebe16eb1ce",
+          "hash": "c7c86fdcc4f3",
           "made": "451c3261b211"
         },
         "eki": {
           "src": "audio/tsumugi/slow/eki.mp3",
-          "start": 0.087,
-          "speech": 1.27,
-          "speed": 0.784,
+          "start": 0.077,
+          "speech": 1.25,
+          "speed": 0.807,
           "rate": 6,
           "morae": [
-            0.015,
-            0.145,
-            0.317,
-            0.458,
-            0.631,
-            0.745,
-            0.903,
-            1.037
+            0.022,
+            0.155,
+            0.34,
+            0.484,
+            0.655,
+            0.769,
+            0.922,
+            1.053
           ],
           "contour": [
             null,
             null,
             null,
-            null,
-            5.9,
-            null,
-            null,
-            null,
+            5,
+            5.6,
+            6,
             null,
             null,
             null,
             null,
-            1.9,
+            null,
+            null,
+            null,
+            1.3,
+            0.8,
+            0.1,
+            0,
+            -0.1,
+            -0.1,
+            -0.1,
+            -0.1,
+            0.1,
             1.1,
+            2.1,
+            2.3,
+            null,
+            null,
+            null,
+            5.2,
+            5.3,
+            5.2,
+            null,
+            null,
+            null,
+            null,
+            null,
+            0.2,
+            -0.1,
+            null,
+            -2.8,
+            null,
+            -0.3,
+            -0.3,
+            0.2,
             0.5,
             null,
             null,
             null,
             null,
             null,
-            -0.4,
-            0,
-            1,
-            1.2,
+            -0.3,
             null,
-            null,
-            4.8,
-            5.1,
-            5.1,
-            4.8,
-            4.8,
-            null,
-            null,
-            null,
-            null,
-            0,
-            -0.5,
-            -0.8,
-            -3.5,
-            null,
-            -0.5,
-            -0.5,
-            -0.5,
-            0,
-            0.3,
             null,
             null,
             null,
             null,
             null,
             -0.6,
-            -0.9,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            -1,
-            -1.2,
-            -1.2,
-            -1.1,
-            null,
+            -0.8,
+            -0.8,
+            -0.8,
+            -0.7,
             null
           ],
-          "hash": "87f227bc1560",
+          "hash": "e28ddf9f73f5",
           "made": "684e652c1ae6"
         },
         "ikura": {
@@ -6855,7 +6853,7 @@ export const AUDIO = {
             -1.1,
             -1.2
           ],
-          "hash": "3bd54503bb36",
+          "hash": "12b44da45309",
           "made": "d3135197f5ad"
         },
         "kore": {
@@ -6925,7 +6923,7 @@ export const AUDIO = {
             -3.3,
             -4.9
           ],
-          "hash": "0a28fb5ed3a3",
+          "hash": "22c00ee10235",
           "made": "6ed31bd2749e"
         },
         "omizu": {
@@ -7008,7 +7006,7 @@ export const AUDIO = {
             -3.7,
             -5.1
           ],
-          "hash": "ac25ca53d87a",
+          "hash": "b782ffcae703",
           "made": "cd6a7ffa9d59"
         },
         "coffee": {
@@ -7122,7 +7120,7 @@ export const AUDIO = {
             -3.5,
             -4
           ],
-          "hash": "2267455da1dc",
+          "hash": "252e01efe4c4",
           "made": "bf89de4856a3"
         },
         "chotto": {
@@ -7220,112 +7218,111 @@ export const AUDIO = {
             -0.3,
             -0.7
           ],
-          "hash": "7d3c4a0f81ea",
+          "hash": "c6f006d55075",
           "made": "51e55fae627c"
         },
         "tenki": {
           "src": "audio/tsumugi/slow/tenki.mp3",
           "start": 0.187,
-          "speech": 1.61,
+          "speech": 1.6,
           "speed": 0.723,
           "rate": 6,
           "morae": [
             -0.076,
-            0.201,
-            0.273,
-            0.47,
-            0.591,
-            0.703,
+            0.205,
+            0.296,
+            0.457,
+            0.589,
+            0.707,
             0.83,
             0.961,
-            1.095,
+            1.096,
             1.251,
             1.411
           ],
           "contour": [
             null,
-            3.1,
-            3.8,
-            4.4,
+            3.7,
+            4.3,
+            4.7,
+            4.9,
+            5,
+            5,
+            4.8,
             4.6,
-            4.6,
-            4.5,
+            4.2,
+            3.4,
+            2.3,
+            0.5,
+            -0.1,
+            -0.3,
+            -0.4,
+            -0.4,
+            -0.5,
+            -0.5,
+            -0.1,
+            null,
+            2.4,
+            3,
+            3.7,
+            4.1,
+            4.3,
             4.3,
             4.2,
-            3.8,
-            3,
-            null,
-            -1.5,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            -1.5,
-            null,
-            null,
-            1.5,
-            2.3,
-            3.3,
-            3.7,
-            3.8,
-            3.8,
-            3.4,
+            3.6,
             2.7,
-            1.7,
-            0.6,
-            0.1,
-            null,
-            null,
-            null,
-            null,
-            null,
-            3.1,
-            3,
-            2.7,
-            2.2,
-            1.5,
-            0.3,
-            -0.9,
-            -1.8,
-            null,
-            null,
-            null,
-            null,
-            null,
-            -0.8,
-            -0.8,
-            -0.8,
-            -3,
-            -3.2,
-            null,
-            -1.2,
-            -1.2,
-            -1,
-            -0.7,
+            2.1,
+            0.9,
             null,
             null,
             null,
             null,
             null,
             null,
-            -1.3,
+            3.6,
+            3.5,
+            3.2,
+            2.8,
+            2,
+            0.8,
+            -0.4,
+            -1.1,
+            null,
+            null,
+            null,
+            null,
+            null,
+            -0.4,
+            -0.4,
+            -0.6,
+            -2.5,
+            null,
+            -0.3,
+            -0.3,
+            -0.2,
+            -0.2,
+            -0.2,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            -1.4,
+            -1.4,
+            -1.4,
             -1.5,
-            -1.7,
-            -2,
-            -2.2,
-            -2.2,
-            -2,
-            -1.8,
-            -1.7,
-            -1.7,
-            -1.6,
             -1.5,
             -1.4,
-            null
+            -1.2,
+            -1.2,
+            -1.1,
+            -0.9,
+            -0.8,
+            -0.8,
+            -0.9
           ],
-          "hash": "d9f3bf700f89",
+          "hash": "7b16eb2e7e33",
           "made": "4eda85aa3289"
         },
         "mataashita": {
@@ -7381,7 +7378,7 @@ export const AUDIO = {
             0,
             null
           ],
-          "hash": "6d4b195262aa",
+          "hash": "7ca9cb873846",
           "made": "7dac30f4cccb"
         },
         "wakarimashita": {
@@ -7446,7 +7443,7 @@ export const AUDIO = {
             -4.4,
             null
           ],
-          "hash": "9ed7c8086ca0",
+          "hash": "5da7a6c5fd6f",
           "made": "e532851d2660"
         }
       },
@@ -7531,7 +7528,7 @@ export const AUDIO = {
             -4.6,
             -5
           ],
-          "hash": "2960877c0d8d",
+          "hash": "a9de81ce110a",
           "made": "53b985c9f306"
         },
         "arigatou": {
@@ -7622,7 +7619,7 @@ export const AUDIO = {
             -2.5,
             -2.8
           ],
-          "hash": "6842cc1f0506",
+          "hash": "787764d2d34d",
           "made": "fd57a86f442a"
         },
         "sumimasen": {
@@ -7668,7 +7665,7 @@ export const AUDIO = {
             -5.6,
             -6.1
           ],
-          "hash": "dae1a65fe76a",
+          "hash": "5d94aa808a2a",
           "made": "ddb55ed0d4a9"
         },
         "itadakimasu": {
@@ -7726,7 +7723,7 @@ export const AUDIO = {
             -4.1,
             -4.4
           ],
-          "hash": "4bed28ad44e5",
+          "hash": "dc7e37cfb97d",
           "made": "013c8cab9d7f"
         },
         "gochisousama": {
@@ -7808,7 +7805,7 @@ export const AUDIO = {
             -5.6,
             null
           ],
-          "hash": "0430dbfab614",
+          "hash": "162083d766ee",
           "made": "eed7847a3065"
         },
         "ittekimasu": {
@@ -7868,7 +7865,7 @@ export const AUDIO = {
             -4.1,
             -4.3
           ],
-          "hash": "edbf5e5562b8",
+          "hash": "3f7fe4e3dcf6",
           "made": "b3899616296d"
         },
         "hajimemashite": {
@@ -7925,7 +7922,7 @@ export const AUDIO = {
             -4.1,
             -4.1
           ],
-          "hash": "2ca021f3912c",
+          "hash": "a3b1bbe7ba93",
           "made": "75a6672ed06e"
         },
         "yoroshiku": {
@@ -8023,7 +8020,7 @@ export const AUDIO = {
             -4.4,
             -4.4
           ],
-          "hash": "7565ef8a52f6",
+          "hash": "45a546278e07",
           "made": "fbb8ace365ba"
         },
         "otsukaresama": {
@@ -8098,7 +8095,7 @@ export const AUDIO = {
             -4.5,
             -4.8
           ],
-          "hash": "affc97930af7",
+          "hash": "f751acb6d463",
           "made": "423a2571c34e"
         },
         "osakini": {
@@ -8196,7 +8193,7 @@ export const AUDIO = {
             -4.6,
             -4.8
           ],
-          "hash": "116557374cb9",
+          "hash": "325c7d1521ce",
           "made": "15082e002df2"
         },
         "daijoubu": {
@@ -8261,82 +8258,84 @@ export const AUDIO = {
             -1.3,
             -1.6
           ],
-          "hash": "1c36003f45d0",
+          "hash": "12b85f35a948",
           "made": "451c3261b211"
         },
         "eki": {
           "src": "audio/tsumugi/normal/eki.mp3",
           "start": 0.067,
-          "speech": 1.08,
-          "speed": 0.915,
+          "speech": 1.12,
+          "speed": 0.942,
           "rate": 7,
           "morae": [
-            0.02,
+            0.018,
             0.132,
-            0.279,
-            0.401,
-            0.548,
-            0.647,
-            0.781,
-            0.897
+            0.29,
+            0.414,
+            0.561,
+            0.658,
+            0.79,
+            0.902
           ],
           "contour": [
             null,
             null,
-            null,
             5.4,
+            5.9,
+            5.9,
             null,
             null,
             null,
             null,
             null,
             null,
-            1.1,
-            0.8,
+            1.3,
+            0.5,
             0,
+            -0.4,
+            -0.4,
+            -0.3,
+            null,
+            null,
+            null,
+            2.4,
+            2.6,
+            null,
+            null,
+            5.1,
+            5,
+            5,
             null,
             null,
             null,
             null,
+            0.4,
+            -0.1,
+            -0.4,
+            null,
+            null,
+            -0.5,
             -0.3,
             0.3,
-            0.8,
-            null,
-            null,
-            4.2,
-            4.5,
-            4.7,
-            4.4,
             null,
             null,
             null,
             null,
-            0.2,
-            -0.7,
-            -1,
             null,
             null,
-            -1,
+            null,
+            null,
+            null,
+            null,
+            null,
             -0.8,
-            -0.3,
+            -1,
+            -1,
+            -1,
             null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            -1.4,
-            -1.6,
-            -1.6,
-            -1.6,
             null
           ],
-          "hash": "aa8b4c536c9f",
+          "hash": "d5d6594ca28b",
           "made": "684e652c1ae6"
         },
         "ikura": {
@@ -8396,7 +8395,7 @@ export const AUDIO = {
             -0.6,
             -0.8
           ],
-          "hash": "1faeaaa0b3a1",
+          "hash": "35c09f4d1247",
           "made": "d3135197f5ad"
         },
         "kore": {
@@ -8458,7 +8457,7 @@ export const AUDIO = {
             -2.2,
             -5
           ],
-          "hash": "b02220213152",
+          "hash": "bc3b37e16c42",
           "made": "6ed31bd2749e"
         },
         "omizu": {
@@ -8532,7 +8531,7 @@ export const AUDIO = {
             -5.1,
             -5.7
           ],
-          "hash": "645b15f56423",
+          "hash": "2e1e25b22c49",
           "made": "cd6a7ffa9d59"
         },
         "coffee": {
@@ -8634,7 +8633,7 @@ export const AUDIO = {
             -3.2,
             -4.1
           ],
-          "hash": "15693ce3f040",
+          "hash": "6cce0a21a6c4",
           "made": "bf89de4856a3"
         },
         "chotto": {
@@ -8722,102 +8721,102 @@ export const AUDIO = {
             -0.2,
             -0.5
           ],
-          "hash": "75492451bc9e",
+          "hash": "6e6985193b62",
           "made": "51e55fae627c"
         },
         "tenki": {
           "src": "audio/tsumugi/normal/tenki.mp3",
           "start": 0.157,
           "speech": 1.4,
-          "speed": 0.843,
+          "speed": 0.844,
           "rate": 7,
           "morae": [
             -0.062,
-            0.176,
-            0.237,
-            0.406,
-            0.51,
-            0.606,
+            0.179,
+            0.257,
+            0.395,
+            0.509,
+            0.609,
             0.715,
             0.827,
-            0.942,
-            1.075,
+            0.943,
+            1.076,
             1.213
           ],
           "contour": [
             null,
-            3,
+            3.2,
             3.5,
-            4.1,
+            4.2,
             4.6,
-            4.7,
-            4.7,
+            4.8,
+            4.8,
             4.4,
-            4.1,
-            3.5,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            -0.8,
-            -0.1,
-            0.8,
-            1.9,
-            3,
-            3.4,
-            3.5,
-            3.5,
-            3.4,
-            3,
+            4,
+            3.3,
             2.3,
+            0.2,
+            -1.3,
+            -1.3,
+            -0.9,
+            -0.9,
+            -0.7,
+            0.2,
+            1.4,
+            2.2,
+            3.1,
+            3.6,
+            3.7,
+            3.7,
+            3.6,
+            3.2,
+            2.3,
+            1.8,
             null,
             null,
             null,
             null,
             null,
             3.1,
-            3,
-            2.4,
-            1.7,
+            2.8,
+            2.5,
+            1.9,
             1.1,
-            -0.4,
-            -1.4,
+            -0.2,
+            -1.2,
             null,
             null,
             null,
             null,
             null,
             -0.8,
+            -0.9,
+            -2.8,
+            -3,
             -0.8,
-            -2.8,
-            -2.8,
-            -1.3,
-            -1.2,
-            -1.2,
             -0.7,
-            -0.4,
+            -0.6,
+            -0.3,
+            -0.3,
             null,
             null,
             null,
             null,
             null,
-            -1.5,
+            -1.7,
             -1.6,
-            -1.9,
-            -2.3,
-            -2.4,
-            -2,
+            -1.7,
+            -1.8,
+            -1.8,
             -1.8,
             -1.7,
-            -1.7,
             -1.6,
             -1.5,
+            -1.5,
+            -1.7,
             null
           ],
-          "hash": "bed4858fb164",
+          "hash": "2aacc6ef16fd",
           "made": "4eda85aa3289"
         },
         "mataashita": {
@@ -8868,7 +8867,7 @@ export const AUDIO = {
             0,
             null
           ],
-          "hash": "ab7cabf072e9",
+          "hash": "12f35006394f",
           "made": "7dac30f4cccb"
         },
         "wakarimashita": {
@@ -8927,7 +8926,7 @@ export const AUDIO = {
             -4.6,
             null
           ],
-          "hash": "3a8416399abd",
+          "hash": "0b5d246b0ed9",
           "made": "e532851d2660"
         }
       },
@@ -9005,7 +9004,7 @@ export const AUDIO = {
             -4.9,
             -5.2
           ],
-          "hash": "84a43c3ed911",
+          "hash": "1fcf313a26d8",
           "made": "53b985c9f306"
         },
         "arigatou": {
@@ -9086,7 +9085,7 @@ export const AUDIO = {
             -3.6,
             -3.9
           ],
-          "hash": "83bfc9da8bd8",
+          "hash": "6ae3d9e5859b",
           "made": "fd57a86f442a"
         },
         "sumimasen": {
@@ -9130,7 +9129,7 @@ export const AUDIO = {
             -5.3,
             -6.3
           ],
-          "hash": "e9370af119c8",
+          "hash": "adc1279e5647",
           "made": "ddb55ed0d4a9"
         },
         "itadakimasu": {
@@ -9185,7 +9184,7 @@ export const AUDIO = {
             -4.4,
             -4.6
           ],
-          "hash": "5e72cd7bf77b",
+          "hash": "29b96a728c21",
           "made": "013c8cab9d7f"
         },
         "gochisousama": {
@@ -9263,7 +9262,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "35b7cb7a43a6",
+          "hash": "18dca1d0619e",
           "made": "eed7847a3065"
         },
         "ittekimasu": {
@@ -9316,7 +9315,7 @@ export const AUDIO = {
             -3.9,
             -4.2
           ],
-          "hash": "0ee9fbe85a57",
+          "hash": "cfdc0c8cd1ad",
           "made": "b3899616296d"
         },
         "hajimemashite": {
@@ -9371,7 +9370,7 @@ export const AUDIO = {
             -4.3,
             null
           ],
-          "hash": "72736240a768",
+          "hash": "759a9647aafa",
           "made": "75a6672ed06e"
         },
         "yoroshiku": {
@@ -9460,7 +9459,7 @@ export const AUDIO = {
             -4.4,
             -4.5
           ],
-          "hash": "53ae879f8e0d",
+          "hash": "ab80ebfc2415",
           "made": "fbb8ace365ba"
         },
         "otsukaresama": {
@@ -9530,7 +9529,7 @@ export const AUDIO = {
             -4.9,
             -5
           ],
-          "hash": "e2b3346d772f",
+          "hash": "0650ab7b331c",
           "made": "423a2571c34e"
         },
         "osakini": {
@@ -9620,7 +9619,7 @@ export const AUDIO = {
             -4.5,
             -4.8
           ],
-          "hash": "f634cef980b7",
+          "hash": "f58c6c19c0de",
           "made": "15082e002df2"
         },
         "daijoubu": {
@@ -9680,79 +9679,79 @@ export const AUDIO = {
             -1,
             -1.3
           ],
-          "hash": "c5f9fabcf247",
+          "hash": "2f7647b07167",
           "made": "451c3261b211"
         },
         "eki": {
           "src": "audio/tsumugi/quick/eki.mp3",
           "start": 0.057,
           "speech": 1,
-          "speed": 1.046,
+          "speed": 1.076,
           "rate": 8,
           "morae": [
-            0.02,
+            0.017,
             0.117,
-            0.246,
-            0.352,
-            0.481,
-            0.567,
-            0.685,
-            0.786
+            0.256,
+            0.364,
+            0.492,
+            0.578,
+            0.693,
+            0.791
           ],
           "contour": [
             null,
             null,
             null,
-            5,
+            5.7,
             null,
             null,
             null,
             null,
             null,
             null,
-            0.7,
             0.6,
-            null,
-            null,
-            null,
-            null,
             0.3,
-            0.8,
-            null,
-            null,
-            4.3,
-            4.5,
-            4.6,
-            null,
-            null,
-            null,
-            null,
-            0.3,
+            -0.4,
+            -0.4,
             -0.1,
+            0,
+            1.7,
+            2.3,
+            2.6,
             null,
             null,
+            4.8,
+            4.8,
+            null,
+            null,
+            null,
+            null,
+            0.6,
+            0.3,
+            null,
+            null,
+            -0.6,
+            -0.5,
+            0,
+            0.4,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            -0.9,
+            -1.1,
+            -1.2,
             -1.1,
             -1,
-            -0.5,
-            -0.2,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            -1.6,
-            -1.7,
-            -1.7,
-            -1.6,
             null,
             null
           ],
-          "hash": "c12d306edf2c",
+          "hash": "8244dd5dc35d",
           "made": "684e652c1ae6"
         },
         "ikura": {
@@ -9808,7 +9807,7 @@ export const AUDIO = {
             -1,
             null
           ],
-          "hash": "8a4be12531aa",
+          "hash": "c76b5fd6348b",
           "made": "d3135197f5ad"
         },
         "kore": {
@@ -9865,7 +9864,7 @@ export const AUDIO = {
             null,
             -5.4
           ],
-          "hash": "14c29c564a13",
+          "hash": "1a98db697145",
           "made": "6ed31bd2749e"
         },
         "omizu": {
@@ -9933,7 +9932,7 @@ export const AUDIO = {
             null,
             -5.8
           ],
-          "hash": "3d19a2d0ad71",
+          "hash": "bce7dd7e2c53",
           "made": "cd6a7ffa9d59"
         },
         "coffee": {
@@ -10025,7 +10024,7 @@ export const AUDIO = {
             -2.5,
             -4.1
           ],
-          "hash": "b77822f698f3",
+          "hash": "bb2c1216b3c3",
           "made": "bf89de4856a3"
         },
         "chotto": {
@@ -10104,93 +10103,92 @@ export const AUDIO = {
             -0.2,
             -0.3
           ],
-          "hash": "8df05c73bbaf",
+          "hash": "511a3b869e7a",
           "made": "51e55fae627c"
         },
         "tenki": {
           "src": "audio/tsumugi/quick/tenki.mp3",
           "start": 0.137,
-          "speech": 1.22,
+          "speech": 1.21,
           "speed": 0.964,
           "rate": 8,
           "morae": [
             -0.054,
-            0.154,
-            0.208,
-            0.356,
-            0.446,
-            0.531,
+            0.157,
+            0.225,
+            0.346,
+            0.445,
+            0.533,
             0.626,
             0.724,
             0.825,
-            0.941,
+            0.942,
             1.062
           ],
           "contour": [
             null,
-            2.8,
             3.2,
-            3.7,
-            4,
-            4,
-            3.9,
             3.6,
-            2.9,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            -0.7,
-            -0.1,
-            1.1,
+            4,
+            4.2,
+            4.2,
+            4.1,
+            3.8,
+            3.1,
             2.1,
-            2.7,
-            2.7,
-            2.7,
-            2.6,
-            2.4,
-            null,
-            null,
-            null,
-            null,
-            null,
-            2.6,
-            2.1,
-            1.5,
-            1,
-            0.1,
             -0.4,
+            -0.8,
+            -0.8,
+            -1,
+            null,
+            1.3,
+            1.7,
+            2.6,
+            3.1,
+            3.1,
+            3.1,
+            3,
+            2.5,
             null,
             null,
             null,
             null,
-            -1.2,
-            -1.4,
-            -3.9,
             null,
-            -1.7,
-            -1.7,
-            -1.2,
-            null,
-            null,
+            3,
+            2.9,
+            2.4,
+            1.9,
+            0.9,
+            0,
             null,
             null,
             null,
+            null,
+            -0.9,
+            -0.9,
+            -3.1,
+            -3.2,
+            -1,
+            -0.9,
+            -0.6,
+            -0.5,
+            null,
+            null,
+            null,
+            null,
+            null,
+            -1.8,
+            -1.8,
+            -1.9,
+            -1.9,
             -2,
-            -2.1,
-            -2.5,
-            -2.8,
-            -2.8,
-            -2.2,
-            -2.2,
-            -2.2,
-            -2.1,
-            -2.1,
-            null
+            -1.9,
+            -1.8,
+            -1.7,
+            -1.7,
+            -1.9
           ],
-          "hash": "e3b4b73b3acd",
+          "hash": "1bd4592235ec",
           "made": "4eda85aa3289"
         },
         "mataashita": {
@@ -10240,7 +10238,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "7980ba062233",
+          "hash": "97f26627f4a0",
           "made": "7dac30f4cccb"
         },
         "wakarimashita": {
@@ -10296,7 +10294,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "4240be19525b",
+          "hash": "98e9afa9903f",
           "made": "e532851d2660"
         }
       },
@@ -10366,7 +10364,7 @@ export const AUDIO = {
             null,
             -5.2
           ],
-          "hash": "cac8d4e69562",
+          "hash": "c6295ef2c21b",
           "made": "53b985c9f306"
         },
         "arigatou": {
@@ -10442,7 +10440,7 @@ export const AUDIO = {
             -3.6,
             -3.8
           ],
-          "hash": "00a4121dec12",
+          "hash": "c26dab68c0c3",
           "made": "fd57a86f442a"
         },
         "sumimasen": {
@@ -10484,7 +10482,7 @@ export const AUDIO = {
             -5.9,
             -6.2
           ],
-          "hash": "e49acd77da2b",
+          "hash": "acd49def7aa3",
           "made": "ddb55ed0d4a9"
         },
         "itadakimasu": {
@@ -10534,7 +10532,7 @@ export const AUDIO = {
             -4.1,
             -4.5
           ],
-          "hash": "80d7e5c53212",
+          "hash": "d38cffd7d43c",
           "made": "013c8cab9d7f"
         },
         "gochisousama": {
@@ -10607,7 +10605,7 @@ export const AUDIO = {
             -5.8,
             null
           ],
-          "hash": "7fcd5b559fa1",
+          "hash": "a855b83e20d0",
           "made": "eed7847a3065"
         },
         "ittekimasu": {
@@ -10659,7 +10657,7 @@ export const AUDIO = {
             -4,
             -4.3
           ],
-          "hash": "8a9a256aa902",
+          "hash": "62a0663341e4",
           "made": "b3899616296d"
         },
         "hajimemashite": {
@@ -10710,7 +10708,7 @@ export const AUDIO = {
             -4,
             null
           ],
-          "hash": "3a0758928dd7",
+          "hash": "a05f605561a4",
           "made": "75a6672ed06e"
         },
         "yoroshiku": {
@@ -10794,7 +10792,7 @@ export const AUDIO = {
             -4.6,
             -4.8
           ],
-          "hash": "762cdae4f4dc",
+          "hash": "9d18b315b3da",
           "made": "fbb8ace365ba"
         },
         "otsukaresama": {
@@ -10858,7 +10856,7 @@ export const AUDIO = {
             -4.9,
             -5.1
           ],
-          "hash": "d6486dbe3a8f",
+          "hash": "2648433f6c29",
           "made": "423a2571c34e"
         },
         "osakini": {
@@ -10941,7 +10939,7 @@ export const AUDIO = {
             -4.3,
             -4.6
           ],
-          "hash": "7aa538183d64",
+          "hash": "ed7b2453370c",
           "made": "15082e002df2"
         },
         "daijoubu": {
@@ -10997,24 +10995,24 @@ export const AUDIO = {
             -1.3,
             -1.5
           ],
-          "hash": "3e3fd6b6a6b2",
+          "hash": "9055eedbc827",
           "made": "451c3261b211"
         },
         "eki": {
           "src": "audio/tsumugi/native/eki.mp3",
           "start": 0.037,
           "speech": 0.89,
-          "speed": 1.176,
+          "speed": 1.211,
           "rate": 9,
           "morae": [
-            0.031,
+            0.029,
             0.118,
-            0.232,
-            0.327,
-            0.442,
-            0.518,
-            0.623,
-            0.713
+            0.241,
+            0.337,
+            0.451,
+            0.527,
+            0.629,
+            0.717
           ],
           "contour": [
             null,
@@ -11026,44 +11024,44 @@ export const AUDIO = {
             null,
             null,
             null,
-            1.1,
-            0.9,
-            null,
-            null,
-            null,
-            1,
-            1.1,
-            null,
-            4.3,
-            4.4,
-            4.5,
-            null,
-            null,
-            null,
-            null,
+            0.8,
             0.6,
+            -0.1,
+            -0.2,
+            0.1,
+            0.8,
+            1.9,
+            2,
+            2.5,
+            4.4,
+            4.6,
+            4.7,
+            null,
+            null,
+            null,
+            0.4,
+            0.4,
+            null,
+            -0.8,
+            -0.8,
+            -0.6,
+            -0.3,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
             null,
             null,
             -1,
-            -1,
-            -0.7,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            -1.1,
-            -1.3,
-            -1.4,
-            -1.3,
             -1.2,
-            null,
+            -1.2,
+            -1,
+            -0.9,
             null
           ],
-          "hash": "a91e159ee91f",
+          "hash": "2e335ad73560",
           "made": "684e652c1ae6"
         },
         "ikura": {
@@ -11117,7 +11115,7 @@ export const AUDIO = {
             -0.6,
             null
           ],
-          "hash": "d02d7e350b7d",
+          "hash": "7af102a89d85",
           "made": "d3135197f5ad"
         },
         "kore": {
@@ -11172,7 +11170,7 @@ export const AUDIO = {
             -4.2,
             -5.3
           ],
-          "hash": "e8ec72be8cc4",
+          "hash": "8f49d428f973",
           "made": "6ed31bd2749e"
         },
         "omizu": {
@@ -11236,7 +11234,7 @@ export const AUDIO = {
             null,
             -5.6
           ],
-          "hash": "bbc9665aa96d",
+          "hash": "f653ec33828d",
           "made": "cd6a7ffa9d59"
         },
         "coffee": {
@@ -11321,7 +11319,7 @@ export const AUDIO = {
             -3.3,
             -3.8
           ],
-          "hash": "7705aeaa4703",
+          "hash": "9605e7f3ff33",
           "made": "bf89de4856a3"
         },
         "chotto": {
@@ -11394,86 +11392,86 @@ export const AUDIO = {
             -0.4,
             -0.3
           ],
-          "hash": "d4ad55989ba5",
+          "hash": "d4ca45ada5ad",
           "made": "51e55fae627c"
         },
         "tenki": {
           "src": "audio/tsumugi/native/tenki.mp3",
           "start": 0.117,
           "speech": 1.09,
-          "speed": 1.084,
+          "speed": 1.085,
           "rate": 9,
           "morae": [
             -0.043,
-            0.142,
-            0.189,
-            0.321,
-            0.402,
-            0.476,
+            0.144,
+            0.205,
+            0.312,
+            0.401,
+            0.479,
             0.561,
             0.648,
             0.738,
-            0.841,
-            0.948
+            0.842,
+            0.949
           ],
           "contour": [
             null,
-            2.7,
-            3,
+            3.1,
             3.5,
-            3.6,
-            3.6,
-            3.2,
-            2.9,
-            null,
-            null,
-            null,
-            null,
-            null,
-            -0.4,
-            0,
-            1.1,
-            2,
+            3.8,
+            3.8,
+            3.7,
+            3.5,
+            3.4,
             2.5,
-            2.8,
-            2.8,
+            1.2,
+            -0.8,
+            -0.9,
+            -0.8,
+            -0.3,
+            0.8,
+            1.6,
+            2.4,
+            2.9,
+            2.9,
+            2.9,
             2.6,
+            2,
             null,
             null,
             null,
             null,
-            null,
+            2.4,
             2.1,
             1.6,
-            1,
-            0,
-            -0.6,
+            0.4,
+            -0.4,
             null,
             null,
             null,
-            -1.2,
+            -1,
+            -1,
+            -3,
+            -3.3,
             -1.3,
-            -3.6,
-            -3.9,
-            -1.9,
-            -1.8,
-            -1.4,
+            -1.1,
             -1,
             null,
             null,
             null,
             null,
-            -2.2,
-            -2.3,
-            -2.3,
+            null,
             -1.8,
-            -2.1,
-            -2.3,
-            -2.3,
-            -2.3,
+            -1.9,
+            -2,
+            -2.2,
+            -2.2,
+            -2,
+            -1.9,
+            -1.9,
             -2.2
           ],
-          "hash": "e4146f386958",
+          "hash": "1a398aaa47de",
           "made": "4eda85aa3289"
         },
         "mataashita": {
@@ -11520,7 +11518,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "e0923ace61cc",
+          "hash": "741ca8664369",
           "made": "7dac30f4cccb"
         },
         "wakarimashita": {
@@ -11574,7 +11572,7 @@ export const AUDIO = {
             null,
             null
           ],
-          "hash": "af1703ac6304",
+          "hash": "8e6df57bb409",
           "made": "e532851d2660"
         }
       }
