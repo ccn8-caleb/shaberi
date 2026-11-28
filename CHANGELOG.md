@@ -4,6 +4,15 @@ Versions follow [semver](https://semver.org/). The version lives in
 `site/js/core/version.js`; every release needs an entry here (CI checks it). Each
 deploy also carries a build id (commit hash), shown next to the version in the app.
 
+## [0.1.14] — 2026-11-28 — New emblem
+
+### Changed
+- **New emblem,** part of a shared look across the concatn8 language tools: a raised
+  speech bubble holding a voice waveform, with a gold pitch-accent line and a gold
+  sparkle, on a rose tile. `icon.svg` is the detailed version (app icons); the new
+  `favicon.svg` is a simplified cut for the browser tab and the header badge. PNG icons
+  regenerated.
+
 ## [0.1.13] — 2026-11-28 — Answers aren't cut off
 
 ### Fixed
