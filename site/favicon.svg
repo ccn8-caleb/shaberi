@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>Shaberi</title>
+  <defs>
+    <linearGradient id="z-sh" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fb7185" />
+      <stop offset="1" stop-color="#be123c" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#z-sh)" />
+  <path d="M32 13c-11 0-19 7-19 16 0 5 2.5 9.3 6.6 12.2L18 50l8.6-5.1c1.7.4 3.5.6 5.4.6 11 0 19-7 19-16s-8-16-19-16z" fill="#ffffff" />
+  <path d="M25 33v-6M32 36V22M39 32.5v-5" stroke="#e11d48" stroke-width="4" stroke-linecap="round" />
+  <circle cx="50" cy="12.5" r="4" fill="#fcd34d" />
+</svg>

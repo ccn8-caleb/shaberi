@@ -1,17 +1,29 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>Shaberi</title>
   <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#ff4d8d"/>
-      <stop offset="0.55" stop-color="#ff9f1c"/>
-      <stop offset="1" stop-color="#ffc93c"/>
+    <radialGradient id="z-glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.22" />
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="z-gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fde68a" />
+      <stop offset="1" stop-color="#f59e0b" />
+    </linearGradient>
+    <linearGradient id="z-sh" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fb7185" />
+      <stop offset="1" stop-color="#be123c" />
     </linearGradient>
   </defs>
-  <path d="M32 6C17.1 6 6 15.6 6 28c0 7 3.6 13.1 9.3 17.2L13 57l12.6-7.6c2 .4 4.2.6 6.4.6 14.9 0 26-9.6 26-22S46.9 6 32 6z" fill="url(#g)"/>
-  <g fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round">
-    <path d="M21 31v-6"/>
-    <path d="M28 36V19"/>
-    <path d="M35 33V22"/>
-    <path d="M42 30v-4"/>
-  </g>
-  <circle cx="49" cy="14" r="5" fill="#14b8a6" stroke="#fff" stroke-width="2"/>
+  <rect width="64" height="64" rx="14" fill="url(#z-sh)" />
+  <circle cx="32" cy="29" r="18" fill="url(#z-glow)" />
+  <path d="M32 15c-11 0-19 7-19 16 0 5 2.5 9.3 6.6 12.2L18 52l8.6-5.1c1.7.4 3.5.6 5.4.6 11 0 19-7 19-16s-8-16-19-16z" fill="#fecdd3" />
+  <path d="M32 13c-11 0-19 7-19 16 0 5 2.5 9.3 6.6 12.2L18 50l8.6-5.1c1.7.4 3.5.6 5.4.6 11 0 19-7 19-16s-8-16-19-16z" fill="#ffffff" />
+  <path d="M22 22l5-3.4h5l5 3.4" fill="none" stroke="url(#z-gold)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+  <circle cx="22" cy="22" r="1.3" fill="#f59e0b" />
+  <circle cx="27" cy="18.6" r="1.3" fill="#f59e0b" />
+  <circle cx="32" cy="18.6" r="1.3" fill="#f59e0b" />
+  <circle cx="37" cy="22" r="1.3" fill="#f59e0b" />
+  <path d="M22 31.5v-1M27 34.5v-7M32 37v-12M37 33.5v-5M42 32v-2" stroke="#e11d48" stroke-width="3" stroke-linecap="round" />
+  <path d="M50 6.5l1.5 3.9 3.9 1.5-3.9 1.5-1.5 3.9-1.5-3.9-3.9-1.5 3.9-1.5z" fill="url(#z-gold)" />
+  <circle cx="56" cy="20" r="1.1" fill="#fde68a" />
 </svg>
